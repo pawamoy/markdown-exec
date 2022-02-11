@@ -1,0 +1,114 @@
+[build-system]
+requires = ["pdm-pep517"]
+build-backend = "pdm.pep517.api"
+
+[project]
+name = "markdown-exec"
+description = "Utilities to execute code blocks in Markdown files."
+authors = [{name = "Timothée Mazzucotelli", email = "pawamoy@pm.me"}]
+license = {file = "LICENSE"}
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = []
+dynamic = ["version"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: ISC License (ISCL)",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Documentation",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pymdown-extensions>=9",
+]
+
+[project.urls]
+Homepage = "https://pawamoy.github.io/markdown-exec"
+Documentation = "https://pawamoy.github.io/markdown-exec"
+Changelog = "https://pawamoy.github.io/markdown-exec/changelog"
+Repository = "https://github.com/pawamoy/markdown-exec"
+Issues = "https://github.com/pawamoy/markdown-exec/issues"
+Discussions = "https://github.com/pawamoy/markdown-exec/discussions"
+Gitter = "https://gitter.im/markdown-exec/community"
+Funding = "https://github.com/sponsors/pawamoy"
+
+[tool.pdm]
+version = {use_scm = true}
+package-dir = "src"
+
+[tool.pdm.dev-dependencies]
+duty = ["duty>=0.7"]
+docs = [
+    "mkdocs>=1.2",
+    "mkdocs-coverage>=0.2",
+    "mkdocs-gen-files>=0.3",
+    "mkdocs-literate-nav>=0.4",
+    "mkdocs-material>=7.3",
+    "mkdocs-section-index>=0.3",
+    "mkdocstrings>=0.16",
+    "toml>=0.10",
+    "pydeps>=1.10.12",
+    "markdown-callouts>=0.2.0",
+]
+format = [
+    "autoflake>=1.4",
+    "black>=21.10b0",
+    "isort>=5.10",
+]
+maintain = [
+    # TODO: remove this section when git-changelog is more powerful
+    "git-changelog>=0.4",
+]
+quality = [
+    "darglint>=1.8",
+    "flake8-bandit>=2.1",
+    "flake8-black>=0.2",
+    "flake8-bugbear>=21.9",
+    "flake8-builtins>=1.5",
+    "flake8-comprehensions>=3.7",
+    "flake8-docstrings>=1.6",
+    "flake8-pytest-style>=1.5",
+    "flake8-string-format>=0.3",
+    "flake8-tidy-imports>=4.5",
+    "flake8-variables-names>=0.0",
+    "pep8-naming>=0.12",
+    "wps-light>=0.15",
+]
+tests = [
+    "pytest>=6.2",
+    "pytest-cov>=3.0",
+    "pytest-randomly>=3.10",
+    "pytest-sugar>=0.9",
+    "pytest-xdist>=2.4",
+]
+typing = [
+    "mypy>=0.910",
+    "types-markdown>=3.3",
+    "types-toml>=0.10",
+]
+security = ["safety>=1.10"]
+
+[tool.black]
+line-length = 120
+exclude = "tests/fixtures"
+
+[tool.isort]
+line_length = 120
+not_skip = "__init__.py"
+multi_line_output = 3
+force_single_line = false
+balanced_wrapping = true
+default_section = "THIRDPARTY"
+known_first_party = "markdown_exec"
+include_trailing_comma = true
