@@ -61,7 +61,7 @@ markdown_extensions:
       validator: !!python/name:markdown_exec.validator
       format: !!python/name:markdown_exec.formatter
 - pymdownx.tabbed:
-    alternate_style: yes
+    alternate_style: true
 - pymdownx.tasklist
 - toc:
     permalink: "¤"
@@ -75,6 +75,7 @@ plugins:
 - literate-nav:
     nav_file: SUMMARY.md
 - coverage
+- section-index
 - mkdocstrings:
     watch:
     - src/markdown_exec
