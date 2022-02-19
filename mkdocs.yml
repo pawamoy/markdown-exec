@@ -54,6 +54,7 @@ markdown_extensions:
 - pymdownx.magiclink
 - pymdownx.snippets:
     check_paths: true
+- pymdownx.highlight
 - pymdownx.superfences:
     custom_fences:
     - name: python
