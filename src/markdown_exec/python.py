@@ -1,7 +1,7 @@
 """Formatter and utils for executing Python code."""
 
-from copy import deepcopy
 import traceback
+from copy import deepcopy
 
 from markdown.core import Markdown
 from markupsafe import Markup
