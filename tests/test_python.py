@@ -1,6 +1,8 @@
 """Tests for the `python` module."""
 
-from markdown.core import Markdown
+from textwrap import dedent
+
+from markdown import Markdown
 
 
 def test_output_markdown(md: Markdown) -> None:
@@ -10,13 +12,15 @@ def test_output_markdown(md: Markdown) -> None:
         md: A Markdown instance (fixture).
     """
     html = md.convert(
-        """
-        ```python exec="yes"
-        output_markdown("**Bold!**")
-        ```
-        """
+        dedent(
+            """
+            ```python exec="yes"
+            output_markdown("**Bold!**")
+            ```
+            """
+        )
     )
-    assert "<strong>Bold!</strong>" in html
+    assert html == "<p><strong>Bold!</strong></p>"
 
 
 def test_output_html(md: Markdown) -> None:
@@ -26,10 +30,12 @@ def test_output_html(md: Markdown) -> None:
         md: A Markdown instance (fixture).
     """
     html = md.convert(
-        """
-        ```python exec="yes"
-        output_html("**Bold!**")
-        ```
-        """
+        dedent(
+            """
+            ```python exec="yes"
+            output_html("**Bold!**")
+            ```
+            """
+        )
     )
-    assert "**Bold!**" in html
+    assert html == "<p>**Bold!**</p>"
