@@ -1,3 +1,5 @@
+"""This module contains helpers to generate Markdown contents."""
+
 from __future__ import annotations
 
 from textwrap import indent

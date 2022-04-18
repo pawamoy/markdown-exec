@@ -2,11 +2,12 @@
 
 import traceback
 from textwrap import indent
+from typing import Any
 
 from markdown.core import Markdown
 from markupsafe import Markup
 
-from markdown_exec.utils import code_block, tabbed
+from markdown_exec.markdown_helpers import code_block, tabbed
 
 md_copy = None
 
@@ -43,7 +44,13 @@ def output_html(text: str) -> None:
     raise HTMLOutput(text)
 
 
-def exec_python(source: str, md: Markdown, isolate: bool = False, show_source: str = "", **options) -> str:
+def exec_python(  # noqa: WPS231
+    source: str,
+    md: Markdown,
+    isolate: bool = False,
+    show_source: str = "",
+    **options: Any,
+) -> str:
     """Execute code and return HTML.
 
     Parameters:
@@ -51,13 +58,14 @@ def exec_python(source: str, md: Markdown, isolate: bool = False, show_source: s
         md: The Markdown instance.
         isolate: Whether to run the code in isolation.
         show_source: Whether to show source as well, and where.
+        **options: Additional options passed from the formatter.
 
     Returns:
         HTML contents.
     """
-    global md_copy
+    global md_copy  # noqa: WPS420
     if md_copy is None:
-        md_copy = Markdown()
+        md_copy = Markdown()  # noqa: WPS442
         md_copy.registerExtensions(md.registeredExtensions, {})
     if isolate:
         exec_source = f"def _function():\n{indent(source, prefix=' ' * 4)}\n_function()\n"
