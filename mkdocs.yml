@@ -8,12 +8,12 @@ site_dir: "site"
 nav:
 - Home:
   - Overview: index.md
-  - Examples: examples.md
   - Changelog: changelog.md
   - Credits: credits.md
   - License: license.md
+- Gallery: gallery.md
 # defer to gen-files + literate-nav
-# - Code Reference: reference/
+- Code Reference: reference/
 - Development:
   - Contributing: contributing.md
   - Code of Conduct: code_of_conduct.md
@@ -69,15 +69,28 @@ markdown_extensions:
 
 plugins:
 - search
-# - gen-files:
-#     scripts:
-    # - docs/gen_credits.py
-    # - docs/gen_ref_nav.py
+- gen-files:
+    scripts:
+    - docs/gen_ref_nav.py
 - literate-nav:
     nav_file: SUMMARY.md
 - coverage
 - section-index
 - mkdocstrings:
+    handlers:
+      python:
+        import:
+        - https://docs.python.org/3/objects.inv
+        selection:
+          docstring_style: google
+          docstring_options:
+            ignore_init_summary: yes
+        rendering:
+          show_submodules: no
+          # docstring_section_style: list
+          members_order: alphabetical
+          show_category_heading: no
+          merge_init_into_class: yes
     watch:
     - src/markdown_exec
 

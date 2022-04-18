@@ -56,10 +56,11 @@ docs = [
     "mkdocs-literate-nav>=0.4",
     "mkdocs-material>=7.3",
     "mkdocs-section-index>=0.3",
-    "mkdocstrings>=0.16",
+    "mkdocstrings[python]>=0.18",
     "toml>=0.10",
     "pydeps>=1.10.12",
     "markdown-callouts>=0.2.0",
+    "diagrams>=0.21.1",
 ]
 format = [
     "autoflake>=1.4",
