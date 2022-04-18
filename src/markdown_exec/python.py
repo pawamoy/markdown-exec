@@ -1,10 +1,14 @@
 """Formatter and utils for executing Python code."""
 
 import traceback
-from copy import deepcopy
+from textwrap import indent
 
 from markdown.core import Markdown
 from markupsafe import Markup
+
+from markdown_exec.utils import code_block, tabbed
+
+md_copy = None
 
 
 class MarkdownOutput(Exception):  # noqa: N818
@@ -39,22 +43,42 @@ def output_html(text: str) -> None:
     raise HTMLOutput(text)
 
 
-def exec_python(source: str, md: Markdown) -> str:
+def exec_python(source: str, md: Markdown, isolate: bool = False, show_source: str = "", **options) -> str:
     """Execute code and return HTML.
 
     Parameters:
         source: The code to execute.
         md: The Markdown instance.
+        isolate: Whether to run the code in isolation.
+        show_source: Whether to show source as well, and where.
 
     Returns:
         HTML contents.
     """
+    global md_copy
+    if md_copy is None:
+        md_copy = Markdown()
+        md_copy.registerExtensions(md.registeredExtensions, {})
+    if isolate:
+        exec_source = f"def _function():\n{indent(source, prefix=' ' * 4)}\n_function()\n"
+    else:
+        exec_source = source
     try:
-        exec(source)  # noqa: S102
-    except MarkdownOutput as output:
-        return Markup(deepcopy(md).convert(str(output)))
-    except HTMLOutput as output:
-        return str(output)
+        exec(exec_source)  # noqa: S102
+    except MarkdownOutput as raised_output:
+        output = str(raised_output)
+    except HTMLOutput as raised_output:
+        output = f'<div markdown="0">{str(raised_output)}</div>'
     except Exception:
-        return Markup(deepcopy(md).convert(f"```python\n{traceback.format_exc()}\n```"))
-    return ""
+        output = code_block("python", traceback.format_exc())
+    if show_source:
+        source_block = code_block("python", source)
+    if show_source == "above":
+        output = source_block + "\n\n" + output
+    elif show_source == "below":
+        output = output + "\n\n" + source_block
+    elif show_source == "tabbed-left":
+        output = tabbed(("Source", source_block), ("Result", output))
+    elif show_source == "tabbed-right":
+        output = tabbed(("Result", output), ("Source", source_block))
+    return Markup(md_copy.convert(output))

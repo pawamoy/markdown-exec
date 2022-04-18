@@ -42,8 +42,10 @@ def validator(
     if not exec_value:
         return False
     isolate_value = _to_bool(inputs.pop("isolate", "no"))
+    show_source_value = inputs.pop("show_source", "")
     options["exec"] = exec_value
     options["isolate"] = isolate_value
+    options["show_source"] = show_source_value
     return True
 
 
@@ -56,7 +58,7 @@ def formatter(
     classes: list[str] | None = None,
     id_value: str = "",
     attrs: dict[str, Any] | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> str:
     """Execute code and return HTML.
 
@@ -76,8 +78,20 @@ def formatter(
         HTML contents.
     """
     fmt = _formatters.get(language, lambda source, *args, **kwargs: source)
-    return fmt(source, md)
+    return fmt(source, md, **options)
 
 
-def _to_bool(value):
-    return value.lower() not in {"", "no", "off", "false", "0"}
+falsy_values = {"", "no", "off", "false", "0"}
+truthy_values = {"yes", "on", "true", "1"}
+
+
+def _to_bool(value: str) -> bool:
+    return value.lower() not in falsy_values
+
+
+def _to_bool_or_value(value: str) -> bool | str:
+    if value.lower() in falsy_values:
+        return False
+    if value.lower() in truthy_values:
+        return True
+    return value
