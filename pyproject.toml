@@ -43,6 +43,7 @@ Discussions = "https://github.com/pawamoy/markdown-exec/discussions"
 Gitter = "https://gitter.im/markdown-exec/community"
 Funding = "https://github.com/sponsors/pawamoy"
 
+[project.optional-dependencies]
 [tool.pdm]
 version = {use_scm = true}
 package-dir = "src"
@@ -61,6 +62,7 @@ docs = [
     "pydeps>=1.10.12",
     "markdown-callouts>=0.2.0",
     "diagrams>=0.21.1",
+    "rich>=12.1.0",
 ]
 format = [
     "autoflake>=1.4",

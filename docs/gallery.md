@@ -84,7 +84,7 @@ for action in parser._actions:
 output_markdown("\n".join(lines))
 ```
 
-## Draw a diagram using the Diagrams library
+## Draw a diagram using the [Diagrams](https://github.com/mingrammer/diagrams) library
 
 ```python exec="true" show_source="tabbed-right"
 from base64 import b64encode
@@ -104,4 +104,35 @@ with suppress(FileNotFoundError):
         png = b64encode(diagram.dot.pipe(format="png")).decode()
 
 output_html(f'<img src="data:image/png;base64, {png}"/>')
+```
+
+## Build an SVG image from code snippets with [Rich](https://github.com/Textualize/rich)
+
+```python exec="true" show_source="tabbed-right"
+import os
+from rich.console import Console
+from rich.syntax import Syntax
+
+code = """from contextlib import asynccontextmanager
+import httpx
+
+
+class BookClient(httpx.AsyncClient):
+    async def get_book(self, book_id: int) -> str:
+        response = await self.get(f"/books/{book_id}")
+        return response.text
+
+
+@asynccontextmanager
+async def book_client(*args, **kwargs):
+    async with BookClient(*args, **kwargs) as client:
+        yield client
+"""
+
+with open(os.devnull, "w") as devnull:
+    console = Console(record=True, width=65, file=devnull, markup=False)
+    renderable = Syntax(code, "python", line_numbers=True, indent_guides=True, theme="material")
+    console.print(renderable, markup=False)
+svg = console.export_svg()
+output_html(svg)
 ```
