@@ -9,6 +9,7 @@ Utilities to execute code blocks in Markdown files.
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from markdown import Markdown
@@ -21,6 +22,9 @@ __all__: list[str] = ["formatter", "validator"]  # noqa: WPS410
 _formatters = {
     "python": exec_python,
 }
+
+# negative look behind: matches only if | (pipe) if not preceded by \ (backslash)
+_tabs_re = re.compile(r"(?<!\\)\|")
 
 
 def validator(
@@ -43,9 +47,12 @@ def validator(
         return False
     html_value = _to_bool(inputs.pop("html", "no"))
     source_value = inputs.pop("source", "")
+    tabs_value = inputs.pop("tabs", "Source|Result")
+    tabs = tuple(_tabs_re.split(tabs_value, maxsplit=1))
     options["exec"] = exec_value
     options["html"] = html_value
     options["source"] = source_value
+    options["tabs"] = tabs
     options["extra"] = inputs
     return True
 

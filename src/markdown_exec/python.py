@@ -29,6 +29,7 @@ def exec_python(  # noqa: WPS231
     md: Markdown,
     html: bool,
     source: str,
+    tabs: tuple[str, str],
     **options: Any,
 ) -> str:
     """Execute code and return HTML.
@@ -38,6 +39,7 @@ def exec_python(  # noqa: WPS231
         md: The Markdown instance.
         html: Whether to inject output as HTML directly, without rendering.
         source: Whether to show source as well, and where.
+        tabs: Titles of tabs (if used).
         **options: Additional options passed from the formatter.
 
     Returns:
@@ -45,6 +47,7 @@ def exec_python(  # noqa: WPS231
     """
     markdown.mimic(md)
 
+    source_tab_title, result_tab_title = tabs
     extra = options.get("extra", {})
 
     buffer = StringIO()
@@ -71,8 +74,8 @@ def exec_python(  # noqa: WPS231
     elif source == "below":
         output = output + "\n\n" + source_block
     elif source == "tabbed-left":
-        output = (("Source", source_block), ("Result", output))
+        output = tabbed((source_tab_title, source_block), (result_tab_title, output))
     elif source == "tabbed-right":
-        output = tabbed(("Result", output), ("Source", source_block))
+        output = tabbed((result_tab_title, output), (source_tab_title, source_block))
 
     return markdown.convert(output)
