@@ -7,7 +7,7 @@ from typing import Any
 from markdown.core import Markdown
 from markupsafe import Markup
 
-from markdown_exec.markdown_helpers import code_block, tabbed
+from markdown_exec.rendering import code_block, markdown, tabbed
 
 md_copy = None
 
@@ -63,10 +63,8 @@ def exec_python(  # noqa: WPS231
     Returns:
         HTML contents.
     """
-    global md_copy  # noqa: WPS420
-    if md_copy is None:
-        md_copy = Markdown()  # noqa: WPS442
-        md_copy.registerExtensions(md.registeredExtensions, {})
+    markdown.mimic(md)
+
     if isolate:
         exec_source = f"def _function():\n{indent(source, prefix=' ' * 4)}\n_function()\n"
     else:
@@ -90,4 +88,4 @@ def exec_python(  # noqa: WPS231
         output = tabbed(("Source", source_block), ("Result", output))
     elif show_source == "tabbed-right":
         output = tabbed(("Result", output), ("Source", source_block))
-    return Markup(md_copy.convert(output))
+    return markdown.convert(output)
