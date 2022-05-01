@@ -9,7 +9,7 @@ from typing import Any
 
 from markdown.core import Markdown
 
-from markdown_exec.rendering import code_block, markdown, tabbed
+from markdown_exec.rendering import add_source, code_block, markdown
 
 
 def buffer_print(buffer: StringIO, *text: str, end: str = "\n", **kwargs: Any) -> None:
@@ -68,14 +68,5 @@ def exec_python(  # noqa: WPS231
             output = f'<div markdown="0">{str(output)}</div>'
 
     if source:
-        source_block = code_block("python", code, **extra)
-    if source == "above":
-        output = source_block + "\n\n" + output
-    elif source == "below":
-        output = output + "\n\n" + source_block
-    elif source == "tabbed-left":
-        output = tabbed((source_tab_title, source_block), (result_tab_title, output))
-    elif source == "tabbed-right":
-        output = tabbed((result_tab_title, output), (source_tab_title, source_block))
-
+        output = add_source(source=code, location=source, output=output, language="python", tabs=tabs, **extra)
     return markdown.convert(output)

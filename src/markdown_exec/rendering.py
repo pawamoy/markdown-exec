@@ -43,6 +43,41 @@ def tabbed(*tabs: tuple[str, str]) -> str:
     return "\n".join(parts)
 
 
+def add_source(*, source: str, location: str, output: str, language: str, tabs: tuple[str, str], **extra: str) -> str:
+    """Add source code block to the output.
+
+    Parameters:
+        source: The source code block.
+        location: Where to add the source (above, below, tabbed-left, tabbed-right, console).
+        output: The current output.
+        language: The code language.
+        tabs: Tabs titles (if used).
+        **extra: Extra options added back to source code block.
+
+    Raises:
+        ValueError: When the given location is not supported.
+
+    Returns:
+        The updated output.
+    """
+    if location == "console":
+        return code_block(language, source + "\n" + output, **extra)
+
+    source_block = code_block(language, source, **extra)
+    if location == "above":
+        return source_block + "\n\n" + output
+    if location == "below":
+        return output + "\n\n" + source_block
+
+    source_tab_title, result_tab_title = tabs
+    if location == "tabbed-left":
+        return tabbed((source_tab_title, source_block), (result_tab_title, output))
+    if location == "tabbed-right":
+        return tabbed((result_tab_title, output), (source_tab_title, source_block))
+
+    raise ValueError(f"unsupported location for sources: {location}")
+
+
 # code taken from mkdocstrings, credits to @oprypin
 class _IdPrependingTreeprocessor(Treeprocessor):
     """Prepend the configured prefix to IDs of all HTML elements."""
