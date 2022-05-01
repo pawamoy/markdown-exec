@@ -1,4 +1,4 @@
-"""Formatter and utils for executing Python code."""
+"""Formatter for executing Python code."""
 
 from __future__ import annotations
 
@@ -24,32 +24,17 @@ def buffer_print(buffer: StringIO, *text: str, end: str = "\n", **kwargs: Any) -
     buffer.write(" ".join(text) + end)
 
 
-def exec_python(  # noqa: WPS231
-    code: str,
-    md: Markdown,
-    html: bool,
-    source: str,
-    tabs: tuple[str, str],
-    **options: Any,
-) -> str:
-    """Execute code and return HTML.
+def run_python(code: str, html: bool, **extra: str) -> str:
+    """Run Python code using `exec` and return its output.
 
     Parameters:
         code: The code to execute.
-        md: The Markdown instance.
-        html: Whether to inject output as HTML directly, without rendering.
-        source: Whether to show source as well, and where.
-        tabs: Titles of tabs (if used).
-        **options: Additional options passed from the formatter.
+        html: Whether the output is HTML.
+        **extra: Extra options passed to the traceback code block in case of errors.
 
     Returns:
-        HTML contents.
+        The output.
     """
-    markdown.mimic(md)
-
-    source_tab_title, result_tab_title = tabs
-    extra = options.get("extra", {})
-
     buffer = StringIO()
     exec_globals = {"print": partial(buffer_print, buffer)}
 
@@ -66,7 +51,33 @@ def exec_python(  # noqa: WPS231
         output = buffer.getvalue()
         if html:
             output = f'<div markdown="0">{str(output)}</div>'
+    return output
 
+
+def format_python(  # noqa: WPS231
+    code: str,
+    md: Markdown,
+    html: bool,
+    source: str,
+    tabs: tuple[str, str],
+    **options: Any,
+) -> str:
+    """Execute `python` code and return HTML.
+
+    Parameters:
+        code: The code to execute.
+        md: The Markdown instance.
+        html: Whether to inject output as HTML directly, without rendering.
+        source: Whether to show source as well, and where.
+        tabs: Titles of tabs (if used).
+        **options: Additional options passed from the formatter.
+
+    Returns:
+        HTML contents.
+    """
+    markdown.mimic(md)
+    extra = options.get("extra", {})
+    output = run_python(code, html, **extra)
     if source:
         output = add_source(source=code, location=source, output=output, language="python", tabs=tabs, **extra)
     return markdown.convert(output)

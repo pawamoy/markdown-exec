@@ -14,13 +14,13 @@ from typing import Any
 
 from markdown import Markdown
 
-from markdown_exec.python import exec_python
+from markdown_exec.python import format_python
 
 __all__: list[str] = ["formatter", "validator"]  # noqa: WPS410
 
 
 _formatters = {
-    "python": exec_python,
+    "python": format_python,
 }
 
 # negative look behind: matches only if | (pipe) if not preceded by \ (backslash)
