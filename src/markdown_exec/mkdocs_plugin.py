@@ -9,7 +9,7 @@ from markdown_exec import formatter, validator
 class MarkdownExecPlugin(BasePlugin):
     """MkDocs plugin to easily enable custom fences for code blocks execution."""
 
-    config_scheme = (("languages", config_options.Type(list, default=["python"])),)
+    config_scheme = (("languages", config_options.Type(list, default=["python", "pycon"])),)
 
     def on_config(self, config: Config, **kwargs) -> Config:  # noqa: D102
         self.languages = self.config["languages"]

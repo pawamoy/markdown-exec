@@ -14,6 +14,7 @@ from typing import Any
 
 from markdown import Markdown
 
+from markdown_exec.pycon import format_pycon
 from markdown_exec.python import format_python
 
 __all__: list[str] = ["formatter", "validator"]  # noqa: WPS410
@@ -21,6 +22,7 @@ __all__: list[str] = ["formatter", "validator"]  # noqa: WPS410
 
 _formatters = {
     "python": format_python,
+    "pycon": format_pycon,
 }
 
 # negative look behind: matches only if | (pipe) if not preceded by \ (backslash)

@@ -54,6 +54,7 @@ with one of the following values:
 - `below`: The source code will be rendered below the result.
 - `tabbed-left`: The source code and result will be rendered in tabs, in that order (remember to enable the `pymdownx.tabbed` extension).
 - `tabbed-right`: The result and source code will be rendered in tabs, in that order (remember to enable the `pymdownx.tabbed` extension).
+- `console`: The source and result are concatenated in a single code block, like an interactive console session.
 
 Source above:
 
@@ -118,6 +119,24 @@ Tabbed on the right:
     ```python exec="true" source="tabbed-right"
     --8<-- "source.py"
     ```
+
+Console (best used with actual session syntax like `pycon`,
+details at [Python console code](#python-console-code)):
+
+=== "Markdown"
+
+    ````md
+    ```pycon exec="true" source="console"
+    --8<-- "source.pycon"
+    ```
+    ````
+
+=== "Rendered"
+
+    ```pycon exec="true" source="console"
+    --8<-- "source.pycon"
+    ```
+
 
 ## Change the titles of tabs
 
@@ -194,4 +213,44 @@ Example:
 
     ```python exec="1" source="above" title="source.py"
     --8<-- "source.py"
+    ```
+
+## Python console code
+
+Code blocks syntax-highlighted with the `pycon` identifier are also supported.
+These code blocks will be pre-processed to keep only the lines
+starting with `>>> `, and the chevrons (prompt) will be removed from these lines,
+so we can execute them.
+
+=== "Markdown"
+
+    ````md
+    ```pycon exec="1" source="console"
+    --8<-- "source.pycon"
+    ```
+    ````
+
+=== "Rendered"
+
+    ```pycon exec="1" source="console"
+    --8<-- "source.pycon"
+    ```
+
+
+It also means that multiple blocks of instructions will be concatenated,
+as well as their output:
+
+
+=== "Markdown"
+
+    ````md
+    ```pycon exec="1" source="console"
+    --8<-- "multiple.pycon"
+    ```
+    ````
+
+=== "Rendered"
+
+    ```pycon exec="1" source="console"
+    --8<-- "multiple.pycon"
     ```

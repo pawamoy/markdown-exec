@@ -1,0 +1,6 @@
+>>> name = "Baron"
+>>> print(name)
+Baron
+>>> age = "???"
+>>> print(age)
+???
