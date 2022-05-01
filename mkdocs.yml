@@ -11,6 +11,7 @@ nav:
   - Changelog: changelog.md
   - Credits: credits.md
   - License: license.md
+- Usage: usage.md
 - Gallery: gallery.md
 # defer to gen-files + literate-nav
 - Code Reference: reference/
@@ -54,6 +55,7 @@ markdown_extensions:
 - pymdownx.magiclink
 - pymdownx.snippets:
     check_paths: true
+    base_path: [docs/snippets, "."]
 - pymdownx.highlight
 - pymdownx.superfences:
     custom_fences:

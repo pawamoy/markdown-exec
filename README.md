@@ -91,81 +91,14 @@ You are now able to execute code blocks instead of displaying them:
 
 ````md
 ```python exec="on"
-print("Some Python code")
+print("Hello Markdown!")
 ```
 ````
 
 The `exec` option will be true for every possible value except `0`, `no`, `off` and `false` (case insensitive).
 
-The standard output and error of executed Python code blocks is not captured
-and will be written to the terminal, as usual.
+To capture the output of your code, Markdown Exec patches the `print`
+function so that it writes to a buffer instead of standard output.
 
-If you want to "inject" contents into the page, you can use these two functions
-in your code blocks (they are available in the global context of execution):
-
-- `output_html(text)`: inject the HTML text passed as argument. 
-- `output_markdown(text)`: convert the text passed as argument to HTML and then inject it.
-
-WARNING: You can call these functions only once, as they internally raise an exception.
-
-HTML Example:
-
-=== "Markdown"
-
-    ````md
-    System information:
-
-    ```python exec="yes"
-    import platform
-    output_html(
-        f"""
-        <code>
-        machine: {platform.machine()}
-        version: {platform.version()}
-        platform: {platform.platform()}
-        system: {platform.system()}
-        </code>
-        """
-    )
-    ```
-    ````
-
-=== "Rendered"
-
-    System information:
-
-    ```
-    machine: x86_64
-    version: #1 SMP PREEMPT Tue, 01 Feb 2022 21:42:50 +0000
-    platform: Linux-5.16.5-arch1-1-x86_64-with-glibc2.33
-    system: Linux
-    ```
-
-Markdown Example:
-
-=== "Markdown"
-
-    ````md
-    System information:
-
-    ```python exec="yes"
-    import platform
-    output_markdown(
-        f"""
-        - machine: `{platform.machine()}`
-        - version: `{platform.version()}`
-        - platform: `{platform.platform()}`
-        - system: `{platform.system()}`
-        """
-    )
-    ```
-    ````
-
-=== "Rendered"
-
-    System information:
-
-    - machine: `x86_64`
-    - version: `#1 SMP PREEMPT Tue, 01 Feb 2022 21:42:50 +0000`
-    - platform: `Linux-5.16.5-arch1-1-x86_64-with-glibc2.33`
-    - system: `Linux`
+See [usage](https://pawamoy.github.io/markdown-exec/) for more details,
+and the [gallery](https://pawamoy.github.io/markdown-exec/gallery/) for more examples!
