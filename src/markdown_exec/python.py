@@ -1,63 +1,43 @@
 """Formatter and utils for executing Python code."""
 
+from __future__ import annotations
+
 import traceback
-from textwrap import indent
+from functools import partial
+from io import StringIO
 from typing import Any
 
 from markdown.core import Markdown
-from markupsafe import Markup
 
 from markdown_exec.rendering import code_block, markdown, tabbed
 
-md_copy = None
 
-
-class MarkdownOutput(Exception):  # noqa: N818
-    """Exception to return Markdown."""
-
-
-class HTMLOutput(Exception):  # noqa: N818
-    """Exception to return HTML."""
-
-
-def output_markdown(text: str) -> None:
-    """Output Markdown.
+def buffer_print(buffer: StringIO, *text: str, end: str = "\n", **kwargs: Any) -> None:
+    """Print Markdown.
 
     Parameters:
-        text: The Markdown to convert and inject back in the page.
-
-    Raises:
-        MarkdownOutput: Our way of returning without 'return' or 'yield' keywords.
+        buffer: A string buffer to write into.
+        *text: The text to write into the buffer. Multiple strings accepted.
+        end: The string to write at the end.
+        **kwargs: Other keyword arguments passed to `print` are ignored.
     """
-    raise MarkdownOutput(text)
-
-
-def output_html(text: str) -> None:
-    """Output HTML.
-
-    Parameters:
-        text: The HTML to inject back in the page.
-
-    Raises:
-        HTMLOutput: Our way of returning without 'return' or 'yield' keywords.
-    """
-    raise HTMLOutput(text)
+    buffer.write(" ".join(text) + end)
 
 
 def exec_python(  # noqa: WPS231
-    source: str,
+    code: str,
     md: Markdown,
-    isolate: bool = False,
-    show_source: str = "",
+    html: bool,
+    source: str,
     **options: Any,
 ) -> str:
     """Execute code and return HTML.
 
     Parameters:
-        source: The code to execute.
+        code: The code to execute.
         md: The Markdown instance.
-        isolate: Whether to run the code in isolation.
-        show_source: Whether to show source as well, and where.
+        html: Whether to inject output as HTML directly, without rendering.
+        source: Whether to show source as well, and where.
         **options: Additional options passed from the formatter.
 
     Returns:
@@ -65,27 +45,34 @@ def exec_python(  # noqa: WPS231
     """
     markdown.mimic(md)
 
-    if isolate:
-        exec_source = f"def _function():\n{indent(source, prefix=' ' * 4)}\n_function()\n"
-    else:
-        exec_source = source
     extra = options.get("extra", {})
+
+    buffer = StringIO()
+    exec_globals = {"print": partial(buffer_print, buffer)}
+
     try:
-        exec(exec_source)  # noqa: S102
-    except MarkdownOutput as raised_output:
-        output = str(raised_output)
-    except HTMLOutput as raised_output:
-        output = f'<div markdown="0">{str(raised_output)}</div>'
-    except Exception:
-        output = code_block("python", traceback.format_exc(), **extra)
-    if show_source:
-        source_block = code_block("python", source, **extra)
-    if show_source == "above":
+        exec(code, {}, exec_globals)  # noqa: S102
+    except Exception as error:
+        trace = traceback.TracebackException.from_exception(error)
+        for frame in trace.stack:
+            if frame.filename == "<string>":
+                frame.filename = "<executed code block>"
+                frame._line = code.split("\n")[frame.lineno - 1]  # type: ignore[attr-defined,operator]  # noqa: WPS437
+        output = code_block("python", "".join(trace.format()), **extra)
+    else:
+        output = buffer.getvalue()
+        if html:
+            output = f'<div markdown="0">{str(output)}</div>'
+
+    if source:
+        source_block = code_block("python", code, **extra)
+    if source == "above":
         output = source_block + "\n\n" + output
-    elif show_source == "below":
+    elif source == "below":
         output = output + "\n\n" + source_block
-    elif show_source == "tabbed-left":
-        output = tabbed(("Source", source_block), ("Result", output))
-    elif show_source == "tabbed-right":
+    elif source == "tabbed-left":
+        output = (("Source", source_block), ("Result", output))
+    elif source == "tabbed-right":
         output = tabbed(("Result", output), ("Source", source_block))
+
     return markdown.convert(output)

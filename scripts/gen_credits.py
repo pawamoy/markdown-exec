@@ -100,4 +100,4 @@ def get_credits():
     return jinja_env.from_string(template_text).render(**template_data)
 
 
-output_markdown(get_credits())
+print(get_credits())

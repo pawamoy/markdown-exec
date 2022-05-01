@@ -15,7 +15,7 @@ def test_output_markdown(md: Markdown) -> None:
         dedent(
             """
             ```python exec="yes"
-            output_markdown("**Bold!**")
+            print("**Bold!**")
             ```
             """
         )
@@ -32,10 +32,10 @@ def test_output_html(md: Markdown) -> None:
     html = md.convert(
         dedent(
             """
-            ```python exec="yes"
-            output_html("**Bold!**")
+            ```python exec="yes" html="yes"
+            print("**Bold!**")
             ```
             """
         )
     )
-    assert html == '<div markdown="0">**Bold!**</div>'
+    assert html == '<div markdown="0">**Bold!**\n</div>'

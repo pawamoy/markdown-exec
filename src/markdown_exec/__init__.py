@@ -41,11 +41,11 @@ def validator(
     exec_value = _to_bool(inputs.pop("exec", "no"))
     if not exec_value:
         return False
-    isolate_value = _to_bool(inputs.pop("isolate", "no"))
-    show_source_value = inputs.pop("show_source", "")
+    html_value = _to_bool(inputs.pop("html", "no"))
+    source_value = inputs.pop("source", "")
     options["exec"] = exec_value
-    options["isolate"] = isolate_value
-    options["show_source"] = show_source_value
+    options["html"] = html_value
+    options["source"] = source_value
     options["extra"] = inputs
     return True
 

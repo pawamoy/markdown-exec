@@ -10,7 +10,7 @@ as base64 encoded PNG data. Finally we output an HTML image with the base64 data
 Using SVG is not possible here since Diagrams embeds actual, smaller PNG files
 in the result, files which are not automatically added to the final site.
 
-```python exec="true" show_source="tabbed-right" title="Diagrams"
+```python exec="true" html="true" source="tabbed-right" title="Diagrams"
 from base64 import b64encode
 from contextlib import suppress
 from diagrams import Diagram, setdiagram
@@ -27,7 +27,7 @@ with suppress(FileNotFoundError):
                 Pod("pod3")] << ReplicaSet("rs") << Deployment("dp") << HPA("hpa")
         png = b64encode(diagram.dot.pipe(format="png")).decode()
 
-output_html(f'<img src="data:image/png;base64, {png}"/>')
+print(f'<img src="data:image/png;base64, {png}"/>')
 ```
 
 ## Python modules inter-dependencies
@@ -43,7 +43,7 @@ so the code is a bit convoluted, but you could make a function of it,
 put it in an importable script/module, and reuse it cleanly in your executed
 code blocks.
 
-```python exec="true" show_source="tabbed-right" isolate="yes" title="pydeps module dependencies graph"
+```python exec="true" html="true" source="tabbed-right" title="pydeps module dependencies graph"
 from pydeps import cli, colors, py2depgraph, dot
 from pydeps.pydeps import depgraph_to_dotsrc
 from pydeps.target import Target
@@ -62,7 +62,7 @@ reference = "../reference"
 modules = (
     "markdown_exec",
     "markdown_exec.python",
-    "markdown_exec.markdown_helpers",
+    "markdown_exec.rendering",
 )
 for module in modules:
     svg_title = module.replace(".", "_")
@@ -70,7 +70,7 @@ for module in modules:
     href = f"{reference}/{module.replace('.', '/')}/"
     svg = svg.replace(title_tag, f'<a href="{href}"><title>{module}</title>')
 svg = svg.replace("</text></g>", "</text></a></g>")
-output_html(svg)
+print(svg)
 ```
 
 ## Code snippets (SVG)
@@ -82,33 +82,36 @@ from somewhere else using the
 or by reading it dynamically from Python.
 We also prevent Rich from actually writing to the terminal.
 
-```python exec="true" show_source="tabbed-right" title="Rich SVG code snippet"
+```python exec="true" html="true" source="tabbed-right" title="Rich SVG code snippet"
 import os
 from rich.console import Console
+from rich.padding import Padding
 from rich.syntax import Syntax
 
-code = """from contextlib import asynccontextmanager
-import httpx
+code = """
+    from contextlib import asynccontextmanager
+    import httpx
 
 
-class BookClient(httpx.AsyncClient):
-    async def get_book(self, book_id: int) -> str:
-        response = await self.get(f"/books/{book_id}")
-        return response.text
+    class BookClient(httpx.AsyncClient):
+        async def get_book(self, book_id: int) -> str:
+            response = await self.get(f"/books/{book_id}")
+            return response.text
 
 
-@asynccontextmanager
-async def book_client(*args, **kwargs):
-    async with BookClient(*args, **kwargs) as client:
-        yield client
+    @asynccontextmanager
+    async def book_client(*args, **kwargs):
+        async with BookClient(*args, **kwargs) as client:
+            yield client
 """
 
 with open(os.devnull, "w") as devnull:
     console = Console(record=True, width=65, file=devnull, markup=False)
-    renderable = Syntax(code, "python", line_numbers=True, indent_guides=True, theme="material")
+    renderable = Syntax(code, "python", theme="material")
+    renderable = Padding(renderable, (0,), expand=False)
     console.print(renderable, markup=False)
-svg = console.export_svg()
-output_html(svg)
+svg = console.export_svg(title="async context manager")
+print(svg)
 ```
 
 ## Python module output
@@ -117,7 +120,7 @@ This example uses Python's [`runpy`][runpy] module to run another
 Python module. This other module's output is captured by temporarily
 patching `sys.stdout` with a text buffer. 
 
-```python exec="true" show_source="tabbed-right" isolate="yes" title="runpy and script/module output"
+```python exec="true" source="tabbed-right" title="runpy and script/module output"
 import argparse
 import sys
 import warnings
@@ -136,7 +139,7 @@ output = sys.stdout.getvalue()
 sys.stdout = old_stdout
 sys.argv = old_argv
 
-output_markdown(f"```\n{output}\n```")
+print(f"```\n{output}\n```")
 ```
 
 ## Python CLI documentation
@@ -148,10 +151,10 @@ if you know the project is using [`argparse`][argparse] to build its command lin
 interface, and if it exposes its parser, then you can get the help message
 directly from the parser.
 
-```python exec="true" show_source="tabbed-right" isolate="yes" title="argparse parser help message"
+```python exec="true" source="tabbed-right" title="argparse parser help message"
 from duty.cli import get_parser
 parser = get_parser()
-output_markdown(f"```\n{parser.format_help()}\n```")
+print(f"```\n{parser.format_help()}\n```")
 ```
 
 ### Argparse parser documentation
@@ -160,7 +163,7 @@ In this example, we inspect the `argparse` parser to build better-looking
 Markdown/HTML contents. We simply use the description and iterate on options,
 but more complex stuff is possible of course.
 
-```python exec="true" show_source="tabbed-right" isolate="yes" title="CLI help using argparse parser"
+```python exec="true" source="tabbed-right" title="CLI help using argparse parser"
 import argparse
 from duty.cli import get_parser
 parser = get_parser()
@@ -180,5 +183,5 @@ for action in parser._actions:
     if action.default and action.default != argparse.SUPPRESS:
         line += f"(default: {action.default})"
     lines.append(line)
-output_markdown("\n".join(lines))
+print("\n".join(lines))
 ```
