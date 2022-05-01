@@ -57,12 +57,7 @@ markdown_extensions:
     check_paths: true
     base_path: [docs/snippets, "."]
 - pymdownx.highlight
-- pymdownx.superfences:
-    custom_fences:
-    - name: python
-      class: python
-      validator: !!python/name:markdown_exec.validator
-      format: !!python/name:markdown_exec.formatter
+- pymdownx.superfences
 - pymdownx.tabbed:
     alternate_style: true
 - pymdownx.tasklist
@@ -78,6 +73,7 @@ plugins:
     nav_file: SUMMARY.md
 - coverage
 - section-index
+- markdown-exec
 - mkdocstrings:
     handlers:
       python:

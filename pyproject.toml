@@ -43,7 +43,9 @@ Discussions = "https://github.com/pawamoy/markdown-exec/discussions"
 Gitter = "https://gitter.im/markdown-exec/community"
 Funding = "https://github.com/sponsors/pawamoy"
 
-[project.optional-dependencies]
+[project.entry-points."mkdocs.plugins"]
+markdown-exec = "markdown_exec.mkdocs_plugin:MarkdownExecPlugin"
+
 [tool.pdm]
 version = {use_scm = true}
 package-dir = "src"

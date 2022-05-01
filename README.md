@@ -73,9 +73,10 @@ Markdown(
 )
 ```
 
-...or in MkDocs configuration file:
+...or in MkDocs configuration file, as a Markdown extension:
 
 ```yaml
+# mkdocs.yml
 markdown_extensions:
 - pymdownx.superfences:
     custom_fences:
@@ -83,6 +84,15 @@ markdown_extensions:
       class: python
       validator: !!python/name:markdown_exec.validator
       format: !!python/name:markdown_exec.formatter
+```
+
+...or in MkDocs configuration file, as a plugin:
+
+```yaml
+# mkdocs.yml
+plugins:
+- search
+- markdown-exec
 ```
 
 ## Usage
