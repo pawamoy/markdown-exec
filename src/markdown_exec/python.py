@@ -71,6 +71,7 @@ def exec_python(  # noqa: WPS231
         exec_source = f"def _function():\n{indent(source, prefix=' ' * 4)}\n_function()\n"
     else:
         exec_source = source
+    extra = options.get("extra", {})
     try:
         exec(exec_source)  # noqa: S102
     except MarkdownOutput as raised_output:
@@ -78,9 +79,9 @@ def exec_python(  # noqa: WPS231
     except HTMLOutput as raised_output:
         output = f'<div markdown="0">{str(raised_output)}</div>'
     except Exception:
-        output = code_block("python", traceback.format_exc())
+        output = code_block("python", traceback.format_exc(), **extra)
     if show_source:
-        source_block = code_block("python", source)
+        source_block = code_block("python", source, **extra)
     if show_source == "above":
         output = source_block + "\n\n" + output
     elif show_source == "below":

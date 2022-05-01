@@ -5,17 +5,19 @@ from __future__ import annotations
 from textwrap import indent
 
 
-def code_block(language: str, source: str) -> str:
+def code_block(language: str, source: str, **options: str) -> str:
     """Format source as a code block.
 
     Parameters:
         language: The code block language.
         source: The source code to format.
+        **options: Additional options passed from the source, to add back to the generated code block.
 
     Returns:
         The formatted code block.
     """
-    return f"```{language}\n{source}\n```"
+    opts = " ".join(f'{opt_name}="{opt_value}"' for opt_name, opt_value in options.items())
+    return f"```{language} {opts}\n{source}\n```"
 
 
 def tabbed(*tabs: tuple[str, str]) -> str:

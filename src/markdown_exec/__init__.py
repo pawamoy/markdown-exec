@@ -46,6 +46,7 @@ def validator(
     options["exec"] = exec_value
     options["isolate"] = isolate_value
     options["show_source"] = show_source_value
+    options["extra"] = inputs
     return True
 
 
