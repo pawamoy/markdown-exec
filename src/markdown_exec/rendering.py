@@ -36,7 +36,7 @@ def tabbed(*tabs: tuple[str, str]) -> str:
     """
     parts = []
     for title, text in tabs:
-        title = title.replace("\\|", "|").strip()
+        title = title.replace(r"\|", "|").strip()
         parts.append(f'=== "{title}"')
         parts.append(indent(text, prefix=" " * 4))
         parts.append("")
@@ -79,7 +79,7 @@ class _MarkdownConverter:
     """Helper class to avoid breaking the original Markdown instance state."""
 
     def __init__(self) -> None:  # noqa: D107
-        self.md: Markdown = None
+        self.md: Markdown = None  # type: ignore[assignment]
         self.counter: int = 0
 
     def mimic(self, md: Markdown) -> None:
