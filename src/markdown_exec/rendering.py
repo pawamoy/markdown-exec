@@ -132,11 +132,12 @@ class _MarkdownConverter:
                 priority=4,  # right after 'toc' (needed because that extension adds ids to headers)
             )
 
-    def convert(self, text: str) -> Markup:
+    def convert(self, text: str, stash: dict[str, str] | None = None) -> Markup:
         """Convert Markdown text to safe HTML.
 
         Parameters:
             text: Markdown text.
+            stash: An HTML stash.
 
         Returns:
             Safe HTML.
@@ -145,9 +146,13 @@ class _MarkdownConverter:
         self.counter += 1
 
         try:  # noqa: WPS501
-            return Markup(self.md.convert(text))
+            converted = self.md.convert(text)
         finally:
             self.md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = ""
+        if stash:
+            for placeholder, stashed in stash.items():
+                converted = converted.replace(placeholder, stashed)
+        return Markup(converted)
 
 
 # provide a singleton

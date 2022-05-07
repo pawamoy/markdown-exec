@@ -6,6 +6,7 @@ import traceback
 from functools import partial
 from io import StringIO
 from typing import Any
+from uuid import uuid4
 
 from markdown.core import Markdown
 
@@ -24,12 +25,11 @@ def buffer_print(buffer: StringIO, *text: str, end: str = "\n", **kwargs: Any) -
     buffer.write(" ".join(text) + end)
 
 
-def run_python(code: str, html: bool, **extra: str) -> str:
+def run_python(code: str, **extra: str) -> str:
     """Run Python code using `exec` and return its output.
 
     Parameters:
         code: The code to execute.
-        html: Whether the output is HTML.
         **extra: Extra options passed to the traceback code block in case of errors.
 
     Returns:
@@ -46,12 +46,8 @@ def run_python(code: str, html: bool, **extra: str) -> str:
             if frame.filename == "<string>":
                 frame.filename = "<executed code block>"
                 frame._line = code.split("\n")[frame.lineno - 1]  # type: ignore[attr-defined,operator]  # noqa: WPS437
-        output = code_block("python", "".join(trace.format()), **extra)
-    else:
-        output = buffer.getvalue()
-        if html:
-            output = f'<div markdown="0">{str(output)}</div>'
-    return output
+        return code_block("python", "".join(trace.format()), **extra)
+    return buffer.getvalue()
 
 
 def format_python(  # noqa: WPS231
@@ -77,7 +73,12 @@ def format_python(  # noqa: WPS231
     """
     markdown.mimic(md)
     extra = options.get("extra", {})
-    output = run_python(code, html, **extra)
+    output = run_python(code, **extra)
+    stash = {}
+    if html:
+        placeholder = str(uuid4())
+        stash[placeholder] = output
+        output = placeholder
     if source:
         output = add_source(source=code, location=source, output=output, language="python", tabs=tabs, **extra)
-    return markdown.convert(output)
+    return markdown.convert(output, stash=stash)

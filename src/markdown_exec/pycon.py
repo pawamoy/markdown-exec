@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import textwrap
 from typing import Any
+from uuid import uuid4
 
 from markdown.core import Markdown
 
@@ -41,8 +42,13 @@ def format_pycon(  # noqa: WPS231
     python_code = "\n".join(python_lines)
 
     extra = options.get("extra", {})
-    output = run_python(python_code, html, **extra)
+    output = run_python(python_code, **extra)
+    stash = {}
+    if html:
+        placeholder = str(uuid4())
+        stash[placeholder] = output
+        output = placeholder
     if source:
         source_code = textwrap.indent(python_code, ">>> ")
         output = add_source(source=source_code, location=source, output=output, language="pycon", tabs=tabs, **extra)
-    return markdown.convert(output)
+    return markdown.convert(output, stash=stash)

@@ -38,4 +38,4 @@ def test_output_html(md: Markdown) -> None:
             """
         )
     )
-    assert html == '<div markdown="0">**Bold!**\n</div>'
+    assert html == "<p>**Bold!**\n</p>"
