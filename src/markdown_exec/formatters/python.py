@@ -71,7 +71,7 @@ def format_python(  # noqa: WPS231
     Returns:
         HTML contents.
     """
-    markdown.mimic(md)
+    markdown.setup(md)
     extra = options.get("extra", {})
     output = run_python(code, **extra)
     stash = {}

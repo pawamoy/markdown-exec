@@ -8,7 +8,7 @@ from uuid import uuid4
 
 from markdown.core import Markdown
 
-from markdown_exec.python import run_python
+from markdown_exec.formatters.python import run_python
 from markdown_exec.rendering import add_source, markdown
 
 
@@ -33,7 +33,7 @@ def format_pycon(  # noqa: WPS231
     Returns:
         HTML contents.
     """
-    markdown.mimic(md)
+    markdown.setup(md)
 
     python_lines = []
     for line in code.split("\n"):
