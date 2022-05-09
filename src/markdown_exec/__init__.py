@@ -100,7 +100,7 @@ def formatter(
         HTML contents.
     """
     fmt = formatters.get(language, lambda source, *args, **kwargs: source)
-    return fmt(source, md, **options)
+    return fmt(source, md, **options)  # type: ignore[operator]
 
 
 falsy_values = {"", "no", "off", "false", "0"}
