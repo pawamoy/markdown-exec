@@ -1,3 +1,12 @@
+---
+hide:
+- navigation
+---
+
+# Gallery
+
+Welcome to our gallery of examples!
+
 ## Diagrams (cloud/system architecture)
 
 [Diagrams](https://github.com/mingrammer/diagrams) offers a nice way of building
@@ -61,10 +70,14 @@ svg = svg.replace('fill="white"', 'fill="transparent"')
 reference = "../reference"
 modules = (
     "markdown_exec",
-    "markdown_exec.pycon",
-    "markdown_exec.python",
-    "markdown_exec.rendering",
+    "markdown_exec.formatters.base",
+    "markdown_exec.formatters.bash",
+    "markdown_exec.formatters.mardown",
+    "markdown_exec.formatters.pycon",
+    "markdown_exec.formatters.python",
+    "markdown_exec.formatters.sh",
     "markdown_exec.mkdocs_plugin",
+    "markdown_exec.rendering",
 )
 for module in modules:
     svg_title = module.replace(".", "_")

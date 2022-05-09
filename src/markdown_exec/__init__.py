@@ -14,19 +14,25 @@ from typing import Any
 
 from markdown import Markdown
 
-from markdown_exec.formatters.markdown import format_markdown
-from markdown_exec.formatters.pycon import format_pycon
-from markdown_exec.formatters.python import format_python
+from markdown_exec.formatters.bash import _format_bash  # noqa: WPS450
+from markdown_exec.formatters.console import _format_console  # noqa: WPS450
+from markdown_exec.formatters.markdown import _format_markdown  # noqa: WPS450
+from markdown_exec.formatters.pycon import _format_pycon  # noqa: WPS450
+from markdown_exec.formatters.python import _format_python  # noqa: WPS450
+from markdown_exec.formatters.sh import _format_sh  # noqa: WPS450
 
 __all__: list[str] = ["formatter", "validator"]  # noqa: WPS410
 
 
-_formatters = {
-    "md": format_markdown,
-    "markdown": format_markdown,
-    "py": format_python,
-    "python": format_python,
-    "pycon": format_pycon,
+formatters = {
+    "bash": _format_bash,
+    "console": _format_console,
+    "md": _format_markdown,
+    "markdown": _format_markdown,
+    "py": _format_python,
+    "python": _format_python,
+    "pycon": _format_pycon,
+    "sh": _format_sh,
 }
 
 # negative look behind: matches only if | (pipe) if not preceded by \ (backslash)
@@ -91,7 +97,7 @@ def formatter(
     Returns:
         HTML contents.
     """
-    fmt = _formatters.get(language, lambda source, *args, **kwargs: source)
+    fmt = formatters.get(language, lambda source, *args, **kwargs: source)
     return fmt(source, md, **options)
 
 

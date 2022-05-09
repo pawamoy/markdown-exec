@@ -11,7 +11,10 @@ nav:
   - Changelog: changelog.md
   - Credits: credits.md
   - License: license.md
-- Usage: usage.md
+- Usage:
+  - usage/index.md
+  - Python: usage/python.md
+  - Shell: usage/shell.md
 - Gallery: gallery.md
 # defer to gen-files + literate-nav
 - Code Reference: reference/
@@ -27,6 +30,7 @@ theme:
     logo: material/currency-sign
   features:
   - navigation.tabs
+  - navigation.tabs.sticky
   - navigation.top
   palette:
   - media: "(prefers-color-scheme: light)"
