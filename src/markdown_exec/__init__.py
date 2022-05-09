@@ -59,11 +59,13 @@ def validator(
         return False
     html_value = _to_bool(inputs.pop("html", "no"))
     source_value = inputs.pop("source", "")
+    result_value = inputs.pop("result", "")
     tabs_value = inputs.pop("tabs", "Source|Result")
     tabs = tuple(_tabs_re.split(tabs_value, maxsplit=1))
     options["exec"] = exec_value
     options["html"] = html_value
     options["source"] = source_value
+    options["result"] = result_value
     options["tabs"] = tabs
     options["extra"] = inputs
     return True

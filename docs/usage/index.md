@@ -128,6 +128,20 @@ to tabbed-right and inversely without having to switch the titles as well.
 WARNING: **Limitation**  
 Changing the title for only one tab is not supported.
 
+## Wrap result in a code block
+
+You can wrap the result in a code block by specifying a code block language:
+
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```console exec="1" result="json"
+$ pdm info --env
+```
+````
+
+WARNING: **Limitation**  
+Wrapping the result is not possible when HTML output is enabled,
+nor when source and output are concatenated with the "console" style.
+
 ## Additional options
 
 If you are using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/),

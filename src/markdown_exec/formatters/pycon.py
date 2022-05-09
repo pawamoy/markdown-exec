@@ -9,7 +9,7 @@ from uuid import uuid4
 from markdown.core import Markdown
 
 from markdown_exec.formatters.python import _run_python  # noqa: WPS450
-from markdown_exec.rendering import add_source, markdown
+from markdown_exec.rendering import add_source, code_block, markdown
 
 
 def _format_pycon(  # noqa: WPS231
@@ -17,6 +17,7 @@ def _format_pycon(  # noqa: WPS231
     md: Markdown,
     html: bool,
     source: str,
+    result: str,
     tabs: tuple[str, str],
     **options: Any,
 ) -> str:
@@ -35,6 +36,8 @@ def _format_pycon(  # noqa: WPS231
         placeholder = str(uuid4())
         stash[placeholder] = output
         output = placeholder
+    elif result:
+        output = code_block(result, output)
     if source:
         source_code = textwrap.indent(python_code, ">>> ")
         output = add_source(source=source_code, location=source, output=output, language="pycon", tabs=tabs, **extra)

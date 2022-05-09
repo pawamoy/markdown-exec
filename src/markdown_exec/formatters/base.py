@@ -8,7 +8,7 @@ from uuid import uuid4
 from markdown.core import Markdown
 from markupsafe import Markup
 
-from markdown_exec.rendering import add_source, markdown
+from markdown_exec.rendering import add_source, code_block, markdown
 
 
 def base_format(  # noqa: WPS231
@@ -18,6 +18,7 @@ def base_format(  # noqa: WPS231
     md: Markdown,
     html: bool,
     source: str,
+    result: str,
     tabs: tuple[str, str],
     **options: Any,
 ) -> Markup:
@@ -30,6 +31,7 @@ def base_format(  # noqa: WPS231
         md: The Markdown instance.
         html: Whether to inject output as HTML directly, without rendering.
         source: Whether to show source as well, and where.
+        result: If provided, use as language to format result in a code block.
         tabs: Titles of tabs (if used).
         **options: Additional options passed from the formatter.
 
@@ -44,6 +46,8 @@ def base_format(  # noqa: WPS231
         placeholder = str(uuid4())
         stash[placeholder] = output
         output = placeholder
+    elif result:
+        output = code_block(result, output)
     if source:
         output = add_source(source=code, location=source, output=output, language=language, tabs=tabs, **extra)
     return markdown.convert(output, stash=stash)
