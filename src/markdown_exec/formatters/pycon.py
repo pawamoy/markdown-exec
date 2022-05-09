@@ -8,11 +8,11 @@ from uuid import uuid4
 
 from markdown.core import Markdown
 
-from markdown_exec.formatters.python import run_python
+from markdown_exec.formatters.python import _run_python  # noqa: WPS450
 from markdown_exec.rendering import add_source, markdown
 
 
-def format_pycon(  # noqa: WPS231
+def _format_pycon(  # noqa: WPS231
     code: str,
     md: Markdown,
     html: bool,
@@ -20,19 +20,6 @@ def format_pycon(  # noqa: WPS231
     tabs: tuple[str, str],
     **options: Any,
 ) -> str:
-    """Execute `pycon` code and return HTML.
-
-    Parameters:
-        code: The code to execute.
-        md: The Markdown instance.
-        html: Whether to inject output as HTML directly, without rendering.
-        source: Whether to show source as well, and where.
-        tabs: Titles of tabs (if used).
-        **options: Additional options passed from the formatter.
-
-    Returns:
-        HTML contents.
-    """
     markdown.setup(md)
 
     python_lines = []
@@ -42,7 +29,7 @@ def format_pycon(  # noqa: WPS231
     python_code = "\n".join(python_lines)
 
     extra = options.get("extra", {})
-    output = run_python(python_code, **extra)
+    output = _run_python(python_code, **extra)
     stash = {}
     if html:
         placeholder = str(uuid4())
