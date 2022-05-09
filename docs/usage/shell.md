@@ -7,8 +7,8 @@ and rendered as Markdown or HTML (see [Usage](../#html-vs-markdown)).
 ## Bash
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
-```sh exec="1" source="material-block"
-pdm --version
+```bash exec="1" source="material-block"
+echo $BASH_VERSION
 ```
 ````
 
@@ -17,5 +17,13 @@ pdm --version
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```console exec="1" source="console"
 $ pdm --version
+```
+````
+
+## sh
+
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```sh exec="1" source="material-block"
+echo Markdown is **cool**
 ```
 ````
