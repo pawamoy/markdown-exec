@@ -187,20 +187,21 @@ That makes for a very meta-markdown markup:
 
 ````md exec="1" source="tabbed-left"
 ```md exec="1" source="material-block" title="Markdown link"
---8<-- "literate_markdown.md"
+[Link to example.com](https://example.com)
 ```
 ````
 
-> TIP: The above example (both tabs) was entirely generated using a *single* code block:
+> TIP: The above example (both tabs) was entirely generated using a literate code block in a literate code block:
 > 
 > `````md
 > ````md exec="1" source="tabbed-left"
 > ```md exec="1" source="material-block" title="Markdown link"
-> --8<-- "literate_markdown.md"
+> [Link to example.com](https://example.com)
 > ```
 > ````
 > `````
 >
 > In fact, all the examples on this page were generated using this method!
+> Check out the source here: https://github.com/pawamoy/markdown-exec/blob/master/docs/usage.md
 
 Of course "executing" Markdown (or rather, making it "literate") only makes sense when the source is shown as well.
