@@ -22,7 +22,7 @@ def code_block(language: str, code: str, **options: str) -> str:
         The formatted code block.
     """
     opts = " ".join(f'{opt_name}="{opt_value}"' for opt_name, opt_value in options.items())
-    return f"```{language} {opts}\n{code}\n```"
+    return f"````````{language} {opts}\n{code}\n````````"
 
 
 def tabbed(*tabs: tuple[str, str]) -> str:
@@ -110,29 +110,39 @@ class _IdPrependingTreeprocessor(Treeprocessor):
                     el.set("for", self.id_prefix + for_attr)
 
 
+def _mimic(md: Markdown) -> Markdown:
+    new_md = Markdown()  # noqa: WPS442
+    new_md.registerExtensions(md.registeredExtensions + ["tables", "md_in_html"], {})
+    new_md.treeprocessors.register(
+        _IdPrependingTreeprocessor(md, ""),
+        _IdPrependingTreeprocessor.name,
+        priority=4,  # right after 'toc' (needed because that extension adds ids to headers)
+    )
+    return new_md
+
+
 class _MarkdownConverter:
     """Helper class to avoid breaking the original Markdown instance state."""
 
     def __init__(self) -> None:  # noqa: D107
-        self.md: Markdown = None  # type: ignore[assignment]
-        self.counter: int = 0
+        self._md_ref: Markdown = None  # type: ignore[assignment]
+        self._md_stack: list[Markdown] = []
+        self._counter: int = 0
+        self._level: int = 0
 
-    def mimic(self, md: Markdown) -> None:
-        """Mimic the passed Markdown instance by registering the same extensions.
+    @property
+    def _md(self) -> Markdown:
+        try:
+            return self._md_stack[self._level]
+        except IndexError:
+            self._md_stack.append(_mimic(self._md_ref))
+            return self._md
 
-        Parameters:
-            md: A Markdown instance.
-        """
-        if self.md is None:
-            self.md = Markdown()  # noqa: WPS442
-            self.md.registerExtensions(md.registeredExtensions + ["pymdownx.extra"], {})
-            self.md.treeprocessors.register(
-                _IdPrependingTreeprocessor(md, ""),
-                _IdPrependingTreeprocessor.name,
-                priority=4,  # right after 'toc' (needed because that extension adds ids to headers)
-            )
+    def setup(self, md: Markdown) -> None:
+        if not self._md_ref:
+            self._md_ref = md
 
-    def convert(self, text: str, stash: dict[str, str] | None = None) -> Markup:
+    def convert(self, text: str, stash: dict[str, str]) -> Markup:
         """Convert Markdown text to safe HTML.
 
         Parameters:
@@ -142,16 +152,24 @@ class _MarkdownConverter:
         Returns:
             Safe HTML.
         """
-        self.md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = f"exec-{self.counter}--"
-        self.counter += 1
+        # store current md instance
+        md = self._md
+        self._level += 1
+
+        # prepare for conversion
+        md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = f"exec-{self._counter}--"
+        self._counter += 1
 
         try:  # noqa: WPS501
-            converted = self.md.convert(text)
+            converted = md.convert(text)
         finally:
-            self.md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = ""
-        if stash:
-            for placeholder, stashed in stash.items():
-                converted = converted.replace(placeholder, stashed)
+            self._level -= 1
+            md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = ""
+
+        # restore html from stash
+        for placeholder, stashed in stash.items():
+            converted = converted.replace(placeholder, stashed)
+
         return Markup(converted)
 
 
