@@ -11,30 +11,6 @@ Utilities to execute code blocks in Markdown files.
 For example, you write a Python code block that computes some HTML,
 and this HTML is injected in place of the code block.
 
-## Requirements
-
-Markdown Exec requires Python 3.7 or above.
-
-<details>
-<summary>To install Python 3.7, I recommend using <a href="https://github.com/pyenv/pyenv"><code>pyenv</code></a>.</summary>
-
-```bash
-# install pyenv
-git clone https://github.com/pyenv/pyenv ~/.pyenv
-
-# setup pyenv (you should also put these three lines in .bashrc or similar)
-export PATH="${HOME}/.pyenv/bin:${PATH}"
-export PYENV_ROOT="${HOME}/.pyenv"
-eval "$(pyenv init -)"
-
-# install Python 3.7
-pyenv install 3.7.12
-
-# make it available globally
-pyenv global system 3.7.12
-```
-</details>
-
 ## Installation
 
 With `pip`:
