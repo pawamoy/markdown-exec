@@ -14,13 +14,16 @@ from typing import Any
 
 from markdown import Markdown
 
-from markdown_exec.pycon import format_pycon
-from markdown_exec.python import format_python
+from markdown_exec.formatters.markdown import format_markdown
+from markdown_exec.formatters.pycon import format_pycon
+from markdown_exec.formatters.python import format_python
 
 __all__: list[str] = ["formatter", "validator"]  # noqa: WPS410
 
 
 _formatters = {
+    "md": format_markdown,
+    "markdown": format_markdown,
     "py": format_python,
     "python": format_python,
     "pycon": format_pycon,

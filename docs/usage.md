@@ -6,43 +6,23 @@ you can set the `html` option to true.
 
 HTML Example:
 
-=== "Markdown"
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+System information:
 
-    ````md
-    System information:
-
-    ```python exec="true" html="true"
-    --8<-- "platform_html.py"
-    ```
-    ````
-
-=== "Rendered"
-
-    System information:
-
-    ```python exec="1" html="1"
-    --8<-- "platform_html.py"
-    ```
+```python exec="true" html="true"
+--8<-- "platform_html.py"
+```
+````
 
 Markdown Example:
 
-=== "Markdown"
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+System information:
 
-    ````md
-    System information:
-
-    ```python exec="true"
-    --8<-- "platform_md.py"
-    ```
-    ````
-
-=== "Rendered"
-
-    System information:
-
-    ```python exec="1"
-    --8<-- "platform_md.py"
-    ```
+```python exec="true"
+--8<-- "platform_md.py"
+```
+````
 
 ## Render the source code as well
 
@@ -52,90 +32,69 @@ with one of the following values:
 
 - `above`: The source code will be rendered above the result.
 - `below`: The source code will be rendered below the result.
+- `material-block`: The source code and result will be wrapped in a nice-looking block (only works with Material for MkDocs).
 - `tabbed-left`: The source code and result will be rendered in tabs, in that order (remember to enable the `pymdownx.tabbed` extension).
 - `tabbed-right`: The result and source code will be rendered in tabs, in that order (remember to enable the `pymdownx.tabbed` extension).
 - `console`: The source and result are concatenated in a single code block, like an interactive console session.
 
-Source above:
+**Source above:**
 
-=== "Markdown"
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```python exec="true" source="above"
+--8<-- "source.py"
+```
+````
 
-    ````md
-    ```python exec="true" source="above"
-    --8<-- "source.py"
-    ```
-    ````
+---
 
-=== "Rendered"
+**Source below:**
 
-    ```python exec="true" source="above"
-    --8<-- "source.py"
-    ```
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```python exec="true" source="below"
+--8<-- "source.py"
+```
+````
 
-Source below:
+---
 
-=== "Markdown"
+**Material block:**
 
-    ````md
-    ```python exec="true" source="below"
-    --8<-- "source.py"
-    ```
-    ````
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```python exec="true" source="material-block"
+--8<-- "source.py"
+```
+````
 
-=== "Rendered"
+---
 
-    ```python exec="true" source="below"
-    --8<-- "source.py"
-    ```
+**Tabbed on the left:**
 
-Tabbed on the left:
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```python exec="true" source="tabbed-left"
+--8<-- "source.py"
+```
+````
 
-=== "Markdown"
+---
 
-    ````md
-    ```python exec="true" source="tabbed-left"
-    --8<-- "source.py"
-    ```
-    ````
+**Tabbed on the right:**
 
-=== "Rendered"
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```python exec="true" source="tabbed-right"
+--8<-- "source.py"
+```
+````
 
-    ```python exec="true" source="tabbed-left"
-    --8<-- "source.py"
-    ```
+---
 
-Tabbed on the right:
+**Console** <small>(best used with actual session syntax like `pycon`,
+details at [Python console code](#python-console-code))</small>:
 
-=== "Markdown"
-
-    ````md
-    ```python exec="true" source="tabbed-right"
-    --8<-- "source.py"
-    ```
-    ````
-
-=== "Rendered"
-
-    ```python exec="true" source="tabbed-right"
-    --8<-- "source.py"
-    ```
-
-Console (best used with actual session syntax like `pycon`,
-details at [Python console code](#python-console-code)):
-
-=== "Markdown"
-
-    ````md
-    ```pycon exec="true" source="console"
-    --8<-- "source.pycon"
-    ```
-    ````
-
-=== "Rendered"
-
-    ```pycon exec="true" source="console"
-    --8<-- "source.pycon"
-    ```
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```pycon exec="true" source="console"
+--8<-- "source.pycon"
+```
+````
 
 
 ## Change the titles of tabs
@@ -144,37 +103,21 @@ In the previous example, we didn't specify any title for tabs,
 so Markdown Exec used "Source" and "Result" by default.
 You can customize the titles with the `tabs` option:
 
-=== "Markdown"
-
-    ````md
-    ```python exec="1" source="tabbed-left" tabs="Source code|Output"
-    --8<-- "source.py"
-    ```
-    ````
-
-=== "Rendered"
-
-    ```python exec="1" source="tabbed-left" tabs="Source code|Output"
-    --8<-- "source.py"
-    ```
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```python exec="1" source="tabbed-left" tabs="Source code|Output"
+--8<-- "source.py"
+```
+````
 
 As you can see, titles are separated with a pipe `|`. Both titles are stripped
 so you can add space around the pipe. If you need to use that character in a title,
 simply escape it with `\|`:
 
-=== "Markdown"
-
-    ````md
-    ```python exec="1" source="tabbed-left" tabs="OR operator: a \|\|b | Boolean matrix"
-    --8<-- "boolean_matrix.py"
-    ```
-    ````
-
-=== "Rendered"
-
-    ```python exec="1" source="tabbed-left" tabs="OR operator: a \|\| b | Boolean matrix"
-    --8<-- "boolean_matrix.py"
-    ```
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```python exec="1" source="tabbed-left" tabs="OR operator: a \|\|b | Boolean matrix"
+--8<-- "boolean_matrix.py"
+```
+````
 
 IMPORTANT: The `tabs` option ***always*** expects the "Source" tab title first,
 and the "Result" tab title second. It allows to switch from tabbed-left
@@ -201,19 +144,11 @@ when rendering the source, so you can keep using them normally.
 
 Example:
 
-=== "Markdown"
-
-    ````md
-    ```python exec="1" source="above" title="source.py"
-    --8<-- "source.py"
-    ```
-    ````
-
-=== "Rendered"
-
-    ```python exec="1" source="above" title="source.py"
-    --8<-- "source.py"
-    ```
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```python exec="1" source="above" title="source.py"
+--8<-- "source.py"
+```
+````
 
 ## Python console code
 
@@ -222,35 +157,50 @@ These code blocks will be pre-processed to keep only the lines
 starting with `>>> `, and the chevrons (prompt) will be removed from these lines,
 so we can execute them.
 
-=== "Markdown"
-
-    ````md
-    ```pycon exec="1" source="console"
-    --8<-- "source.pycon"
-    ```
-    ````
-
-=== "Rendered"
-
-    ```pycon exec="1" source="console"
-    --8<-- "source.pycon"
-    ```
-
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```pycon exec="1" source="console"
+--8<-- "source.pycon"
+```
+````
 
 It also means that multiple blocks of instructions will be concatenated,
 as well as their output:
 
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```pycon exec="1" source="console"
+--8<-- "multiple.pycon"
+```
+````
 
-=== "Markdown"
+## Literate Markdown
 
-    ````md
-    ```pycon exec="1" source="console"
-    --8<-- "multiple.pycon"
-    ```
-    ````
+With this extension, it is also possible to write "literate programming" Markdown.
 
-=== "Rendered"
+From [Wikipedia](https://en.wikipedia.org/wiki/Literate_programming):
 
-    ```pycon exec="1" source="console"
-    --8<-- "multiple.pycon"
-    ```
+> Literate programming (LP) tools are used to obtain two representations from a source file:
+  one understandable by a compiler or interpreter, the "tangled" code,
+  and another for viewing as formatted documentation, which is said to be "woven" from the literate source.
+
+We effectively support executing multiple *nested* code blocks to generate complex output.
+That makes for a very meta-markdown markup:
+
+````md exec="1" source="tabbed-left"
+```md exec="1" source="material-block" title="Markdown link"
+--8<-- "literate_markdown.md"
+```
+````
+
+> TIP: The above example (both tabs) was entirely generated using a *single* code block:
+> 
+> `````md
+> ````md exec="1" source="tabbed-left"
+> ```md exec="1" source="material-block" title="Markdown link"
+> --8<-- "literate_markdown.md"
+> ```
+> ````
+> `````
+>
+> In fact, all the examples on this page were generated using this method!
+
+Of course "executing" Markdown (or rather, making it "literate") only makes sense when the source is shown as well.
