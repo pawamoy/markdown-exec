@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.4.0](https://github.com/pawamoy/markdown-exec/releases/tag/0.4.0) - 2022-05-09
+
+<small>[Compare with 0.3.1](https://github.com/pawamoy/markdown-exec/compare/0.3.1...0.4.0)</small>
+
+### Features
+- Add literate Markdown support ([8d3ed7e](https://github.com/pawamoy/markdown-exec/commit/8d3ed7ef5c9a88849be0a5da44e7b478eb44c180) by Timothée Mazzucotelli).
+- Add `material-block` style to show source ([ff10ee1](https://github.com/pawamoy/markdown-exec/commit/ff10ee1f0b55b2e77b97f272b49b24024f9de2ac) by Timothée Mazzucotelli).
+- Support up to 8 levels of exec code block nesting ([bfde808](https://github.com/pawamoy/markdown-exec/commit/bfde8087ca6f4eb91aba8eb01b37755dfacb4cdb) by Timothée Mazzucotelli).
+
+
 ## [0.3.1](https://github.com/pawamoy/markdown-exec/releases/tag/0.3.1) - 2022-05-07
 
 <small>[Compare with 0.3.0](https://github.com/pawamoy/markdown-exec/compare/0.3.0...0.3.1)</small>
