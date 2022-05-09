@@ -3,13 +3,13 @@
 from mkdocs.config import Config, config_options
 from mkdocs.plugins import BasePlugin
 
-from markdown_exec import formatter, validator
+from markdown_exec import formatter, formatters, validator
 
 
 class MarkdownExecPlugin(BasePlugin):
     """MkDocs plugin to easily enable custom fences for code blocks execution."""
 
-    config_scheme = (("languages", config_options.Type(list, default=["py", "python", "pycon", "md", "markdown"])),)
+    config_scheme = (("languages", config_options.Type(list, default=list(formatters.keys()))),)
 
     def on_config(self, config: Config, **kwargs) -> Config:  # noqa: D102
         self.languages = self.config["languages"]
