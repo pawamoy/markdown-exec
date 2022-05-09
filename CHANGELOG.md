@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.5.0](https://github.com/pawamoy/markdown-exec/releases/tag/0.5.0) - 2022-05-09
+
+<small>[Compare with 0.4.0](https://github.com/pawamoy/markdown-exec/compare/0.4.0...0.5.0)</small>
+
+### Features
+- Allow wrapping result in code block ([37201e4](https://github.com/pawamoy/markdown-exec/commit/37201e4409badec903f311bcc0a6ab7acddff37c) by Timothée Mazzucotelli).
+- Add support for shell code blocks ([f2b4b67](https://github.com/pawamoy/markdown-exec/commit/f2b4b671f4399637d0dac235a0af7739033f9526) by Timothée Mazzucotelli).
+
+### Code Refactoring
+- Fetch plugin languages from dict ([de8309e](https://github.com/pawamoy/markdown-exec/commit/de8309e6895a079031461bfea317215bcff9bc21) by Timothée Mazzucotelli).
+- Add reusable base formatter ([c265bee](https://github.com/pawamoy/markdown-exec/commit/c265bee9abf0ad545b7fdc6ccf2e320071295a18) by Timothée Mazzucotelli).
+
+
 ## [0.4.0](https://github.com/pawamoy/markdown-exec/releases/tag/0.4.0) - 2022-05-09
 
 <small>[Compare with 0.3.1](https://github.com/pawamoy/markdown-exec/compare/0.3.1...0.4.0)</small>
