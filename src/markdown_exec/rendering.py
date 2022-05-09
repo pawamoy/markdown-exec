@@ -43,7 +43,15 @@ def tabbed(*tabs: tuple[str, str]) -> str:
     return "\n".join(parts)
 
 
-def add_source(*, source: str, location: str, output: str, language: str, tabs: tuple[str, str], **extra: str) -> str:
+def add_source(  # noqa: WPS212
+    *,
+    source: str,
+    location: str,
+    output: str,
+    language: str,
+    tabs: tuple[str, str],
+    **extra: str,
+) -> str:
     """Add source code block to the output.
 
     Parameters:
@@ -134,14 +142,6 @@ class _MarkdownConverter:
         self._counter: int = 0
         self._level: int = 0
 
-    @property
-    def _md(self) -> Markdown:
-        try:
-            return self._md_stack[self._level]
-        except IndexError:
-            self._md_stack.append(_mimic(self._md_ref))
-            return self._md
-
     def setup(self, md: Markdown) -> None:
         if not self._md_ref:
             self._md_ref = md
@@ -175,6 +175,14 @@ class _MarkdownConverter:
             converted = converted.replace(placeholder, stashed)
 
         return Markup(converted)
+
+    @property
+    def _md(self) -> Markdown:
+        try:
+            return self._md_stack[self._level]
+        except IndexError:
+            self._md_stack.append(_mimic(self._md_ref))
+            return self._md
 
 
 # provide a singleton
