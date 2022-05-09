@@ -191,7 +191,8 @@ That makes for a very meta-markdown markup:
 ```
 ````
 
-> TIP: The above example (both tabs) was entirely generated using a literate code block in a literate code block:
+> TIP: **So power, such meta**  
+> The above example (both tabs) was entirely generated using *a literate code block in a literate code block* 🤯:
 > 
 > `````md
 > ````md exec="1" source="tabbed-left"
@@ -203,5 +204,6 @@ That makes for a very meta-markdown markup:
 >
 > In fact, all the examples on this page were generated using this method!
 > Check out the source here: https://github.com/pawamoy/markdown-exec/blob/master/docs/usage.md
+> (click on "Raw" to see the code blocks execution options).
 
 Of course "executing" Markdown (or rather, making it "literate") only makes sense when the source is shown as well.
