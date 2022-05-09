@@ -21,6 +21,7 @@ __all__: list[str] = ["formatter", "validator"]  # noqa: WPS410
 
 
 _formatters = {
+    "py": format_python,
     "python": format_python,
     "pycon": format_pycon,
 }
