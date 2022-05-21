@@ -16,6 +16,7 @@ nav:
   - usage/index.md
   - Python: usage/python.md
   - Shell: usage/shell.md
+  - Tree: usage/tree.md
 - Gallery: gallery.md
 # defer to gen-files + literate-nav
 - Code Reference: reference/

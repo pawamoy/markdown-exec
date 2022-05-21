@@ -20,6 +20,7 @@ from markdown_exec.formatters.markdown import _format_markdown  # noqa: WPS450
 from markdown_exec.formatters.pycon import _format_pycon  # noqa: WPS450
 from markdown_exec.formatters.python import _format_python  # noqa: WPS450
 from markdown_exec.formatters.sh import _format_sh  # noqa: WPS450
+from markdown_exec.formatters.tree import _format_tree  # noqa: WPS450
 
 __all__: list[str] = ["formatter", "validator"]  # noqa: WPS410
 
@@ -33,6 +34,7 @@ formatters = {
     "python": _format_python,
     "pycon": _format_pycon,
     "sh": _format_sh,
+    "tree": _format_tree,
 }
 
 # negative look behind: matches only if | (pipe) if not preceded by \ (backslash)
@@ -55,7 +57,7 @@ def validator(
         Success or not.
     """
     exec_value = _to_bool(inputs.pop("exec", "no"))
-    if not exec_value:
+    if language != "tree" and not exec_value:
         return False
     html_value = _to_bool(inputs.pop("html", "no"))
     source_value = inputs.pop("source", "")
