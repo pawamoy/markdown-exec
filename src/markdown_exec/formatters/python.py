@@ -20,7 +20,7 @@ def _run_python(code: str, **extra: str) -> str:
     exec_globals = {"print": partial(_buffer_print, buffer)}
 
     try:
-        exec(code, {}, exec_globals)  # noqa: S102
+        exec(code, exec_globals)  # noqa: S102
     except Exception as error:
         trace = traceback.TracebackException.from_exception(error)
         for frame in trace.stack:
