@@ -1,4 +1,4 @@
-"""Tests for the Python formatters."""
+"""Tests for the shell formatters."""
 
 from textwrap import dedent
 
@@ -14,8 +14,8 @@ def test_output_markdown(md: Markdown) -> None:
     html = md.convert(
         dedent(
             """
-            ```python exec="yes"
-            print("**Bold!**")
+            ```sh exec="yes"
+            echo "**Bold!**"
             ```
             """
         )
@@ -32,8 +32,8 @@ def test_output_html(md: Markdown) -> None:
     html = md.convert(
         dedent(
             """
-            ```python exec="yes" html="yes"
-            print("**Bold!**")
+            ```sh exec="yes" html="yes"
+            echo "**Bold!**"
             ```
             """
         )
@@ -51,13 +51,11 @@ def test_error_raised(md: Markdown, caplog) -> None:
     html = md.convert(
         dedent(
             """
-            ```python exec="yes"
-            raise ValueError("oh no!")
+            ```sh exec="yes"
+            echo("wrong syntax")
             ```
             """
         )
     )
-    assert "Traceback" in html
-    assert "ValueError" in html
-    assert "oh no!" in html
-    assert "Execution of python code block exited with non-zero status" in caplog.text
+    assert "syntax error near unexpected token" in html
+    assert "Execution of sh code block exited with non-zero status" in caplog.text

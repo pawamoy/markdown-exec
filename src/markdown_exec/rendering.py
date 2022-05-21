@@ -146,7 +146,7 @@ class _MarkdownConverter:
         if not self._md_ref:
             self._md_ref = md
 
-    def convert(self, text: str, stash: dict[str, str]) -> Markup:
+    def convert(self, text: str, stash: dict[str, str] | None = None) -> Markup:
         """Convert Markdown text to safe HTML.
 
         Parameters:
@@ -171,7 +171,7 @@ class _MarkdownConverter:
             md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = ""
 
         # restore html from stash
-        for placeholder, stashed in stash.items():
+        for placeholder, stashed in (stash or {}).items():
             converted = converted.replace(placeholder, stashed)
 
         return Markup(converted)
