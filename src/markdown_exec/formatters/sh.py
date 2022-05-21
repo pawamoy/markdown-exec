@@ -10,9 +10,9 @@ from markdown_exec.rendering import code_block
 
 def _run_sh(code: str, **extra: str) -> str:
     try:
-        output = subprocess.check_output(["sh", "-c", code]).decode()  # noqa: S603,S607
+        output = subprocess.check_output(["sh", "-c", code], stderr=subprocess.STDOUT).decode()  # noqa: S603,S607
     except subprocess.CalledProcessError as error:
-        return code_block("sh", error.output, **extra)
+        raise RuntimeError(code_block("sh", error.output, **extra))
     return output
 
 

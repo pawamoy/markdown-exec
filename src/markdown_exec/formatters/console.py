@@ -10,6 +10,9 @@ from markdown.core import Markdown
 
 from markdown_exec.formatters.sh import _run_sh  # noqa: WPS450
 from markdown_exec.rendering import add_source, code_block, markdown
+from markdown_exec.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def _format_console(  # noqa: WPS231
@@ -30,7 +33,11 @@ def _format_console(  # noqa: WPS231
     sh_code = "\n".join(sh_lines)
 
     extra = options.get("extra", {})
-    output = _run_sh(sh_code, **extra)
+    try:
+        output = _run_sh(sh_code, **extra)
+    except RuntimeError as error:
+        logger.warning("Execution of console code block exited with non-zero status")
+        return markdown.convert(str(error))
     stash = {}
     if html:
         placeholder = str(uuid4())

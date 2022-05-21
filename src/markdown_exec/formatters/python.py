@@ -27,7 +27,7 @@ def _run_python(code: str, **extra: str) -> str:
             if frame.filename == "<string>":
                 frame.filename = "<executed code block>"
                 frame._line = code.split("\n")[frame.lineno - 1]  # type: ignore[attr-defined,operator]  # noqa: WPS437
-        return code_block("python", "".join(trace.format()), **extra)
+        raise RuntimeError(code_block("python", "".join(trace.format()), **extra))
     return buffer.getvalue()
 
 

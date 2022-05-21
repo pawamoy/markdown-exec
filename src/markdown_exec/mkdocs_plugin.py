@@ -1,9 +1,29 @@
 """This module contains an optional plugin for MkDocs."""
 
+import logging
+
 from mkdocs.config import Config, config_options
 from mkdocs.plugins import BasePlugin
 
 from markdown_exec import formatter, formatters, validator
+from markdown_exec.logger import patch_loggers
+
+
+class _LoggerAdapter(logging.LoggerAdapter):
+    def __init__(self, prefix, logger):
+        super().__init__(logger, {})
+        self.prefix = prefix
+
+    def process(self, msg, kwargs):
+        return f"{self.prefix}: {msg}", kwargs
+
+
+def _get_logger(name):
+    logger = logging.getLogger(f"mkdocs.plugins.{name}")
+    return _LoggerAdapter(name.split(".", 1)[0], logger)
+
+
+patch_loggers(_get_logger)
 
 
 class MarkdownExecPlugin(BasePlugin):

@@ -9,6 +9,9 @@ from markdown.core import Markdown
 from markupsafe import Markup
 
 from markdown_exec.rendering import add_source, code_block, markdown
+from markdown_exec.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def base_format(  # noqa: WPS231
@@ -40,7 +43,11 @@ def base_format(  # noqa: WPS231
     """
     markdown.setup(md)
     extra = options.get("extra", {})
-    output = run(code, **extra)
+    try:
+        output = run(code, **extra)
+    except RuntimeError as error:
+        logger.warning(f"Execution of {language} code block exited with non-zero status")
+        return markdown.convert(str(error))
     stash = {}
     if html:
         placeholder = str(uuid4())
