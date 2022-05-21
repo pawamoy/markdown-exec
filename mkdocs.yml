@@ -4,6 +4,7 @@ site_url: "https://pawamoy.github.io/markdown-exec"
 repo_url: "https://github.com/pawamoy/markdown-exec"
 repo_name: "pawamoy/markdown-exec"
 site_dir: "site"
+watch: [README.md, CONTRIBUTING.md, CHANGELOG.md, src/markdown_exec]
 
 nav:
 - Home:
@@ -53,6 +54,7 @@ extra_css:
 - css/mkdocstrings.css
 
 markdown_extensions:
+- admonition
 - callouts:
     strip_period: false
 - pymdownx.emoji
@@ -70,6 +72,7 @@ markdown_extensions:
 
 plugins:
 - search
+- markdown-exec
 - gen-files:
     scripts:
     - docs/gen_ref_nav.py
@@ -77,7 +80,6 @@ plugins:
     nav_file: SUMMARY.md
 - coverage
 - section-index
-- markdown-exec
 - mkdocstrings:
     handlers:
       python:
@@ -93,8 +95,6 @@ plugins:
           members_order: alphabetical
           show_category_heading: no
           merge_init_into_class: yes
-    watch:
-    - src/markdown_exec
 
 extra:
   social:
