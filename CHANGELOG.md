@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.6.0](https://github.com/pawamoy/markdown-exec/releases/tag/0.6.0) - 2022-05-21
+
+<small>[Compare with 0.5.0](https://github.com/pawamoy/markdown-exec/compare/0.5.0...0.6.0)</small>
+
+### Features
+- Add tree formatter ([8096990](https://github.com/pawamoy/markdown-exec/commit/8096990dcbf6795572e5e5afee12195d5a56c6f6) by Timothée Mazzucotelli).
+- Handle code blocks execution errors and log warnings ([34e16db](https://github.com/pawamoy/markdown-exec/commit/34e16db679721db7d1df375912d512b5aed80b1a) by Timothée Mazzucotelli).
+
+### Bug Fixes
+- Fix Python execution to support nested scopes ([74b9a95](https://github.com/pawamoy/markdown-exec/commit/74b9a95ade3862752fb78d6c64be8b9b1d4d3886) by Timothée Mazzucotelli).
+
+
 ## [0.5.0](https://github.com/pawamoy/markdown-exec/releases/tag/0.5.0) - 2022-05-09
 
 <small>[Compare with 0.4.0](https://github.com/pawamoy/markdown-exec/compare/0.4.0...0.5.0)</small>
