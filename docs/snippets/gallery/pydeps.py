@@ -1,4 +1,4 @@
-from pydeps import cli, colors, py2depgraph, dot
+from pydeps import cli, colors, dot, py2depgraph
 from pydeps.pydeps import depgraph_to_dotsrc
 from pydeps.target import Target
 

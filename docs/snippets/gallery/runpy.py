@@ -1,4 +1,3 @@
-import argparse
 import sys
 import warnings
 from contextlib import suppress
@@ -9,7 +8,7 @@ old_argv = list(sys.argv)
 sys.argv = ["mkdocs"]
 old_stdout = sys.stdout
 sys.stdout = StringIO()
-warnings.filterwarnings("ignore", category=RuntimeWarning) 
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 with suppress(SystemExit):
     run_module("mkdocs", run_name="__main__")
 output = sys.stdout.getvalue()

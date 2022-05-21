@@ -1,5 +1,7 @@
 import argparse
+
 from duty.cli import get_parser
+
 parser = get_parser()
 lines = []
 lines.append(f"## duty")

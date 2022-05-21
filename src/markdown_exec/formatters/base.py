@@ -8,8 +8,8 @@ from uuid import uuid4
 from markdown.core import Markdown
 from markupsafe import Markup
 
-from markdown_exec.rendering import add_source, code_block, markdown
 from markdown_exec.logger import get_logger
+from markdown_exec.rendering import add_source, code_block, markdown
 
 logger = get_logger(__name__)
 

@@ -9,8 +9,8 @@ from uuid import uuid4
 from markdown.core import Markdown
 
 from markdown_exec.formatters.python import _run_python  # noqa: WPS450
-from markdown_exec.rendering import add_source, code_block, markdown
 from markdown_exec.logger import get_logger
+from markdown_exec.rendering import add_source, code_block, markdown
 
 logger = get_logger(__name__)
 

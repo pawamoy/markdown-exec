@@ -24,9 +24,5 @@ def md() -> Markdown:
     ]
     return Markdown(
         extensions=["pymdownx.superfences"],
-        extension_configs={
-            "pymdownx.superfences": {
-                "custom_fences": fences
-            }
-        },
+        extension_configs={"pymdownx.superfences": {"custom_fences": fences}},
     )
