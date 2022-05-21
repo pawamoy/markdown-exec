@@ -23,11 +23,17 @@ def get_credits():
             data = metadata(pkg_name)
         except PackageNotFoundError:
             return "?"
-        license = data.get("License", "").replace("UNKNOWN", "")
-        if not license:
+        license = data.get("License", "").strip()
+        multiple_lines = bool(license.count("\n"))
+        author = None
+        if multiple_lines or not license or license == "UNKNOWN":
             for header, value in data.items():
                 if header == "Classifier" and value.startswith("License ::"):
-                    license = value.rsplit("::", 1)[1]
+                    license = value.rsplit("::", 1)[1].strip()
+                elif header == "Author-email":
+                    author = value
+        if license == "Other/Proprietary License" and "pawamoy" in author:
+            license = "ISC"
         return license or "?"
 
     def get_deps(base_deps):
