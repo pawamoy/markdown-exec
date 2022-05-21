@@ -16,7 +16,7 @@ echo $BASH_VERSION
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```console exec="1" source="console"
-$ pdm --version
+$ mkdocs --help
 ```
 ````
 

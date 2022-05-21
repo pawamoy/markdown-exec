@@ -20,23 +20,7 @@ Using SVG is not possible here since Diagrams embeds actual, smaller PNG files
 in the result, files which are not automatically added to the final site.
 
 ```python exec="true" html="true" source="tabbed-right" title="Diagrams"
-from base64 import b64encode
-from contextlib import suppress
-from diagrams import Diagram, setdiagram
-from diagrams.k8s.clusterconfig import HPA
-from diagrams.k8s.compute import Deployment, Pod, ReplicaSet
-from diagrams.k8s.network import Ingress, Service
-
-with suppress(FileNotFoundError):
-    with Diagram("Exposed Pod with 3 Replicas", show=False) as diagram:
-        diagram.render = lambda: None
-        net = Ingress("domain.com") >> Service("svc")
-        net >> [Pod("pod1"),
-                Pod("pod2"),
-                Pod("pod3")] << ReplicaSet("rs") << Deployment("dp") << HPA("hpa")
-        png = b64encode(diagram.dot.pipe(format="png")).decode()
-
-print(f'<img src="data:image/png;base64, {png}"/>')
+--8<-- "gallery/diagrams.py"
 ```
 
 ## Python modules inter-dependencies
@@ -53,39 +37,7 @@ put it in an importable script/module, and reuse it cleanly in your executed
 code blocks.
 
 ```python exec="true" html="true" source="tabbed-right" title="pydeps module dependencies graph"
-from pydeps import cli, colors, py2depgraph, dot
-from pydeps.pydeps import depgraph_to_dotsrc
-from pydeps.target import Target
-
-cli.verbose = cli._not_verbose
-options = cli.parse_args(["src/markdown_exec", "--noshow"])
-colors.START_COLOR = options["start_color"]
-target = Target(options["fname"])
-with target.chdir_work():
-    dep_graph = py2depgraph.py2dep(target, **options)
-dot_src = depgraph_to_dotsrc(target, dep_graph, **options)
-svg = dot.call_graphviz_dot(dot_src, "svg").decode()
-svg = "".join(svg.splitlines()[6:])
-svg = svg.replace('fill="white"', 'fill="transparent"')
-reference = "../reference"
-modules = (
-    "markdown_exec",
-    "markdown_exec.formatters.base",
-    "markdown_exec.formatters.bash",
-    "markdown_exec.formatters.mardown",
-    "markdown_exec.formatters.pycon",
-    "markdown_exec.formatters.python",
-    "markdown_exec.formatters.sh",
-    "markdown_exec.mkdocs_plugin",
-    "markdown_exec.rendering",
-)
-for module in modules:
-    svg_title = module.replace(".", "_")
-    title_tag = f"<title>{svg_title}</title>"
-    href = f"{reference}/{module.replace('.', '/')}/"
-    svg = svg.replace(title_tag, f'<a href="{href}"><title>{module}</title>')
-svg = svg.replace("</text></g>", "</text></a></g>")
-print(svg)
+--8<-- "gallery/pydeps.py"
 ```
 
 ## Code snippets (SVG)
@@ -98,35 +50,15 @@ or by reading it dynamically from Python.
 We also prevent Rich from actually writing to the terminal.
 
 ```python exec="true" html="true" source="tabbed-right" title="Rich SVG code snippet"
-import os
-from rich.console import Console
-from rich.padding import Padding
-from rich.syntax import Syntax
+--8<-- "gallery/rich.py"
+```
 
-code = """
-    from contextlib import asynccontextmanager
-    import httpx
+## Plots
 
+With [Matplotlib](https://matplotlib.org/):
 
-    class BookClient(httpx.AsyncClient):
-        async def get_book(self, book_id: int) -> str:
-            response = await self.get(f"/books/{book_id}")
-            return response.text
-
-
-    @asynccontextmanager
-    async def book_client(*args, **kwargs):
-        async with BookClient(*args, **kwargs) as client:
-            yield client
-"""
-
-with open(os.devnull, "w") as devnull:
-    console = Console(record=True, width=65, file=devnull, markup=False)
-    renderable = Syntax(code, "python", theme="material")
-    renderable = Padding(renderable, (0,), expand=False)
-    console.print(renderable, markup=False)
-svg = console.export_svg(title="async context manager")
-print(svg)
+```python exec="1" html="1" source="tabbed-right" title="matplotlib graph"
+--8<-- "gallery/matplotlib.py"
 ```
 
 ## Python module output
@@ -136,25 +68,7 @@ Python module. This other module's output is captured by temporarily
 patching `sys.stdout` with a text buffer. 
 
 ```python exec="true" source="tabbed-right" title="runpy and script/module output"
-import argparse
-import sys
-import warnings
-from contextlib import suppress
-from io import StringIO
-from runpy import run_module
-
-old_argv = list(sys.argv)
-sys.argv = ["mkdocs"]
-old_stdout = sys.stdout
-sys.stdout = StringIO()
-warnings.filterwarnings("ignore", category=RuntimeWarning) 
-with suppress(SystemExit):
-    run_module("mkdocs", run_name="__main__")
-output = sys.stdout.getvalue()
-sys.stdout = old_stdout
-sys.argv = old_argv
-
-print(f"```\n{output}\n```")
+--8<-- "gallery/runpy.py"
 ```
 
 ## Python CLI documentation
@@ -167,9 +81,7 @@ interface, and if it exposes its parser, then you can get the help message
 directly from the parser.
 
 ```python exec="true" source="tabbed-right" title="argparse parser help message"
-from duty.cli import get_parser
-parser = get_parser()
-print(f"```\n{parser.format_help()}\n```")
+--8<-- "gallery/argparse_format.py"
 ```
 
 ### Argparse parser documentation
@@ -179,24 +91,5 @@ Markdown/HTML contents. We simply use the description and iterate on options,
 but more complex stuff is possible of course.
 
 ```python exec="true" source="tabbed-right" title="CLI help using argparse parser"
-import argparse
-from duty.cli import get_parser
-parser = get_parser()
-lines = []
-lines.append(f"## duty")
-if parser.description:
-    lines.append(parser.description)
-lines.append("\nOptions:\n")
-for action in parser._actions:
-    opts = [f"`{opt}`" for opt in action.option_strings]
-    if not opts:
-        continue
-    line = "- " + ",".join(opts)
-    if action.metavar:
-        line += f" `{action.metavar}`"
-    line += f": {action.help}"
-    if action.default and action.default != argparse.SUPPRESS:
-        line += f"(default: {action.default})"
-    lines.append(line)
-print("\n".join(lines))
+--8<-- "gallery/argparse.py"
 ```

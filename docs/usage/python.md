@@ -9,7 +9,7 @@ so we can execute them.
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```pycon exec="1" source="console"
---8<-- "source.pycon"
+--8<-- "usage/source.pycon"
 ```
 ````
 
@@ -18,6 +18,6 @@ as well as their output:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```pycon exec="1" source="console"
---8<-- "multiple.pycon"
+--8<-- "usage/multiple.pycon"
 ```
 ````

@@ -66,6 +66,7 @@ docs = [
     "markdown-callouts>=0.2.0",
     "diagrams>=0.21.1",
     "rich>=12.3.0",
+    "matplotlib>=3.5.2",
 ]
 format = [
     "autoflake>=1.4",
@@ -94,7 +95,6 @@ tests = [
     "pytest>=6.2",
     "pytest-cov>=3.0",
     "pytest-randomly>=3.10",
-    "pytest-sugar>=0.9",
     "pytest-xdist>=2.4",
 ]
 typing = [

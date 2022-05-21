@@ -12,7 +12,7 @@ HTML Example:
 System information:
 
 ```python exec="true" html="true"
---8<-- "platform_html.py"
+--8<-- "usage/platform_html.py"
 ```
 ````
 
@@ -22,7 +22,7 @@ Markdown Example:
 System information:
 
 ```python exec="true"
---8<-- "platform_md.py"
+--8<-- "usage/platform_md.py"
 ```
 ````
 
@@ -43,7 +43,7 @@ with one of the following values:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```python exec="true" source="above"
---8<-- "source.py"
+--8<-- "usage/source.py"
 ```
 ````
 
@@ -53,7 +53,7 @@ with one of the following values:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```python exec="true" source="below"
---8<-- "source.py"
+--8<-- "usage/source.py"
 ```
 ````
 
@@ -63,7 +63,7 @@ with one of the following values:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```python exec="true" source="material-block"
---8<-- "source.py"
+--8<-- "usage/source.py"
 ```
 ````
 
@@ -73,7 +73,7 @@ with one of the following values:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```python exec="true" source="tabbed-left"
---8<-- "source.py"
+--8<-- "usage/source.py"
 ```
 ````
 
@@ -83,7 +83,7 @@ with one of the following values:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```python exec="true" source="tabbed-right"
---8<-- "source.py"
+--8<-- "usage/source.py"
 ```
 ````
 
@@ -94,7 +94,7 @@ with one of the following values:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```pycon exec="true" source="console"
---8<-- "source.pycon"
+--8<-- "usage/source.pycon"
 ```
 ````
 
@@ -106,7 +106,7 @@ You can customize the titles with the `tabs` option:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```python exec="1" source="tabbed-left" tabs="Source code|Output"
---8<-- "source.py"
+--8<-- "usage/source.py"
 ```
 ````
 
@@ -116,7 +116,7 @@ simply escape it with `\|`:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```python exec="1" source="tabbed-left" tabs="OR operator: a \|\|b | Boolean matrix"
---8<-- "boolean_matrix.py"
+--8<-- "usage/boolean_matrix.py"
 ```
 ````
 
@@ -161,7 +161,7 @@ Example:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```python exec="1" source="above" title="source.py"
---8<-- "source.py"
+--8<-- "usage/source.py"
 ```
 ````
 
