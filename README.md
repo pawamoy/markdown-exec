@@ -86,5 +86,5 @@ The `exec` option will be true for every possible value except `0`, `no`, `off` 
 To capture the output of your code, Markdown Exec patches the `print`
 function so that it writes to a buffer instead of standard output.
 
-See [usage](https://pawamoy.github.io/markdown-exec/) for more details,
+See [usage](https://pawamoy.github.io/markdown-exec/usage/) for more details,
 and the [gallery](https://pawamoy.github.io/markdown-exec/gallery/) for more examples!

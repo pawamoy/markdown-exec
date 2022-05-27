@@ -115,7 +115,7 @@ so you can add space around the pipe. If you need to use that character in a tit
 simply escape it with `\|`:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
-```python exec="1" source="tabbed-left" tabs="OR operator: a \|\|b | Boolean matrix"
+```python exec="1" source="tabbed-left" tabs="OR operator: a \|\| b | Boolean matrix"
 --8<-- "usage/boolean_matrix.py"
 ```
 ````
