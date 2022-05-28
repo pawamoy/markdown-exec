@@ -43,6 +43,10 @@ def tabbed(*tabs: tuple[str, str]) -> str:
     return "\n".join(parts)
 
 
+def _hide_lines(source: str) -> str:
+    return "\n".join(line for line in source.split("\n") if "markdown-exec: hide" not in line).strip()
+
+
 def add_source(  # noqa: WPS212
     *,
     source: str,
@@ -68,6 +72,7 @@ def add_source(  # noqa: WPS212
     Returns:
         The updated output.
     """
+    source = _hide_lines(source)
     if location == "console":
         return code_block(language, source + "\n" + output, **extra)
 

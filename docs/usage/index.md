@@ -98,6 +98,23 @@ with one of the following values:
 ```
 ````
 
+## Hiding lines from the source
+
+Every line that contains the string `markdown-exec: hide` will be hidden from the
+displayed source.
+
+=== "Markdown"
+    ````md
+    ```python exec="true" source="above"
+    --8<-- "usage/hide.py"
+    ```
+    ````
+
+=== "Rendered"
+    ```python exec="true" source="above"
+    --8<-- "usage/hide.py"
+    ```
+
 ## Change the titles of tabs
 
 In the previous example, we didn't specify any title for tabs,
