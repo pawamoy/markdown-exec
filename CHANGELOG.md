@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.7.0](https://github.com/pawamoy/markdown-exec/releases/tag/0.7.0) - 2022-05-28
+
+<small>[Compare with 0.6.0](https://github.com/pawamoy/markdown-exec/compare/0.6.0...0.7.0)</small>
+
+### Features
+- Add ability to hide source lines ([3cb1934](https://github.com/pawamoy/markdown-exec/commit/3cb19345fa2b65478ac439b5f486d04bf5ff5337) by Timothée Mazzucotelli).
+
+
 ## [0.6.0](https://github.com/pawamoy/markdown-exec/releases/tag/0.6.0) - 2022-05-21
 
 <small>[Compare with 0.5.0](https://github.com/pawamoy/markdown-exec/compare/0.5.0...0.6.0)</small>
