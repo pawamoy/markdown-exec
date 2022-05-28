@@ -1,4 +1,5 @@
 from io import StringIO
+
 import pytermgui as ptg
 
 code = """

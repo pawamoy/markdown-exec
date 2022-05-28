@@ -8,6 +8,7 @@ os.environ["TEXTUAL_SCREENSHOT"] = "0.1"
 os.environ["COLUMNS"] = "80"
 os.environ["LINES"] = "24"
 
+
 class TextApp(App):
     CSS = """
     Screen {
@@ -27,6 +28,7 @@ class TextApp(App):
     def compose(self) -> ComposeResult:
         yield Static("Hello")
         yield Static("[b]World![/b]")
+
 
 app = TextApp()
 app.run()
