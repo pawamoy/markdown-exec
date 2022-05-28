@@ -53,6 +53,18 @@ We also prevent Rich from actually writing to the terminal.
 --8<-- "gallery/rich.py"
 ```
 
+## TUI screenshots
+
+[Textual](https://github.com/Textualize/textual) allows to build Terminal User Interfaces (TUIs).
+In this example we generate the SVG image of a terminal interface.
+
+WARNING: **Not released yet.**  
+The code in this example is using the CSS branch of Textual, which is not yet merged/released.
+
+```python exec="1" html="true" source="tabbed-right" tabs="Source|Result"
+--8<-- "gallery/textual.py"
+```
+
 ## Charts and Plots
 
 With [Matplotlib](https://matplotlib.org/):
