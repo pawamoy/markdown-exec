@@ -53,7 +53,7 @@ We also prevent Rich from actually writing to the terminal.
 --8<-- "gallery/rich.py"
 ```
 
-## Plots
+## Charts and Plots
 
 With [Matplotlib](https://matplotlib.org/):
 
