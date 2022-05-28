@@ -40,7 +40,7 @@ code blocks.
 --8<-- "gallery/pydeps.py"
 ```
 
-## Code snippets (SVG)
+## Code snippets
 
 [Rich](https://github.com/Textualize/rich) allows to export syntax-highlighted code as SVG.
 Here we hardcode the code snippet we want to render, but we could instead include it
@@ -52,6 +52,19 @@ We also prevent Rich from actually writing to the terminal.
 ```python exec="true" html="true" source="tabbed-right" title="Rich SVG code snippet"
 --8<-- "gallery/rich.py"
 ```
+
+<!-- Similarly, [PyTermGUI](https://github.com/bczsalba/pytermgui) also allows
+to export syntax-highlighted code as SVG.
+
+```python exec="true" html="true" source="tabbed-right" title="PyTermGUI SVG code snippet"
+--8<-- "gallery/pytermgui.py"
+```
+
+TIP: There's a PyTermGUI-dedicated MkDocs plugin that allows
+to generate SVGs on-the-fly: [Termage](https://github.com/bczsalba/Termage).
+It is implemented using regular expressions in the `on_markdown` event of MkDocs,
+so is probably less robust than our actual SuperFence implementation here,
+but also allows for less verbose source to generate the SVG snippets. -->
 
 ## TUI screenshots
 
