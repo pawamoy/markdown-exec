@@ -53,21 +53,18 @@ We also prevent Rich from actually writing to the terminal.
 --8<-- "gallery/rich.py"
 ```
 
-<!--
-
 Similarly, [PyTermGUI](https://github.com/bczsalba/pytermgui) also allows
 to export syntax-highlighted code as SVG.
 
-python exec="true" html="true" source="tabbed-right" title="PyTermGUI SVG code snippet"
+```python exec="true" html="true" source="tabbed-right" title="PyTermGUI SVG code snippet"
 --8<-- "gallery/pytermgui.py"
+```
 
 TIP: There's a PyTermGUI-dedicated MkDocs plugin that allows
 to generate SVGs on-the-fly: [Termage](https://github.com/bczsalba/Termage).
 It is implemented using regular expressions in the `on_markdown` event of MkDocs,
 so is probably less robust than our actual SuperFence implementation here,
 but also allows for less verbose source to generate the SVG snippets.
-
--->
 
 ## TUI screenshots
 
