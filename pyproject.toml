@@ -45,8 +45,10 @@ Funding = "https://github.com/sponsors/pawamoy"
 [project.entry-points."mkdocs.plugins"]
 markdown-exec = "markdown_exec.mkdocs_plugin:MarkdownExecPlugin"
 
-[tool.pdm.build]
+[tool.pdm]
 version = {source = "scm"}
+
+[tool.pdm.build]
 package-dir = "src"
 editable-backend = "editables"
 
@@ -66,7 +68,7 @@ docs = [
     "diagrams>=0.21.1",
     "rich>=12.3.0",
     "matplotlib>=3.5.2",
-    "textual @ git+https://github.com/Textualize/textual@css",
+    "textual[dev] @ git+https://github.com/Textualize/textual@css",
     "pytermgui>=6.3; python_version >= '3.8'",
     "aiohttp>=3.8.1",  # remove once textual depends on it
 ]
