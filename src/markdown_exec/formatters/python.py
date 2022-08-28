@@ -11,8 +11,8 @@ from markdown_exec.formatters.base import base_format
 from markdown_exec.rendering import code_block
 
 
-def _buffer_print(buffer: StringIO, *text: str, end: str = "\n", **kwargs: Any) -> None:
-    buffer.write(" ".join(text) + end)
+def _buffer_print(buffer: StringIO, *texts: str, end: str = "\n", **kwargs: Any) -> None:
+    buffer.write(" ".join(str(text) for text in texts) + end)
 
 
 def _run_python(code: str, **extra: str) -> str:
