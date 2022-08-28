@@ -57,5 +57,5 @@ def test_error_raised(md: Markdown, caplog) -> None:
             """
         )
     )
-    assert "syntax error near unexpected token" in html
+    assert "error" in html
     assert "Execution of sh code block exited with non-zero status" in caplog.text
