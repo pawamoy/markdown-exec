@@ -128,6 +128,7 @@ class _IdPrependingTreeprocessor(Treeprocessor):
 
 
 def _mimic(md: Markdown) -> Markdown:
+    md = getattr(md, "_original_md", md)
     new_md = Markdown()  # noqa: WPS442
     new_md.registerExtensions(md.registeredExtensions + ["tables", "md_in_html"], {})
     new_md.treeprocessors.register(
@@ -135,21 +136,17 @@ def _mimic(md: Markdown) -> Markdown:
         _IdPrependingTreeprocessor.name,
         priority=4,  # right after 'toc' (needed because that extension adds ids to headers)
     )
+    new_md._original_md = md  # type: ignore[attr-defined]  # noqa: WPS437
     return new_md
 
 
-class _MarkdownConverter:
+class MarkdownConverter:
     """Helper class to avoid breaking the original Markdown instance state."""
 
-    def __init__(self) -> None:  # noqa: D107
-        self._md_ref: Markdown = None  # type: ignore[assignment]
-        self._md_stack: list[Markdown] = []
-        self._counter: int = 0
-        self._level: int = 0
+    counter: int = 0
 
-    def setup(self, md: Markdown) -> None:
-        if not self._md_ref:
-            self._md_ref = md
+    def __init__(self, md: Markdown) -> None:  # noqa: D107
+        self._md_ref: Markdown = md
 
     def convert(self, text: str, stash: dict[str, str] | None = None) -> Markup:
         """Convert Markdown text to safe HTML.
@@ -161,18 +158,15 @@ class _MarkdownConverter:
         Returns:
             Safe HTML.
         """
-        # store current md instance
-        md = self._md
-        self._level += 1
+        md = _mimic(self._md_ref)
 
         # prepare for conversion
-        md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = f"exec-{self._counter}--"
-        self._counter += 1
+        md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = f"exec-{MarkdownConverter.counter}--"
+        MarkdownConverter.counter += 1
 
         try:  # noqa: WPS501
             converted = md.convert(text)
         finally:
-            self._level -= 1
             md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = ""
 
         # restore html from stash
@@ -180,15 +174,3 @@ class _MarkdownConverter:
             converted = converted.replace(placeholder, stashed)
 
         return Markup(converted)
-
-    @property
-    def _md(self) -> Markdown:
-        try:
-            return self._md_stack[self._level]
-        except IndexError:
-            self._md_stack.append(_mimic(self._md_ref))
-            return self._md
-
-
-# provide a singleton
-markdown = _MarkdownConverter()

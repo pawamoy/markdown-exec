@@ -7,7 +7,7 @@ from typing import Any
 
 from markdown import Markdown
 
-from markdown_exec.rendering import code_block, markdown
+from markdown_exec.rendering import MarkdownConverter, code_block
 
 
 def _rec_build_tree(lines: list[str], parent: list, offset: int, base_indent: int):
@@ -62,6 +62,6 @@ def _format_tree(  # noqa: WPS231
     tabs: tuple[str, str],
     **options: Any,
 ) -> str:
-    markdown.setup(md)
+    markdown = MarkdownConverter(md)
     output = "\n".join(_rec_format_tree(_build_tree(code)))
     return markdown.convert(code_block(result or "bash", output))

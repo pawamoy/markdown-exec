@@ -10,7 +10,7 @@ from markdown.core import Markdown
 
 from markdown_exec.formatters.python import _run_python  # noqa: WPS450
 from markdown_exec.logger import get_logger
-from markdown_exec.rendering import add_source, code_block, markdown
+from markdown_exec.rendering import MarkdownConverter, add_source, code_block
 
 logger = get_logger(__name__)
 
@@ -24,7 +24,7 @@ def _format_pycon(  # noqa: WPS231
     tabs: tuple[str, str],
     **options: Any,
 ) -> str:
-    markdown.setup(md)
+    markdown = MarkdownConverter(md)
 
     python_lines = []
     for line in code.split("\n"):
