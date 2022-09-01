@@ -177,7 +177,7 @@ def check_docs(ctx):
     """
     Path("htmlcov").mkdir(parents=True, exist_ok=True)
     Path("htmlcov/index.html").touch(exist_ok=True)
-    ctx.run("mkdocs build -s", title="Building documentation", pty=PTY)
+    ctx.run("mkdocs build -vs", title="Building documentation", pty=False)
 
 
 @duty  # noqa: WPS231
