@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.7.2](https://github.com/pawamoy/markdown-exec/releases/tag/0.7.2) - 2022-09-01
+
+<small>[Compare with 0.7.1](https://github.com/pawamoy/markdown-exec/compare/0.7.1...0.7.2)</small>
+
+### Bug Fixes
+- Make `tree` formatter forward extra options ([54996a9](https://github.com/pawamoy/markdown-exec/commit/54996a9bc2c803bb8c9de0861af69723ddb000fa) by Timothée Mazzucotelli).
+- Fix race condition issue ([37d7f86](https://github.com/pawamoy/markdown-exec/commit/37d7f86eeaa73029ae89c1c5d07146d2387b10d3) by Timothée Mazzucotelli).
+
+
 ## [0.7.1](https://github.com/pawamoy/markdown-exec/releases/tag/0.7.1) - 2022-08-28
 
 <small>[Compare with 0.7.0](https://github.com/pawamoy/markdown-exec/compare/0.7.0...0.7.1)</small>
