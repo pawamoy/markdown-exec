@@ -64,4 +64,4 @@ def _format_tree(  # noqa: WPS231
 ) -> str:
     markdown = MarkdownConverter(md)
     output = "\n".join(_rec_format_tree(_build_tree(code)))
-    return markdown.convert(code_block(result or "bash", output))
+    return markdown.convert(code_block(result or "bash", output, **options.get("extra", {})))
