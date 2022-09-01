@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from itertools import chain
 from textwrap import indent
 from xml.etree.ElementTree import Element
 
@@ -130,7 +131,8 @@ class _IdPrependingTreeprocessor(Treeprocessor):
 def _mimic(md: Markdown) -> Markdown:
     md = getattr(md, "_original_md", md)
     new_md = Markdown()  # noqa: WPS442
-    new_md.registerExtensions(md.registeredExtensions + ["tables", "md_in_html"], {})
+    extensions = list(chain(md.registeredExtensions, ["tables", "md_in_html"]))
+    new_md.registerExtensions(extensions, {})
     new_md.treeprocessors.register(
         _IdPrependingTreeprocessor(md, ""),
         _IdPrependingTreeprocessor.name,
