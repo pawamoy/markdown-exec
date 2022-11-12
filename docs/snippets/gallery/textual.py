@@ -1,12 +1,6 @@
-import os
-
 from textual.app import App, ComposeResult
+from textual.pilot import Pilot
 from textual.widgets import Static
-
-os.environ["TEXTUAL"] = "headless"
-os.environ["TEXTUAL_SCREENSHOT"] = "0.1"
-os.environ["COLUMNS"] = "80"
-os.environ["LINES"] = "24"
 
 
 class TextApp(App):
@@ -30,6 +24,8 @@ class TextApp(App):
         yield Static("[b]World![/b]")
 
 
-app = TextApp()
-app.run()
-print(app.export_screenshot())
+async def auto_pilot(pilot: Pilot):
+    pilot.app.exit(pilot.app.export_screenshot())
+
+
+print(TextApp().run(headless=True, size=(80, 24), auto_pilot=auto_pilot))
