@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.7.3](https://github.com/pawamoy/markdown-exec/releases/tag/0.7.3) - 2022-11-13
+
+<small>[Compare with 0.7.2](https://github.com/pawamoy/markdown-exec/compare/0.7.2...0.7.3)</small>
+
+### Bug Fixes
+- Don't wrap HTML in `p` tag ([420d79d](https://github.com/pawamoy/markdown-exec/commit/420d79d67c2a6bdc925b3bc3d89790258f922317) by Timothée Mazzucotelli).
+
+
 ## [0.7.2](https://github.com/pawamoy/markdown-exec/releases/tag/0.7.2) - 2022-09-01
 
 <small>[Compare with 0.7.1](https://github.com/pawamoy/markdown-exec/compare/0.7.1...0.7.2)</small>
