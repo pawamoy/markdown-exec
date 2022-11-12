@@ -48,13 +48,17 @@ def base_format(  # noqa: WPS231
     except RuntimeError as error:
         logger.warning(f"Execution of {language} code block exited with non-zero status")
         return markdown.convert(str(error))
-    stash = {}
-    if html:
+    if html and source:
         placeholder = str(uuid4())
-        stash[placeholder] = output
-        output = placeholder
+        wrapped_output = add_source(
+            source=code, location=source, output=placeholder, language=language, tabs=tabs, **extra
+        )
+        markup = markdown.convert(wrapped_output, stash={placeholder: output})
+    elif html:
+        markup = Markup(output)
     elif result:
-        output = code_block(result, output)
-    if source:
-        output = add_source(source=code, location=source, output=output, language=language, tabs=tabs, **extra)
-    return markdown.convert(output, stash=stash)
+        wrapped_output = code_block(result, output)
+        markup = markdown.convert(wrapped_output)
+    else:
+        markup = markdown.convert(output)
+    return markup
