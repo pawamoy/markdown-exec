@@ -68,9 +68,9 @@ docs = [
     "diagrams>=0.21.1",
     "rich>=12.3.0",
     "matplotlib>=3.5.2",
-    "textual[dev] @ git+https://github.com/Textualize/textual@css",
+    "numpy>=1.23; python_version >= '3.8'",
+    "textual[dev]",
     "pytermgui>=6.3; python_version >= '3.8'",
-    "aiohttp>=3.8.1",  # remove once textual depends on it
 ]
 format = [
     "autoflake>=1.4",
