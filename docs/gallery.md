@@ -68,6 +68,15 @@ so is probably less robust than our actual SuperFence implementation here,
 but also allows for less verbose source to generate the SVG snippets.
 -->
 
+## Terminal output with colors
+
+We use Rich again to render the output of a command in a terminal, with colors.
+This example is taken directly from the documentation of the [Griffe](https://github.com/mkdocstrings/griffe) project.
+
+```python exec="true" html="true" source="tabbed-right" title="Rich terminal output"
+--8<-- "gallery/rich_terminal.py"
+```
+
 ## TUI screenshots
 
 [Textual](https://github.com/Textualize/textual) allows to build Terminal User Interfaces (TUIs).
