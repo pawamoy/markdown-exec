@@ -169,6 +169,8 @@ def check_dependencies(ctx):
         )
         if vulns:
             print(output_report)
+            return False
+        return True
 
     ctx.run(safety, title="Checking dependencies")
 
