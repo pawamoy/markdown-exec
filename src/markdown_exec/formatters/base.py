@@ -43,22 +43,27 @@ def base_format(  # noqa: WPS231
     """
     markdown = MarkdownConverter(md)
     extra = options.get("extra", {})
+
     try:
         output = run(code, **extra)
     except RuntimeError as error:
         logger.warning(f"Execution of {language} code block exited with non-zero status")
         return markdown.convert(str(error))
-    if html and source:
-        placeholder = str(uuid4())
-        wrapped_output = add_source(
-            source=code, location=source, output=placeholder, language=language, tabs=tabs, **extra
-        )
-        markup = markdown.convert(wrapped_output, stash={placeholder: output})
-    elif html:
-        markup = Markup(output)
-    elif result:
+
+    if html:
+        if source:
+            placeholder = str(uuid4())
+            wrapped_output = add_source(
+                source=code, location=source, output=placeholder, language=language, tabs=tabs, **extra
+            )
+            return markdown.convert(wrapped_output, stash={placeholder: output})
+        return Markup(output)
+
+    wrapped_output = output
+    if result:
         wrapped_output = code_block(result, output)
-        markup = markdown.convert(wrapped_output)
-    else:
-        markup = markdown.convert(output)
-    return markup
+    if source:
+        wrapped_output = add_source(
+            source=code, location=source, output=wrapped_output, language=language, tabs=tabs, **extra
+        )
+    return markdown.convert(wrapped_output)
