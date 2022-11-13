@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.7.4](https://github.com/pawamoy/markdown-exec/releases/tag/0.7.4) - 2022-11-13
+
+<small>[Compare with 0.7.3](https://github.com/pawamoy/markdown-exec/compare/0.7.3...0.7.4)</small>
+
+### Bug Fixes
+- Render source for non-HTML output (regression) ([3028dcd](https://github.com/pawamoy/markdown-exec/commit/3028dcd4f20f94b578995c326fd68d53a6dc3638) by Timothée Mazzucotelli).
+
+
 ## [0.7.3](https://github.com/pawamoy/markdown-exec/releases/tag/0.7.3) - 2022-11-13
 
 <small>[Compare with 0.7.2](https://github.com/pawamoy/markdown-exec/compare/0.7.2...0.7.3)</small>
