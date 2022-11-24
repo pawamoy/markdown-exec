@@ -194,6 +194,69 @@ Example:
 ```
 ````
 
+## Handling errors
+
+Code blocks execution can fail.
+For example, your Python code may raise exceptions,
+or your shell code may return a non-zero exit code.
+
+In these cases, the exception and traceback (Python),
+or the standard error message (shell) will be rendered
+instead of the result, and a warning will be logged.
+
+Example of failing code:
+
+````md
+```python exec="true"
+print("hello")
+assert 1 + 1 == 11
+```
+````
+
+```text title="MkDocs output"
+WARNING  -  markdown_exec: Execution of python code block exited with non-zero status
+```
+
+```python title="Rendered traceback"
+Traceback (most recent call last):
+  File "/path/to/markdown_exec/formatters/python.py", line 23, in _run_python
+    exec(code, exec_globals)  # noqa: S102
+  File "<executed code block>", line 2, in <module>
+    assert 1 + 1 == 11
+AssertionError
+```
+
+With many executed code blocks in your docs,
+it will be hard to know which code block failed exactly.
+To make it easier, you can set an ID on each code block
+with the `id` option, and this ID will be shown in the logs:
+
+````md
+```python exec="true" id="print hello"
+print("hello")
+assert 1 + 1 == 11
+```
+````
+
+```text title="MkDocs output"
+WARNING  -  markdown_exec: Execution of python code block 'print hello' exited with non-zero status
+```
+
+> TIP: **Titles act as IDs as well!**  
+> You *don't need* to provide an ID
+> if you already set a (Material for MkDocs) title:
+>
+> ````md
+> ```python exec="true" title="print world"
+> print("world")
+> assert 1 + 1 == 11
+> ```
+> ````
+>
+> ```text title="MkDocs output"
+> WARNING  -  markdown_exec: Execution of python code block 'print world' exited with non-zero status
+> ```
+
 ## Literate Markdown
 
 With this extension, it is also possible to write "literate programming" Markdown.
