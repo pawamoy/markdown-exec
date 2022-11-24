@@ -3,49 +3,25 @@
 from __future__ import annotations
 
 import textwrap
-from typing import Any
-from uuid import uuid4
 
-from markdown.core import Markdown
+from markupsafe import Markup
 
+from markdown_exec.formatters.base import base_format
 from markdown_exec.formatters.sh import _run_sh  # noqa: WPS450
 from markdown_exec.logger import get_logger
-from markdown_exec.rendering import MarkdownConverter, add_source, code_block
 
 logger = get_logger(__name__)
 
 
-def _format_console(  # noqa: WPS231
-    code: str,
-    md: Markdown,
-    html: bool,
-    source: str,
-    result: str,
-    tabs: tuple[str, str],
-    **options: Any,
-) -> str:
-    markdown = MarkdownConverter(md)
-
+def _transform_source(code: str) -> tuple[str, str]:
     sh_lines = []
     for line in code.split("\n"):
-        if line.startswith("$ "):
+        prompt = line[:2]
+        if prompt in {"$ ", "% "}:
             sh_lines.append(line[2:])
     sh_code = "\n".join(sh_lines)
+    return sh_code, textwrap.indent(sh_code, prompt)
 
-    extra = options.get("extra", {})
-    try:
-        output = _run_sh(sh_code, **extra)
-    except RuntimeError as error:
-        logger.warning("Execution of console code block exited with non-zero status")
-        return markdown.convert(str(error))
-    stash = {}
-    if html:
-        placeholder = str(uuid4())
-        stash[placeholder] = output
-        output = placeholder
-    elif result:
-        output = code_block(result, output)
-    if source:
-        source_code = textwrap.indent(sh_code, "$ ")
-        output = add_source(source=source_code, location=source, output=output, language="console", tabs=tabs, **extra)
-    return markdown.convert(output, stash=stash)
+
+def _format_console(*args, **kwargs) -> Markup:
+    return base_format("console", _run_sh, *args, transform_source=_transform_source, **kwargs)  # type: ignore[misc]

@@ -23,6 +23,7 @@ def base_format(  # noqa: WPS231
     source: str,
     result: str,
     tabs: tuple[str, str],
+    transform_source: Callable[[str], tuple[str, str]] | None = None,
     **options: Any,
 ) -> Markup:
     """Execute code and return HTML.
@@ -36,6 +37,9 @@ def base_format(  # noqa: WPS231
         source: Whether to show source as well, and where.
         result: If provided, use as language to format result in a code block.
         tabs: Titles of tabs (if used).
+        transform_source: An optional callable that returns transformed versions of the source.
+            The input source is the one that is ran, the output source is the one that is
+            rendered (when the source option is enabled).
         **options: Additional options passed from the formatter.
 
     Returns:
@@ -44,8 +48,14 @@ def base_format(  # noqa: WPS231
     markdown = MarkdownConverter(md)
     extra = options.get("extra", {})
 
+    if transform_source:
+        source_input, source_output = transform_source(code)
+    else:
+        source_input = code
+        source_output = code
+
     try:
-        output = run(code, **extra)
+        output = run(source_input, **extra)
     except RuntimeError as error:
         logger.warning(f"Execution of {language} code block exited with non-zero status")
         return markdown.convert(str(error))
@@ -54,7 +64,7 @@ def base_format(  # noqa: WPS231
         if source:
             placeholder = str(uuid4())
             wrapped_output = add_source(
-                source=code, location=source, output=placeholder, language=language, tabs=tabs, **extra
+                source=source_output, location=source, output=placeholder, language=language, tabs=tabs, **extra
             )
             return markdown.convert(wrapped_output, stash={placeholder: output})
         return Markup(output)
@@ -64,6 +74,6 @@ def base_format(  # noqa: WPS231
         wrapped_output = code_block(result, output)
     if source:
         wrapped_output = add_source(
-            source=code, location=source, output=wrapped_output, language=language, tabs=tabs, **extra
+            source=source_output, location=source, output=wrapped_output, language=language, tabs=tabs, **extra
         )
     return markdown.convert(wrapped_output)

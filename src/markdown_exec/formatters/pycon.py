@@ -3,49 +3,24 @@
 from __future__ import annotations
 
 import textwrap
-from typing import Any
-from uuid import uuid4
 
-from markdown.core import Markdown
+from markupsafe import Markup
 
+from markdown_exec.formatters.base import base_format
 from markdown_exec.formatters.python import _run_python  # noqa: WPS450
 from markdown_exec.logger import get_logger
-from markdown_exec.rendering import MarkdownConverter, add_source, code_block
 
 logger = get_logger(__name__)
 
 
-def _format_pycon(  # noqa: WPS231
-    code: str,
-    md: Markdown,
-    html: bool,
-    source: str,
-    result: str,
-    tabs: tuple[str, str],
-    **options: Any,
-) -> str:
-    markdown = MarkdownConverter(md)
-
+def _transform_source(code: str) -> tuple[str, str]:
     python_lines = []
     for line in code.split("\n"):
         if line.startswith(">>> "):
             python_lines.append(line[4:])
     python_code = "\n".join(python_lines)
+    return python_code, textwrap.indent(python_code, ">>> ")
 
-    extra = options.get("extra", {})
-    try:
-        output = _run_python(python_code, **extra)
-    except RuntimeError as error:
-        logger.warning("Execution of pycon code block exited with non-zero status")
-        return markdown.convert(str(error))
-    stash = {}
-    if html:
-        placeholder = str(uuid4())
-        stash[placeholder] = output
-        output = placeholder
-    elif result:
-        output = code_block(result, output)
-    if source:
-        source_code = textwrap.indent(python_code, ">>> ")
-        output = add_source(source=source_code, location=source, output=output, language="pycon", tabs=tabs, **extra)
-    return markdown.convert(output, stash=stash)
+
+def _format_pycon(*args, **kwargs) -> Markup:
+    return base_format("console", _run_python, *args, transform_source=_transform_source, **kwargs)  # type: ignore[misc]
