@@ -1,5 +1,17 @@
 # Usage
 
+Once the extension is configured (see README/Overview),
+you can execute code blocks by enabling the `exec` option:
+
+````md
+```python exec="on"
+print("Hello Markdown!")
+```
+````
+
+The `exec` option will be true for every possible value
+except `0`, `no`, `off` and `false` (case insensitive).
+
 ## HTML vs. Markdown
 
 By default, Markdown Exec will render what you print as Markdown.
@@ -213,7 +225,7 @@ That makes for a very meta-markdown markup:
 > `````
 >
 > In fact, all the examples on this page were generated using this method!
-> Check out the source here: https://github.com/pawamoy/markdown-exec/blob/master/docs/usage.md
+> Check out the source here: https://github.com/pawamoy/markdown-exec/blob/master/docs/usage/index.md
 > (click on "Raw" to see the code blocks execution options).
 
 Of course "executing" Markdown (or rather, making it "literate") only makes sense when the source is shown as well.
