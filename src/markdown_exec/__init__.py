@@ -59,12 +59,13 @@ def validator(
     exec_value = _to_bool(inputs.pop("exec", "no"))
     if language != "tree" and not exec_value:
         return False
+    id_value = inputs.pop("id", "")
     html_value = _to_bool(inputs.pop("html", "no"))
     source_value = inputs.pop("source", "")
     result_value = inputs.pop("result", "")
     tabs_value = inputs.pop("tabs", "Source|Result")
     tabs = tuple(_tabs_re.split(tabs_value, maxsplit=1))
-    options["exec"] = exec_value
+    options["id"] = id_value
     options["html"] = html_value
     options["source"] = source_value
     options["result"] = result_value

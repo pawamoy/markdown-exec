@@ -23,6 +23,7 @@ def base_format(  # noqa: WPS231
     source: str,
     result: str,
     tabs: tuple[str, str],
+    id: str,  # noqa: A002,VNE003
     transform_source: Callable[[str], tuple[str, str]] | None = None,
     **options: Any,
 ) -> Markup:
@@ -37,6 +38,7 @@ def base_format(  # noqa: WPS231
         source: Whether to show source as well, and where.
         result: If provided, use as language to format result in a code block.
         tabs: Titles of tabs (if used).
+        id: An optional ID for the code block (useful when warning about errors).
         transform_source: An optional callable that returns transformed versions of the source.
             The input source is the one that is ran, the output source is the one that is
             rendered (when the source option is enabled).
@@ -57,7 +59,9 @@ def base_format(  # noqa: WPS231
     try:
         output = run(source_input, **extra)
     except RuntimeError as error:
-        logger.warning(f"Execution of {language} code block exited with non-zero status")
+        identifier = id or extra.get("title", "")
+        identifier = identifier and f"'{identifier}' "
+        logger.warning(f"Execution of {language} code block {identifier}exited with non-zero status")
         return markdown.convert(str(error))
 
     if html:

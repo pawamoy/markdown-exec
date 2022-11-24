@@ -13,7 +13,7 @@ def test_no_p_around_html(md: Markdown) -> None:
         md: A Markdown instance (fixture).
     """
     code = "<pre><code>hello</code></pre>"
-    html = base_format("whatever", lambda _: _, code, md, html=True, source="", result="", tabs=("", ""))
+    html = base_format("whatever", lambda _: _, code, md, id="", html=True, source="", result="", tabs=("", ""))
     assert html == code
 
 
@@ -25,5 +25,5 @@ def test_render_source(md: Markdown, html: bool) -> None:
         md: A Markdown instance (fixture).
         html: Whether output is HTML or not.
     """
-    markup = base_format("python", lambda _: _, "hello", md, html, "tabbed-left", "", ("Source", "Output"))
+    markup = base_format("python", lambda _: _, "hello", md, html, "tabbed-left", "", ("Source", "Output"), id="")
     assert "Source" in markup
