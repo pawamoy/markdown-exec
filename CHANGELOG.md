@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.0.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.0.0) - 2022-11-24
+
+<small>[Compare with 0.7.4](https://github.com/pawamoy/markdown-exec/compare/0.7.4...1.0.0)</small>
+
+### Features
+- Allow defining IDs on code blocks (for warnings) ([0091167](https://github.com/pawamoy/markdown-exec/commit/009116719e81dd91190b391c82709fb179a62364) by Timothée Mazzucotelli).
+
+### Code Refactoring
+- Use base format everywhere (more flexible) ([cefba70](https://github.com/pawamoy/markdown-exec/commit/cefba704ae45df1b115b969e3d4d5105ebd052dd) by Timothée Mazzucotelli).
+
+
 ## [0.7.4](https://github.com/pawamoy/markdown-exec/releases/tag/0.7.4) - 2022-11-13
 
 <small>[Compare with 0.7.3](https://github.com/pawamoy/markdown-exec/compare/0.7.3...0.7.4)</small>
