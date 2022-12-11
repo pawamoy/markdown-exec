@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Utilities to execute code blocks in Markdown files.nto your site.",
+  "oneOf": [
+    {
+      "markdownDescription": "https://pawamoy.github.io/markdown-exec",
+      "enum": [
+        "markdown-exec"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "markdown-exec": {
+          "markdownDescription": "https://pawamoy.github.io/markdown-exec",
+          "type": "object",
+          "properties": {
+            "languages": {
+              "title": "The languages to enabled execution for.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}
