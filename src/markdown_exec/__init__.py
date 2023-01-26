@@ -14,6 +14,7 @@ from typing import Any
 
 from markdown import Markdown
 
+from markdown_exec.formatters.base import default_tabs
 from markdown_exec.formatters.bash import _format_bash  # noqa: WPS450
 from markdown_exec.formatters.console import _format_console  # noqa: WPS450
 from markdown_exec.formatters.markdown import _format_markdown  # noqa: WPS450
@@ -63,7 +64,7 @@ def validator(
     html_value = _to_bool(inputs.pop("html", "no"))
     source_value = inputs.pop("source", "")
     result_value = inputs.pop("result", "")
-    tabs_value = inputs.pop("tabs", "Source|Result")
+    tabs_value = inputs.pop("tabs", "|".join(default_tabs))
     tabs = tuple(_tabs_re.split(tabs_value, maxsplit=1))
     options["id"] = id_value
     options["html"] = html_value
@@ -102,8 +103,8 @@ def formatter(
     Returns:
         HTML contents.
     """
-    fmt = formatters.get(language, lambda source, *args, **kwargs: source)
-    return fmt(source, md, **options)  # type: ignore[operator]
+    fmt = formatters.get(language, lambda source, **kwargs: source)
+    return fmt(code=source, md=md, **options)  # type: ignore[operator]
 
 
 falsy_values = {"", "no", "off", "false", "0"}

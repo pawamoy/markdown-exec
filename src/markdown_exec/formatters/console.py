@@ -23,5 +23,5 @@ def _transform_source(code: str) -> tuple[str, str]:
     return sh_code, textwrap.indent(sh_code, prompt)
 
 
-def _format_console(*args, **kwargs) -> Markup:
-    return base_format("console", _run_sh, *args, transform_source=_transform_source, **kwargs)  # type: ignore[misc]
+def _format_console(**kwargs) -> Markup:
+    return base_format(language="console", run=_run_sh, transform_source=_transform_source, **kwargs)

@@ -22,5 +22,5 @@ def _transform_source(code: str) -> tuple[str, str]:
     return python_code, textwrap.indent(python_code, ">>> ")
 
 
-def _format_pycon(*args, **kwargs) -> Markup:
-    return base_format("console", _run_python, *args, transform_source=_transform_source, **kwargs)  # type: ignore[misc]
+def _format_pycon(**kwargs) -> Markup:
+    return base_format(language="pycon", run=_run_python, transform_source=_transform_source, **kwargs)

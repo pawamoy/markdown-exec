@@ -31,5 +31,5 @@ def _run_python(code: str, **extra: str) -> str:
     return buffer.getvalue()
 
 
-def _format_python(*args, **kwargs) -> str:
-    return base_format("python", _run_python, *args, **kwargs)
+def _format_python(**kwargs) -> str:
+    return base_format(language="python", run=_run_python, **kwargs)

@@ -12,18 +12,20 @@ from markdown_exec.logger import get_logger
 from markdown_exec.rendering import MarkdownConverter, add_source, code_block
 
 logger = get_logger(__name__)
+default_tabs = ("Source", "Result")
 
 
 def base_format(  # noqa: WPS231
+    *,
     language: str,
     run: Callable,
     code: str,
     md: Markdown,
-    html: bool,
-    source: str,
-    result: str,
-    tabs: tuple[str, str],
-    id: str,  # noqa: A002,VNE003
+    html: bool = False,
+    source: str = "",
+    result: str = "",
+    tabs: tuple[str, str] = default_tabs,
+    id: str = "",  # noqa: A002,VNE003
     transform_source: Callable[[str], tuple[str, str]] | None = None,
     **options: Any,
 ) -> Markup:

@@ -16,5 +16,5 @@ def _run_bash(code: str, **extra: str) -> str:
     return output
 
 
-def _format_bash(*args, **kwargs) -> str:
-    return base_format("bash", _run_bash, *args, **kwargs)
+def _format_bash(**kwargs) -> str:
+    return base_format(language="bash", run=_run_bash, **kwargs)
