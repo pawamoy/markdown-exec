@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any, Callable
 from uuid import uuid4
+from textwrap import indent
 
 from markdown.core import Markdown
 from markupsafe import Markup
@@ -26,6 +27,14 @@ class ExecutionError(Exception):
     def __init__(self, message: str, returncode: int | None = None) -> None:  # noqa: D107
         super().__init__(message)
         self.returncode = returncode
+
+
+def _format_log_details(details: str, strip_fences: bool = False) -> str:
+    if strip_fences:
+        lines = details.split("\n")
+        if lines[0].startswith("```") and lines[-1].startswith("```"):
+            details = "\n".join(lines[1:-1])
+    return indent(details, " " * 2)
 
 
 def base_format(  # noqa: WPS231
@@ -79,7 +88,12 @@ def base_format(  # noqa: WPS231
         identifier = id or extra.get("title", "")
         identifier = identifier and f"'{identifier}' "
         exit_message = "errors" if error.returncode is None else f"unexpected code {error.returncode}"
-        logger.warning(f"Execution of {language} code block {identifier}exited with {exit_message}")
+        log_message = (
+            f"Execution of {language} code block {identifier}exited with {exit_message}\n\n"
+            f"Code block is:\n\n{_format_log_details(source_input)}\n\n"
+            f"Output is:\n\n{_format_log_details(str(error), strip_fences=True)}\n"
+        )
+        logger.warning(log_message)
         return markdown.convert(str(error))
 
     if html:
