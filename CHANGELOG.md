@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.1.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.1.0) - 2023-01-27
+
+<small>[Compare with 1.0.0](https://github.com/pawamoy/markdown-exec/compare/1.0.0...1.1.0)</small>
+
+### Features
+- Log details to help debugging errors ([4c0228d](https://github.com/pawamoy/markdown-exec/commit/4c0228da41f5970e719b20a40c0fab47a9d12244) by Timothée Mazzucotelli). [Issue #12](https://github.com/pawamoy/markdown-exec/issues/12)
+- Allow expecting specific exit codes ([620ec66](https://github.com/pawamoy/markdown-exec/commit/620ec66182dd0f84600258408720779822615085) by Timothée Mazzucotelli). [Issue #10](https://github.com/pawamoy/markdown-exec/issues/10)
+
+### Code Refactoring
+- Formatters now only accept keyword arguments ([0940ca9](https://github.com/pawamoy/markdown-exec/commit/0940ca98e81548474351e234715df2fc290fdc1e) by Timothée Mazzucotelli).
+
+
 ## [1.0.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.0.0) - 2022-11-24
 
 <small>[Compare with 0.7.4](https://github.com/pawamoy/markdown-exec/compare/0.7.4...1.0.0)</small>
