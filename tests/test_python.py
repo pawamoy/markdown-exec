@@ -60,7 +60,7 @@ def test_error_raised(md: Markdown, caplog) -> None:
     assert "Traceback" in html
     assert "ValueError" in html
     assert "oh no!" in html
-    assert "Execution of python code block exited with non-zero status" in caplog.text
+    assert "Execution of python code block exited with errors" in caplog.text
 
 
 def test_can_print_non_string_objects(md: Markdown) -> None:

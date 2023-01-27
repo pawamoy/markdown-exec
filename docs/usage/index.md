@@ -198,10 +198,12 @@ Example:
 
 Code blocks execution can fail.
 For example, your Python code may raise exceptions,
-or your shell code may return a non-zero exit code.
+or your shell code may return a non-zero exit code
+(for shell commands that are expected to return non-zero,
+see [Expecting a non-zero exit code](shell/#expecting-a-non-zero-exit-code)).
 
 In these cases, the exception and traceback (Python),
-or the standard error message (shell) will be rendered
+or the current output (shell) will be rendered
 instead of the result, and a warning will be logged.
 
 Example of failing code:
@@ -214,7 +216,7 @@ assert 1 + 1 == 11
 ````
 
 ```text title="MkDocs output"
-WARNING  -  markdown_exec: Execution of python code block exited with non-zero status
+WARNING  -  markdown_exec: Execution of python code block exited with errors
 ```
 
 ```python title="Rendered traceback"
@@ -239,7 +241,7 @@ assert 1 + 1 == 11
 ````
 
 ```text title="MkDocs output"
-WARNING  -  markdown_exec: Execution of python code block 'print hello' exited with non-zero status
+WARNING  -  markdown_exec: Execution of python code block 'print hello' exited with errors
 ```
 
 > TIP: **Titles act as IDs as well!**  
@@ -254,7 +256,7 @@ WARNING  -  markdown_exec: Execution of python code block 'print hello' exited w
 > ````
 >
 > ```text title="MkDocs output"
-> WARNING  -  markdown_exec: Execution of python code block 'print world' exited with non-zero status
+> WARNING  -  markdown_exec: Execution of python code block 'print world' exited with errors
 > ```
 
 ## Literate Markdown

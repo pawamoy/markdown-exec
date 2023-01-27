@@ -7,7 +7,7 @@ from functools import partial
 from io import StringIO
 from typing import Any
 
-from markdown_exec.formatters.base import base_format
+from markdown_exec.formatters.base import ExecutionError, base_format
 from markdown_exec.rendering import code_block
 
 
@@ -27,7 +27,7 @@ def _run_python(code: str, **extra: str) -> str:
             if frame.filename == "<string>":
                 frame.filename = "<executed code block>"
                 frame._line = code.split("\n")[frame.lineno - 1]  # type: ignore[attr-defined,operator]  # noqa: WPS437
-        raise RuntimeError(code_block("python", "".join(trace.format()), **extra))
+        raise ExecutionError(code_block("python", "".join(trace.format()), **extra))
     return buffer.getvalue()
 
 

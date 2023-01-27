@@ -15,6 +15,19 @@ logger = get_logger(__name__)
 default_tabs = ("Source", "Result")
 
 
+class ExecutionError(Exception):
+    """Exception raised for errors during execution of a code block.
+
+    Attributes:
+        message: The exception message.
+        returncode: The code returned by the execution of the code block.
+    """
+
+    def __init__(self, message: str, returncode: int | None = None) -> None:  # noqa: D107
+        super().__init__(message)
+        self.returncode = returncode
+
+
 def base_format(  # noqa: WPS231
     *,
     language: str,
@@ -26,6 +39,7 @@ def base_format(  # noqa: WPS231
     result: str = "",
     tabs: tuple[str, str] = default_tabs,
     id: str = "",  # noqa: A002,VNE003
+    returncode: int = 0,
     transform_source: Callable[[str], tuple[str, str]] | None = None,
     **options: Any,
 ) -> Markup:
@@ -41,6 +55,7 @@ def base_format(  # noqa: WPS231
         result: If provided, use as language to format result in a code block.
         tabs: Titles of tabs (if used).
         id: An optional ID for the code block (useful when warning about errors).
+        returncode: The expected exit code.
         transform_source: An optional callable that returns transformed versions of the source.
             The input source is the one that is ran, the output source is the one that is
             rendered (when the source option is enabled).
@@ -59,11 +74,12 @@ def base_format(  # noqa: WPS231
         source_output = code
 
     try:
-        output = run(source_input, **extra)
-    except RuntimeError as error:
+        output = run(source_input, returncode=returncode, **extra)
+    except ExecutionError as error:
         identifier = id or extra.get("title", "")
         identifier = identifier and f"'{identifier}' "
-        logger.warning(f"Execution of {language} code block {identifier}exited with non-zero status")
+        exit_message = "errors" if error.returncode is None else f"unexpected code {error.returncode}"
+        logger.warning(f"Execution of {language} code block {identifier}exited with {exit_message}")
         return markdown.convert(str(error))
 
     if html:
