@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from textwrap import indent
 from typing import Any, Callable
 from uuid import uuid4
-from textwrap import indent
 
 from markdown.core import Markdown
 from markupsafe import Markup
