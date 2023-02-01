@@ -70,7 +70,17 @@ but also allows for less verbose source to generate the SVG snippets.
 
 ## Terminal output with colors
 
-We use Rich again to render the output of a command in a terminal, with colors.
+If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec[ansi]`),
+the ANSI colors in the output of shell commands will be translated to HTML/CSS,
+allowing to render them naturally in your documentation pages.
+For this to happen, use the
+[`result="ansi"` option](http://localhost:8000/markdown-exec/usage/#wrap-result-in-a-code-block).
+
+```bash exec="true" source="tabbed-right" title="ANSI terminal output" result="ansi"
+--8<-- "gallery/ansi.sh"
+```
+
+As an alternative, we can use Rich again to render the output of a command in a terminal, with colors.
 This example is taken directly from the documentation of the [Griffe](https://github.com/mkdocstrings/griffe) project.
 
 ```python exec="true" html="true" source="tabbed-right" title="Rich terminal output"

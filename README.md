@@ -15,8 +15,12 @@ and this HTML is injected in place of the code block.
 
 With `pip`:
 ```bash
-pip install markdown-exec
+pip install markdown-exec[ansi]
 ```
+
+The `ansi` extra provides the necessary bits (`pygments-ansi-color` and a CSS file)
+to render ANSI colors in HTML code blocks. The CSS file is automatically added
+to MkDocs' `extra_css` when Markdown Exec is activated via `plugins` (see below).
 
 ## Configuration
 
