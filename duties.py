@@ -3,6 +3,7 @@
 import importlib
 import os
 import sys
+from functools import wraps
 from io import StringIO
 from pathlib import Path
 
@@ -15,6 +16,30 @@ TESTING = os.environ.get("TESTING", "0") in {"1", "true"}
 CI = os.environ.get("CI", "0") in {"1", "true", "yes", ""}
 WINDOWS = os.name == "nt"
 PTY = not WINDOWS and not CI
+
+
+def skip_if(condition: bool, reason: str):
+    """Decorator allowing to skip a duty if a condition is met.
+
+    Parameters:
+        condition: The condition to meet.
+        reason: The reason to skip.
+
+    Returns:
+        A decorator.
+    """
+
+    def decorator(func):
+        @wraps(func)
+        def wrapper(ctx, *args, **kwargs):
+            if condition:
+                ctx.run(["true"], title=reason)
+            else:
+                func(ctx, *args, **kwargs)
+
+        return wrapper
+
+    return decorator
 
 
 @duty
@@ -112,6 +137,10 @@ def check_dependencies(ctx):
 
 
 @duty
+@skip_if(
+    sys.version_info < (3, 8) or sys.version_info >= (3, 11),
+    reason="Building docs is not supported on Python 3.7 and 3.11, skipping",
+)
 def check_docs(ctx):
     """Check if the documentation builds correctly.
 
@@ -155,6 +184,10 @@ def clean(ctx):
 
 
 @duty
+@skip_if(
+    sys.version_info < (3, 8) or sys.version_info >= (3, 11),
+    reason="Building docs is not supported on Python 3.7 and 3.11, skipping",
+)
 def docs(ctx):
     """Build the documentation locally.
 
@@ -165,6 +198,10 @@ def docs(ctx):
 
 
 @duty
+@skip_if(
+    sys.version_info < (3, 8) or sys.version_info >= (3, 11),
+    reason="Building docs is not supported on Python 3.7 and 3.11, skipping",
+)
 def docs_serve(ctx, host="127.0.0.1", port=8000):
     """Serve the documentation (localhost:8000).
 
