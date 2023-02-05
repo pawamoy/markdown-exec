@@ -78,7 +78,7 @@ format = [
     "isort>=5.10",
 ]
 maintain = [
-    "git-changelog>=0.4",
+    "git-changelog>=1.0",
 ]
 quality = [
     # TODO: remove once importlib-metadata version conflict is resolved
