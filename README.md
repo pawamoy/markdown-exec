@@ -91,5 +91,14 @@ print("Hello Markdown!")
 
 The `exec` option will be true for every possible value except `0`, `no`, `off` and `false` (case insensitive).
 
+Below you can see an example of running a bash script that is expected to
+return a non-zero exit code:
+
+````md
+```bash exec="1" source="tabbed-left" returncode="2"
+grep extra_css README.md && exit 2
+```
+````
+
 See [usage](https://pawamoy.github.io/markdown-exec/usage/) for more details,
 and the [gallery](https://pawamoy.github.io/markdown-exec/gallery/) for more examples!
