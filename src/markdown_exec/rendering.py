@@ -85,9 +85,7 @@ def add_source(  # noqa: WPS212
     if location == "below":
         return output + "\n\n" + source_block
     if location == "material-block":
-        # TODO: remove style once margins are fixed in Material for MkDocs
-        style = 'style="margin-top: 0;"'
-        return source_block + f'\n\n<div class="result" {style} markdown="1" >\n\n{output}\n\n</div>'
+        return source_block + f'\n\n<div class="result" markdown="1" >\n\n{output}\n\n</div>'
 
     source_tab_title, result_tab_title = tabs
     if location == "tabbed-left":
