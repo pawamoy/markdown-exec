@@ -40,3 +40,21 @@ def test_render_source(md: Markdown, html: bool) -> None:
         source="tabbed-left",
     )
     assert "Source" in markup
+
+
+def test_render_console_plus_ansi_result(md) -> None:
+    """Assert we can render source as console style with `ansi` highlight.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    markup = base_format(
+        language="bash",
+        run=lambda code, **_: code,
+        code="echo -e '\033[31mhello'",
+        md=md,
+        html=False,
+        source="console",
+        result="ansi",
+    )
+    assert "<code>ansi" in markup

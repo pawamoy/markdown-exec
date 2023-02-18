@@ -106,10 +106,16 @@ def base_format(  # noqa: WPS231
         return Markup(output)
 
     wrapped_output = output
-    if result:
+    if result and source != "console":
         wrapped_output = code_block(result, output)
     if source:
         wrapped_output = add_source(
-            source=source_output, location=source, output=wrapped_output, language=language, tabs=tabs, **extra
+            source=source_output,
+            location=source,
+            output=wrapped_output,
+            language=language,
+            tabs=tabs,
+            result=result,
+            **extra,
         )
     return markdown.convert(wrapped_output)

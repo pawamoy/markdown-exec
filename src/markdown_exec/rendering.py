@@ -55,6 +55,7 @@ def add_source(  # noqa: WPS212
     output: str,
     language: str,
     tabs: tuple[str, str],
+    result: str = "",
     **extra: str,
 ) -> str:
     """Add source code block to the output.
@@ -65,6 +66,7 @@ def add_source(  # noqa: WPS212
         output: The current output.
         language: The code language.
         tabs: Tabs titles (if used).
+        result: Syntax to use when concatenating source and result with "console" location.
         **extra: Extra options added back to source code block.
 
     Raises:
@@ -75,7 +77,7 @@ def add_source(  # noqa: WPS212
     """
     source = _hide_lines(source)
     if location == "console":
-        return code_block(language, source + "\n" + output, **extra)
+        return code_block(result or language, source + "\n" + output, **extra)
 
     source_block = code_block(language, source, **extra)
     if location == "above":

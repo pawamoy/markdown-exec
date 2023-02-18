@@ -168,8 +168,7 @@ $ pdm info --env
 ````
 
 WARNING: **Limitation**  
-Wrapping the result is not possible when HTML output is enabled,
-nor when source and output are concatenated with the "console" style.
+Wrapping the result is not possible when HTML output is enabled.
 
 ## Additional options
 
