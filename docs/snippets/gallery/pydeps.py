@@ -23,6 +23,8 @@ modules = (
     "markdown_exec.formatters.pycon",
     "markdown_exec.formatters.python",
     "markdown_exec.formatters.sh",
+    "markdown_exec.formatters.tree",
+    "markdown_exec.logger",
     "markdown_exec.mkdocs_plugin",
     "markdown_exec.rendering",
 )

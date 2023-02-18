@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.2.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.2.0) - 2023-02-01
+
+<small>[Compare with 1.1.0](https://github.com/pawamoy/markdown-exec/compare/1.1.0...1.2.0)</small>
+
+### Features
+- Support ANSI code blocks ([39719c5](https://github.com/pawamoy/markdown-exec/commit/39719c5d7ac1bbde6d60002082a0ad3b48730545) by Timothée Mazzucotelli). [Issue #11](https://github.com/pawamoy/markdown-exec/issues/11)
+
+
 ## [1.1.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.1.0) - 2023-01-27
 
 <small>[Compare with 1.0.0](https://github.com/pawamoy/markdown-exec/compare/1.0.0...1.1.0)</small>

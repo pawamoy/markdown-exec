@@ -32,6 +32,9 @@ dependencies = [
     "pymdown-extensions>=9",
 ]
 
+[project.optional-dependencies]
+ansi = ["pygments-ansi-color"]
+
 [project.urls]
 Homepage = "https://pawamoy.github.io/markdown-exec"
 Documentation = "https://pawamoy.github.io/markdown-exec"
