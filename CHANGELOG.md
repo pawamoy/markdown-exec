@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.3.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.3.0) - 2023-02-18
+
+<small>[Compare with 1.2.0](https://github.com/pawamoy/markdown-exec/compare/1.2.0...1.3.0)</small>
+
+### Features
+
+- Support wrapping result with console source ([268c82e](https://github.com/pawamoy/markdown-exec/commit/268c82e6f005dcaa1ddc75608d2f28927f069761) by Timothée Mazzucotelli). [Issue #13](https://github.com/pawamoy/markdown-exec/issues/13)
+
+### Code Refactoring
+
+- Remove margin hack from Material source ([beec237](https://github.com/pawamoy/markdown-exec/commit/beec2374b27075e66ddb4a7cdc2f2c81b7455b95) by Timothée Mazzucotelli).
+- Better support pycon syntax ([22b51c6](https://github.com/pawamoy/markdown-exec/commit/22b51c64155060922e46ea10e6c0d1c1c1b00a2f) by Timothée Mazzucotelli).
+
 ## [1.2.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.2.0) - 2023-02-01
 
 <small>[Compare with 1.1.0](https://github.com/pawamoy/markdown-exec/compare/1.1.0...1.2.0)</small>
