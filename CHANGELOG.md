@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.4.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.4.0) - 2023-03-15
+
+<small>[Compare with 1.3.0](https://github.com/pawamoy/markdown-exec/compare/1.3.0...1.4.0)</small>
+
+### Features
+
+- Sessions: persist and reuse state for Python and Pycon code blocks ([a8fef5e](https://github.com/pawamoy/markdown-exec/commit/a8fef5e90b1d7165e16ff5afe4b84e8441503098) by Timothée Mazzucotelli). [Issue #16](https://github.com/pawamoy/markdown-exec/issues/16)
+
 ## [1.3.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.3.0) - 2023-02-18
 
 <small>[Compare with 1.2.0](https://github.com/pawamoy/markdown-exec/compare/1.2.0...1.3.0)</small>
