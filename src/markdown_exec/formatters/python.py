@@ -10,14 +10,23 @@ from typing import Any
 from markdown_exec.formatters.base import ExecutionError, base_format
 from markdown_exec.rendering import code_block
 
+_sessions: dict[str, dict] = {}
+
 
 def _buffer_print(buffer: StringIO, *texts: str, end: str = "\n", **kwargs: Any) -> None:
     buffer.write(" ".join(str(text) for text in texts) + end)
 
 
-def _run_python(code: str, **extra: str) -> str:
+def _run_python(code: str, session: str | None = None, **extra: str) -> str:
+    if session:
+        if session in _sessions:
+            exec_globals = _sessions[session]
+        else:
+            exec_globals = _sessions[session] = {}  # noqa: WPS429
+    else:
+        exec_globals = {}
     buffer = StringIO()
-    exec_globals = {"print": partial(_buffer_print, buffer)}
+    exec_globals["print"] = partial(_buffer_print, buffer)
 
     try:
         exec(code, exec_globals)  # noqa: S102

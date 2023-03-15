@@ -84,3 +84,48 @@ def test_can_print_non_string_objects(md: Markdown) -> None:
         )
     )
     assert "Traceback" not in html
+
+
+def test_sessions(md: Markdown) -> None:
+    """Assert sessions can be reused.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```python exec="1" session="a"
+            a = 1
+            ```
+
+            ```pycon exec="1" session="b"
+            >>> b = 2
+            ```
+
+            ```pycon exec="1" session="a"
+            >>> print(f"a = {a}")
+            >>> try:
+            ...     print(b)
+            ... except NameError:
+            ...     print("ok")
+            ... else:
+            ...     print("ko")
+            ```
+
+            ```python exec="1" session="b"
+            print(f"b = {b}")
+            try:
+                print(a)
+            except NameError:
+                print("ok")
+            else:
+                print("ko")
+            ```
+            """
+        )
+    )
+    assert "a = 1" in html
+    assert "b = 2" in html
+    assert "ok" in html
+    assert "ko" not in html

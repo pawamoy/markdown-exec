@@ -50,6 +50,7 @@ def base_format(  # noqa: WPS231
     id: str = "",  # noqa: A002,VNE003
     returncode: int = 0,
     transform_source: Callable[[str], tuple[str, str]] | None = None,
+    session: str | None = None,
     **options: Any,
 ) -> Markup:
     """Execute code and return HTML.
@@ -68,6 +69,7 @@ def base_format(  # noqa: WPS231
         transform_source: An optional callable that returns transformed versions of the source.
             The input source is the one that is ran, the output source is the one that is
             rendered (when the source option is enabled).
+        session: A session name, to persist state between executed code blocks.
         **options: Additional options passed from the formatter.
 
     Returns:
@@ -83,7 +85,7 @@ def base_format(  # noqa: WPS231
         source_output = code
 
     try:
-        output = run(source_input, returncode=returncode, **extra)
+        output = run(source_input, returncode=returncode, session=session, **extra)
     except ExecutionError as error:
         identifier = id or extra.get("title", "")
         identifier = identifier and f"'{identifier}' "

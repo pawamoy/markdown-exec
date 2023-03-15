@@ -258,6 +258,27 @@ WARNING  -  markdown_exec: Execution of python code block 'print hello' exited w
 > WARNING  -  markdown_exec: Execution of python code block 'print world' exited with errors
 > ```
 
+## Sessions
+
+Markdown Exec makes it possible to persist state between executed code blocks.
+To persist state and reuse it in other code blocks, give a session name to your blocks:
+
+````md exec="1" source="material-block" title="Sessions"
+```python exec="1" session="greet"
+def greet(name):
+    print(f"Hello {name}!")
+```
+
+Hello Mushu!
+
+```python exec="1" session="greet"
+greet("Ping")
+```
+````
+
+WARNING: **Limitation**  
+Sessions only work with Python and Pycon syntax for now.
+
 ## Literate Markdown
 
 With this extension, it is also possible to write "literate programming" Markdown.
