@@ -3,14 +3,15 @@
 from __future__ import annotations
 
 from textwrap import dedent
-from typing import Any
-
-from markdown import Markdown
+from typing import TYPE_CHECKING, Any
 
 from markdown_exec.rendering import MarkdownConverter, code_block
 
+if TYPE_CHECKING:
+    from markdown import Markdown
 
-def _rec_build_tree(lines: list[str], parent: list, offset: int, base_indent: int):
+
+def _rec_build_tree(lines: list[str], parent: list, offset: int, base_indent: int) -> int:
     while offset < len(lines):
         line = lines[offset]
         lstripped = line.lstrip()
@@ -32,12 +33,12 @@ def _build_tree(code: str) -> list[tuple[str, list]]:
     return root_layer
 
 
-def _rec_format_tree(tree, root=True) -> list[str]:  # noqa: WPS231
+def _rec_format_tree(tree: list[tuple[str, list]], *, root: bool = True) -> list[str]:
     lines = []
     n_items = len(tree)
     for index, node in enumerate(tree):
         last = index == n_items - 1
-        prefix = "" if root else f"{'└' if last else '├'}── "  # noqa: WPS509
+        prefix = "" if root else f"{'└' if last else '├'}── "
         if node[1]:
             lines.append(f"{prefix}📁 {node[0]}")
             sublines = _rec_format_tree(node[1], root=False)
@@ -53,13 +54,13 @@ def _rec_format_tree(tree, root=True) -> list[str]:  # noqa: WPS231
     return lines
 
 
-def _format_tree(  # noqa: WPS231
+def _format_tree(
     code: str,
     md: Markdown,
-    html: bool,
-    source: str,
+    html: bool,  # noqa: ARG001,FBT001
+    source: str,  # noqa: ARG001
     result: str,
-    tabs: tuple[str, str],
+    tabs: tuple[str, str],  # noqa: ARG001
     **options: Any,
 ) -> str:
     markdown = MarkdownConverter(md)

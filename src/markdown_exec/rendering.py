@@ -4,11 +4,14 @@ from __future__ import annotations
 
 from itertools import chain
 from textwrap import indent
-from xml.etree.ElementTree import Element
+from typing import TYPE_CHECKING
 
 from markdown import Markdown
 from markdown.treeprocessors import Treeprocessor
 from markupsafe import Markup
+
+if TYPE_CHECKING:
+    from xml.etree.ElementTree import Element
 
 
 def code_block(language: str, code: str, **options: str) -> str:
@@ -37,7 +40,7 @@ def tabbed(*tabs: tuple[str, str]) -> str:
     """
     parts = []
     for title, text in tabs:
-        title = title.replace(r"\|", "|").strip()
+        title = title.replace(r"\|", "|").strip()  # noqa: PLW2901
         parts.append(f'=== "{title}"')
         parts.append(indent(text, prefix=" " * 4))
         parts.append("")
@@ -48,7 +51,7 @@ def _hide_lines(source: str) -> str:
     return "\n".join(line for line in source.split("\n") if "markdown-exec: hide" not in line).strip()
 
 
-def add_source(  # noqa: WPS212
+def add_source(
     *,
     source: str,
     location: str,
@@ -102,11 +105,11 @@ class _IdPrependingTreeprocessor(Treeprocessor):
 
     name = "markdown_exec_ids"
 
-    def __init__(self, md: Markdown, id_prefix: str):  # noqa: D107
+    def __init__(self, md: Markdown, id_prefix: str) -> None:
         super().__init__(md)
         self.id_prefix = id_prefix
 
-    def run(self, root: Element):  # noqa: D102,WPS231
+    def run(self, root: Element) -> None:
         if not self.id_prefix:
             return
         for el in root.iter():
@@ -130,7 +133,7 @@ class _IdPrependingTreeprocessor(Treeprocessor):
 
 def _mimic(md: Markdown) -> Markdown:
     md = getattr(md, "_original_md", md)
-    new_md = Markdown()  # noqa: WPS442
+    new_md = Markdown()
     extensions = list(chain(md.registeredExtensions, ["tables", "md_in_html"]))
     new_md.registerExtensions(extensions, {})
     new_md.treeprocessors.register(
@@ -138,7 +141,7 @@ def _mimic(md: Markdown) -> Markdown:
         _IdPrependingTreeprocessor.name,
         priority=4,  # right after 'toc' (needed because that extension adds ids to headers)
     )
-    new_md._original_md = md  # type: ignore[attr-defined]  # noqa: WPS437
+    new_md._original_md = md  # type: ignore[attr-defined]
     return new_md
 
 
@@ -166,7 +169,7 @@ class MarkdownConverter:
         md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = f"exec-{MarkdownConverter.counter}--"
         MarkdownConverter.counter += 1
 
-        try:  # noqa: WPS501
+        try:
             converted = md.convert(text)
         finally:
             md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = ""

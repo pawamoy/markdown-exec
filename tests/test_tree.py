@@ -19,7 +19,7 @@ def test_output_markdown(md: Markdown) -> None:
             2
             3
             ```
-            """
-        )
+            """,
+        ),
     )
     assert '<span class="hll">' in html

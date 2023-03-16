@@ -89,14 +89,10 @@ plugins:
         import:
         - https://docs.python.org/3/objects.inv
         options:
-          docstring_style: google
+          separate_signature: true
+          merge_init_into_class: true
           docstring_options:
-            ignore_init_summary: yes
-          show_submodules: no
-          # docstring_section_style: list
-          members_order: alphabetical
-          show_category_heading: no
-          merge_init_into_class: yes
+            ignore_init_summary: true
 
 extra:
   social:

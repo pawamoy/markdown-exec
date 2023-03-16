@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, MutableMapping
 
 from mkdocs.config import Config, config_options
 from mkdocs.plugins import BasePlugin
@@ -27,15 +27,15 @@ else:
 
 
 class _LoggerAdapter(logging.LoggerAdapter):
-    def __init__(self, prefix, logger):
+    def __init__(self, prefix: str, logger: logging.Logger) -> None:
         super().__init__(logger, {})
         self.prefix = prefix
 
-    def process(self, msg, kwargs):
+    def process(self, msg: str, kwargs: MutableMapping[str, Any]) -> tuple[str, MutableMapping[str, Any]]:
         return f"{self.prefix}: {msg}", kwargs
 
 
-def _get_logger(name):
+def _get_logger(name: str) -> _LoggerAdapter:
     logger = logging.getLogger(f"mkdocs.plugins.{name}")
     return _LoggerAdapter(name.split(".", 1)[0], logger)
 
@@ -48,7 +48,7 @@ class MarkdownExecPlugin(BasePlugin):
 
     config_scheme = (("languages", config_options.Type(list, default=list(formatters.keys()))),)
 
-    def on_config(self, config: Config, **kwargs) -> Config:  # noqa: D102
+    def on_config(self, config: Config, **kwargs: Any) -> Config:  # noqa: ARG002,D102
         self.languages = self.config["languages"]
         mdx_configs = config.setdefault("mdx_configs", {})
         superfences = mdx_configs.setdefault("pymdownx.superfences", {})
@@ -60,11 +60,11 @@ class MarkdownExecPlugin(BasePlugin):
                     "class": language,
                     "validator": validator,
                     "format": formatter,
-                }
+                },
             )
         return config
 
-    def on_env(self, env: Environment, *, config: Config, files: Files) -> Environment | None:  # noqa: D102
+    def on_env(self, env: Environment, *, config: Config, files: Files) -> Environment | None:  # noqa: ARG002,D102
         css_filename = "assets/_markdown_exec_ansi.css"
         css_content = Path(__file__).parent.joinpath("ansi.css").read_text()
         write_file(css_content.encode("utf-8"), os.path.join(config["site_dir"], css_filename))

@@ -1,13 +1,17 @@
 """Development tasks."""
 
-import importlib
+from __future__ import annotations
+
 import os
 import sys
-from functools import wraps
-from io import StringIO
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from duty import duty
+from duty.callables import black, blacken_docs, coverage, lazy, mkdocs, mypy, pytest, ruff, safety
+
+if TYPE_CHECKING:
+    from duty.context import Context
 
 PY_SRC_PATHS = (Path(_) for _ in ("src", "tests", "duties.py", "scripts"))
 PY_SRC_LIST = tuple(str(_) for _ in PY_SRC_PATHS)
@@ -16,60 +20,48 @@ TESTING = os.environ.get("TESTING", "0") in {"1", "true"}
 CI = os.environ.get("CI", "0") in {"1", "true", "yes", ""}
 WINDOWS = os.name == "nt"
 PTY = not WINDOWS and not CI
+MULTIRUN = os.environ.get("PDM_MULTIRUN", "0") == "1"
 
 
-def skip_if(condition: bool, reason: str):
-    """Decorator allowing to skip a duty if a condition is met.
+def pyprefix(title: str) -> str:  # noqa: D103
+    if MULTIRUN:
+        prefix = f"(python{sys.version_info.major}.{sys.version_info.minor})"
+        return f"{prefix:14}{title}"
+    return title
 
-    Parameters:
-        condition: The condition to meet.
-        reason: The reason to skip.
 
-    Returns:
-        A decorator.
-    """
-
-    def decorator(func):
-        @wraps(func)
-        def wrapper(ctx, *args, **kwargs):
-            if condition:
-                ctx.run(["true"], title=reason)
-            else:
-                func(ctx, *args, **kwargs)
-
-        return wrapper
-
-    return decorator
+between_38_310 = sys.version_info < (3, 8) or sys.version_info >= (3, 11)
+skip_docs_reason = pyprefix("Building docs is not supported on Python 3.7 and 3.11, skipping")
 
 
 @duty
-def changelog(ctx):
+def changelog(ctx: Context) -> None:
     """Update the changelog in-place with latest commits.
 
     Parameters:
         ctx: The context instance (passed automatically).
     """
-    from git_changelog.cli import build_and_render as git_changelog
+    from git_changelog.cli import build_and_render
 
+    git_changelog = lazy("git_changelog")(build_and_render)
     ctx.run(
-        git_changelog,
-        kwargs={
-            "repository": ".",
-            "output": "CHANGELOG.md",
-            "convention": "angular",
-            "template": "keepachangelog",
-            "parse_trailers": True,
-            "parse_refs": False,
-            "sections": ("build", "deps", "feat", "fix", "refactor"),
-            "bump_latest": True,
-            "in_place": True,
-        },
+        git_changelog(
+            repository=".",
+            output="CHANGELOG.md",
+            convention="angular",
+            template="keepachangelog",
+            parse_trailers=True,
+            parse_refs=False,
+            sections=("build", "deps", "feat", "fix", "refactor"),
+            bump_latest=True,
+            in_place=True,
+        ),
         title="Updating changelog",
     )
 
 
 @duty(pre=["check_quality", "check_types", "check_docs", "check_dependencies"])
-def check(ctx):
+def check(ctx: Context) -> None:  # noqa: ARG001
     """Check it all!
 
     Parameters:
@@ -78,37 +70,25 @@ def check(ctx):
 
 
 @duty
-def check_quality(ctx, files=PY_SRC):
+def check_quality(ctx: Context) -> None:
     """Check the code quality.
 
     Parameters:
         ctx: The context instance (passed automatically).
-        files: The files to check.
     """
-    ctx.run(f"flake8 --config=config/flake8.ini {files}", title="Checking code quality", pty=PTY)
+    ctx.run(
+        ruff.check(*PY_SRC_LIST, config="config/ruff.toml"),
+        title=pyprefix("Checking code quality"),
+    )
 
 
 @duty
-def check_dependencies(ctx):
+def check_dependencies(ctx: Context) -> None:
     """Check for vulnerabilities in dependencies.
 
     Parameters:
         ctx: The context instance (passed automatically).
     """
-    # undo possible patching
-    # see https://github.com/pyupio/safety/issues/348
-    for module in sys.modules:  # noqa: WPS528
-        if module.startswith("safety.") or module == "safety":
-            del sys.modules[module]  # noqa: WPS420
-
-    importlib.invalidate_caches()
-
-    # reload original, unpatched safety
-    from safety.formatter import SafetyFormatter
-    from safety.safety import calculate_remediations
-    from safety.safety import check as safety_check
-    from safety.util import read_requirements
-
     # retrieve the list of dependencies
     requirements = ctx.run(
         ["pdm", "export", "-f", "requirements", "--without-hashes"],
@@ -116,32 +96,11 @@ def check_dependencies(ctx):
         allow_overrides=False,
     )
 
-    # check using safety as a library
-    def safety():  # noqa: WPS430
-        packages = list(read_requirements(StringIO(requirements)))
-        vulns, db_full = safety_check(packages=packages, ignore_vulns="")
-        remediations = calculate_remediations(vulns, db_full)
-        output_report = SafetyFormatter("text").render_vulnerabilities(
-            announcements=[],
-            vulnerabilities=vulns,
-            remediations=remediations,
-            full=True,
-            packages=packages,
-        )
-        if vulns:
-            print(output_report)
-            return False
-        return True
-
-    ctx.run(safety, title="Checking dependencies")
+    ctx.run(safety.check(requirements), title="Checking dependencies")
 
 
-@duty
-@skip_if(
-    sys.version_info < (3, 8) or sys.version_info >= (3, 11),
-    reason="Building docs is not supported on Python 3.7 and 3.11, skipping",
-)
-def check_docs(ctx):
+@duty(skip_if=between_38_310, skip_reason=skip_docs_reason)
+def check_docs(ctx: Context) -> None:
     """Check if the documentation builds correctly.
 
     Parameters:
@@ -149,22 +108,24 @@ def check_docs(ctx):
     """
     Path("htmlcov").mkdir(parents=True, exist_ok=True)
     Path("htmlcov/index.html").touch(exist_ok=True)
-    ctx.run("mkdocs build -vs", title="Building documentation", pty=False)
+    ctx.run(mkdocs.build(strict=True), title=pyprefix("Building documentation"))
 
 
-@duty  # noqa: WPS231
-def check_types(ctx):  # noqa: WPS231
-    """
-    Check that the code is correctly typed.
+@duty
+def check_types(ctx: Context) -> None:
+    """Check that the code is correctly typed.
 
     Parameters:
         ctx: The context instance (passed automatically).
     """
-    ctx.run(f"mypy --config-file config/mypy.ini {PY_SRC}", title="Type-checking", pty=PTY)
+    ctx.run(
+        mypy.run(*PY_SRC_LIST, config_file="config/mypy.ini"),
+        title=pyprefix("Type-checking"),
+    )
 
 
 @duty(silent=True)
-def clean(ctx):
+def clean(ctx: Context) -> None:
     """Delete temporary files.
 
     Parameters:
@@ -183,26 +144,18 @@ def clean(ctx):
     ctx.run("find . -name '*.rej' -delete")
 
 
-@duty
-@skip_if(
-    sys.version_info < (3, 8) or sys.version_info >= (3, 11),
-    reason="Building docs is not supported on Python 3.7 and 3.11, skipping",
-)
-def docs(ctx):
+@duty(skip_if=between_38_310, skip_reason=skip_docs_reason)
+def docs(ctx: Context) -> None:
     """Build the documentation locally.
 
     Parameters:
         ctx: The context instance (passed automatically).
     """
-    ctx.run("mkdocs build", title="Building documentation")
+    ctx.run(mkdocs.build, title="Building documentation")
 
 
-@duty
-@skip_if(
-    sys.version_info < (3, 8) or sys.version_info >= (3, 11),
-    reason="Building docs is not supported on Python 3.7 and 3.11, skipping",
-)
-def docs_serve(ctx, host="127.0.0.1", port=8000):
+@duty(skip_if=between_38_310, skip_reason=skip_docs_reason)
+def docs_serve(ctx: Context, host: str = "127.0.0.1", port: int = 8000) -> None:
     """Serve the documentation (localhost:8000).
 
     Parameters:
@@ -210,37 +163,44 @@ def docs_serve(ctx, host="127.0.0.1", port=8000):
         host: The host to serve the docs from.
         port: The port to serve the docs on.
     """
-    ctx.run(f"mkdocs serve -a {host}:{port}", title="Serving documentation", capture=False)
+    ctx.run(
+        mkdocs.serve(dev_addr=f"{host}:{port}"),
+        title="Serving documentation",
+        capture=False,
+    )
 
 
 @duty
-def docs_deploy(ctx):
+def docs_deploy(ctx: Context) -> None:
     """Deploy the documentation on GitHub pages.
 
     Parameters:
         ctx: The context instance (passed automatically).
     """
-    ctx.run("mkdocs gh-deploy", title="Deploying documentation")
+    ctx.run(mkdocs.gh_deploy, title="Deploying documentation")
 
 
 @duty
-def format(ctx):
+def format(ctx: Context) -> None:
     """Run formatting tools on the code.
 
     Parameters:
         ctx: The context instance (passed automatically).
     """
     ctx.run(
-        f"autoflake -ir --exclude tests/fixtures --remove-all-unused-imports {PY_SRC}",
-        title="Removing unused imports",
-        pty=PTY,
+        ruff.check(*PY_SRC_LIST, config="config/ruff.toml", fix_only=True, exit_zero=True),
+        title="Auto-fixing code",
     )
-    ctx.run(f"isort {PY_SRC}", title="Ordering imports", pty=PTY)
-    ctx.run(f"black {PY_SRC}", title="Formatting code", pty=PTY)
+    ctx.run(black.run(*PY_SRC_LIST, config="config/black.toml"), title="Formatting code")
+    ctx.run(
+        blacken_docs.run(*PY_SRC_LIST, "docs", exts=["py", "md"], line_length=120),
+        title="Formatting docs",
+        nofail=True,
+    )
 
 
 @duty
-def release(ctx, version):
+def release(ctx: Context, version: str) -> None:
     """Release a new Python package.
 
     Parameters:
@@ -258,20 +218,20 @@ def release(ctx, version):
         docs_deploy.run()
 
 
-@duty(silent=True)
-def coverage(ctx):
+@duty(silent=True, aliases=["coverage"])
+def cov(ctx: Context) -> None:
     """Report coverage as text and HTML.
 
     Parameters:
         ctx: The context instance (passed automatically).
     """
-    ctx.run("coverage combine", nofail=True)
-    ctx.run("coverage report --rcfile=config/coverage.ini", capture=False)
-    ctx.run("coverage html --rcfile=config/coverage.ini")
+    ctx.run(coverage.combine, nofail=True)
+    ctx.run(coverage.report(rcfile="config/coverage.ini"), capture=False)
+    ctx.run(coverage.html(rcfile="config/coverage.ini"))
 
 
 @duty
-def test(ctx, match: str = ""):
+def test(ctx: Context, match: str = "") -> None:
     """Run the test suite.
 
     Parameters:
@@ -281,7 +241,6 @@ def test(ctx, match: str = ""):
     py_version = f"{sys.version_info.major}{sys.version_info.minor}"
     os.environ["COVERAGE_FILE"] = f".coverage.{py_version}"
     ctx.run(
-        ["pytest", "-c", "config/pytest.ini", "-n", "auto", "-k", match, "tests"],
-        title="Running tests",
-        pty=PTY,
+        pytest.run("-n", "auto", "tests", config_file="config/pytest.ini", select=match),
+        title=pyprefix("Running tests"),
     )

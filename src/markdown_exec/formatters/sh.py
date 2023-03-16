@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
-import subprocess  # noqa: S404
+import subprocess
+from typing import Any
 
 from markdown_exec.formatters.base import ExecutionError, base_format
 from markdown_exec.rendering import code_block
 
 
 def _run_sh(code: str, *, returncode: int = 0, **extra: str) -> str:
-    process = subprocess.run(  # noqa: S603,S607
+    process = subprocess.run(
         ["sh", "-c", code],
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -20,5 +21,5 @@ def _run_sh(code: str, *, returncode: int = 0, **extra: str) -> str:
     return process.stdout
 
 
-def _format_sh(**kwargs) -> str:
+def _format_sh(**kwargs: Any) -> str:
     return base_format(language="sh", run=_run_sh, **kwargs)

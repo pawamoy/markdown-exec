@@ -13,7 +13,7 @@ from markdown_exec.rendering import code_block
 _sessions: dict[str, dict] = {}
 
 
-def _buffer_print(buffer: StringIO, *texts: str, end: str = "\n", **kwargs: Any) -> None:
+def _buffer_print(buffer: StringIO, *texts: str, end: str = "\n", **kwargs: Any) -> None:  # noqa: ARG001
     buffer.write(" ".join(str(text) for text in texts) + end)
 
 
@@ -22,7 +22,7 @@ def _run_python(code: str, session: str | None = None, **extra: str) -> str:
         if session in _sessions:
             exec_globals = _sessions[session]
         else:
-            exec_globals = _sessions[session] = {}  # noqa: WPS429
+            exec_globals = _sessions[session] = {}
     else:
         exec_globals = {}
     buffer = StringIO()
@@ -30,15 +30,15 @@ def _run_python(code: str, session: str | None = None, **extra: str) -> str:
 
     try:
         exec(code, exec_globals)  # noqa: S102
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001
         trace = traceback.TracebackException.from_exception(error)
         for frame in trace.stack:
             if frame.filename == "<string>":
                 frame.filename = "<executed code block>"
-                frame._line = code.split("\n")[frame.lineno - 1]  # type: ignore[attr-defined,operator]  # noqa: WPS437
-        raise ExecutionError(code_block("python", "".join(trace.format()), **extra))
+                frame._line = code.split("\n")[frame.lineno - 1]  # type: ignore[attr-defined,operator]
+        raise ExecutionError(code_block("python", "".join(trace.format()), **extra)) from error
     return buffer.getvalue()
 
 
-def _format_python(**kwargs) -> str:
+def _format_python(**kwargs: Any) -> str:
     return base_format(language="python", run=_run_python, **kwargs)

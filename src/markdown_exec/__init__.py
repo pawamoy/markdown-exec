@@ -1,5 +1,4 @@
-"""
-Markdown Exec package.
+"""Markdown Exec package.
 
 Utilities to execute code blocks in Markdown files.
 """
@@ -10,20 +9,21 @@ Utilities to execute code blocks in Markdown files.
 from __future__ import annotations
 
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from markdown import Markdown
+if TYPE_CHECKING:
+    from markdown import Markdown
 
 from markdown_exec.formatters.base import default_tabs
-from markdown_exec.formatters.bash import _format_bash  # noqa: WPS450
-from markdown_exec.formatters.console import _format_console  # noqa: WPS450
-from markdown_exec.formatters.markdown import _format_markdown  # noqa: WPS450
-from markdown_exec.formatters.pycon import _format_pycon  # noqa: WPS450
-from markdown_exec.formatters.python import _format_python  # noqa: WPS450
-from markdown_exec.formatters.sh import _format_sh  # noqa: WPS450
-from markdown_exec.formatters.tree import _format_tree  # noqa: WPS450
+from markdown_exec.formatters.bash import _format_bash
+from markdown_exec.formatters.console import _format_console
+from markdown_exec.formatters.markdown import _format_markdown
+from markdown_exec.formatters.pycon import _format_pycon
+from markdown_exec.formatters.python import _format_python
+from markdown_exec.formatters.sh import _format_sh
+from markdown_exec.formatters.tree import _format_tree
 
-__all__: list[str] = ["formatter", "validator"]  # noqa: WPS410
+__all__: list[str] = ["formatter", "validator"]
 
 
 formatters = {
@@ -43,7 +43,11 @@ _tabs_re = re.compile(r"(?<!\\)\|")
 
 
 def validator(
-    language: str, inputs: dict[str, str], options: dict[str, Any], attrs: dict[str, Any], md: Markdown
+    language: str,
+    inputs: dict[str, str],
+    options: dict[str, Any],
+    attrs: dict[str, Any],  # noqa: ARG001
+    md: Markdown,  # noqa: ARG001
 ) -> bool:
     """Validate code blocks inputs.
 
@@ -82,13 +86,13 @@ def validator(
 def formatter(
     source: str,
     language: str,
-    css_class: str,
+    css_class: str,  # noqa: ARG001
     options: dict[str, Any],
     md: Markdown,
-    classes: list[str] | None = None,
-    id_value: str = "",
-    attrs: dict[str, Any] | None = None,
-    **kwargs: Any,
+    classes: list[str] | None = None,  # noqa: ARG001
+    id_value: str = "",  # noqa: ARG001
+    attrs: dict[str, Any] | None = None,  # noqa: ARG001
+    **kwargs: Any,  # noqa: ARG001
 ) -> str:
     """Execute code and return HTML.
 
@@ -107,7 +111,7 @@ def formatter(
     Returns:
         HTML contents.
     """
-    fmt = formatters.get(language, lambda source, **kwargs: source)
+    fmt = formatters.get(language, lambda source, **kwargs: source)  # noqa: ARG005
     return fmt(code=source, md=md, **options)  # type: ignore[operator]
 
 

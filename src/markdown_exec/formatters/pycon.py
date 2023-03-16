@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
-from markupsafe import Markup
+from typing import TYPE_CHECKING, Any
 
 from markdown_exec.formatters.base import base_format
-from markdown_exec.formatters.python import _run_python  # noqa: WPS450
+from markdown_exec.formatters.python import _run_python
 from markdown_exec.logger import get_logger
+
+if TYPE_CHECKING:
+    from markupsafe import Markup
 
 logger = get_logger(__name__)
 
@@ -20,5 +23,5 @@ def _transform_source(code: str) -> tuple[str, str]:
     return python_code, code
 
 
-def _format_pycon(**kwargs) -> Markup:
+def _format_pycon(**kwargs: Any) -> Markup:
     return base_format(language="pycon", run=_run_python, transform_source=_transform_source, **kwargs)

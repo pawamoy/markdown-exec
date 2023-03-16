@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 from textwrap import indent
-from typing import Any, Callable
+from typing import TYPE_CHECKING, Any, Callable
 from uuid import uuid4
 
-from markdown.core import Markdown
 from markupsafe import Markup
 
 from markdown_exec.logger import get_logger
 from markdown_exec.rendering import MarkdownConverter, add_source, code_block
+
+if TYPE_CHECKING:
+    from markdown.core import Markdown
 
 logger = get_logger(__name__)
 default_tabs = ("Source", "Result")
@@ -29,7 +31,7 @@ class ExecutionError(Exception):
         self.returncode = returncode
 
 
-def _format_log_details(details: str, strip_fences: bool = False) -> str:
+def _format_log_details(details: str, *, strip_fences: bool = False) -> str:
     if strip_fences:
         lines = details.split("\n")
         if lines[0].startswith("```") and lines[-1].startswith("```"):
@@ -37,7 +39,7 @@ def _format_log_details(details: str, strip_fences: bool = False) -> str:
     return indent(details, " " * 2)
 
 
-def base_format(  # noqa: WPS231
+def base_format(
     *,
     language: str,
     run: Callable,
@@ -47,7 +49,7 @@ def base_format(  # noqa: WPS231
     source: str = "",
     result: str = "",
     tabs: tuple[str, str] = default_tabs,
-    id: str = "",  # noqa: A002,VNE003
+    id: str = "",  # noqa: A002
     returncode: int = 0,
     transform_source: Callable[[str], tuple[str, str]] | None = None,
     session: str | None = None,
@@ -102,7 +104,12 @@ def base_format(  # noqa: WPS231
         if source:
             placeholder = str(uuid4())
             wrapped_output = add_source(
-                source=source_output, location=source, output=placeholder, language=language, tabs=tabs, **extra
+                source=source_output,
+                location=source,
+                output=placeholder,
+                language=language,
+                tabs=tabs,
+                **extra,
             )
             return markdown.convert(wrapped_output, stash={placeholder: output})
         return Markup(output)

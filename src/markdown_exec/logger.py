@@ -27,7 +27,7 @@ def get_logger(name):
 
 patch_loggers(get_logger)
 ```
-"""  # noqa: P102
+"""
 
 from __future__ import annotations
 
@@ -39,9 +39,9 @@ class _Logger:
     _default_logger: Any = logging.getLogger
     _instances: dict[str, _Logger] = {}
 
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
         # default logger that can be patched by third-party
-        self._logger = self.__class__._default_logger(name)  # noqa: WPS437
+        self._logger = self.__class__._default_logger(name)
         # register instance
         self._instances[name] = self
 
@@ -50,10 +50,10 @@ class _Logger:
         return getattr(self._logger, name)
 
     @classmethod
-    def _patch_loggers(cls, get_logger_func):
+    def _patch_loggers(cls, get_logger_func: Callable) -> None:
         # patch current instances
         for name, instance in cls._instances.items():
-            instance._logger = get_logger_func(name)  # noqa: WPS437
+            instance._logger = get_logger_func(name)
         # future instances will be patched as well
         cls._default_logger = get_logger_func
 
@@ -76,4 +76,4 @@ def patch_loggers(get_logger_func: Callable[[str], Any]) -> None:
     Parameters:
         get_logger_func: A function accepting a name as parameter and returning a logger.
     """
-    _Logger._patch_loggers(get_logger_func)  # noqa: WPS437
+    _Logger._patch_loggers(get_logger_func)

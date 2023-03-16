@@ -17,8 +17,8 @@ def test_output_markdown(md: Markdown) -> None:
             ```python exec="yes"
             print("**Bold!**")
             ```
-            """
-        )
+            """,
+        ),
     )
     assert html == "<p><strong>Bold!</strong></p>"
 
@@ -35,8 +35,8 @@ def test_output_html(md: Markdown) -> None:
             ```python exec="yes" html="yes"
             print("**Bold!**")
             ```
-            """
-        )
+            """,
+        ),
     )
     assert html == "<p>**Bold!**\n</p>"
 
@@ -54,8 +54,8 @@ def test_error_raised(md: Markdown, caplog) -> None:
             ```python exec="yes"
             raise ValueError("oh no!")
             ```
-            """
-        )
+            """,
+        ),
     )
     assert "Traceback" in html
     assert "ValueError" in html
@@ -80,8 +80,8 @@ def test_can_print_non_string_objects(md: Markdown) -> None:
             nonstring = NonString()
             print(nonstring, nonstring)
             ```
-            """
-        )
+            """,
+        ),
     )
     assert "Traceback" not in html
 
@@ -122,8 +122,8 @@ def test_sessions(md: Markdown) -> None:
             else:
                 print("ko")
             ```
-            """
-        )
+            """,
+        ),
     )
     assert "a = 1" in html
     assert "b = 2" in html

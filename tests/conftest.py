@@ -20,7 +20,7 @@ def md() -> Markdown:
             "validator": validator,
             "format": formatter,
         }
-        for language in formatters.keys()
+        for language in formatters
     ]
     return Markdown(
         extensions=["pymdownx.superfences"],

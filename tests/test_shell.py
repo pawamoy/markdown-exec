@@ -17,8 +17,8 @@ def test_output_markdown(md: Markdown) -> None:
             ```sh exec="yes"
             echo "**Bold!**"
             ```
-            """
-        )
+            """,
+        ),
     )
     assert html == "<p><strong>Bold!</strong></p>"
 
@@ -35,8 +35,8 @@ def test_output_html(md: Markdown) -> None:
             ```sh exec="yes" html="yes"
             echo "**Bold!**"
             ```
-            """
-        )
+            """,
+        ),
     )
     assert html == "<p>**Bold!**\n</p>"
 
@@ -54,8 +54,8 @@ def test_error_raised(md: Markdown, caplog) -> None:
             ```sh exec="yes"
             echo("wrong syntax")
             ```
-            """
-        )
+            """,
+        ),
     )
     assert "error" in html
     assert "Execution of sh code block exited with unexpected code 2" in caplog.text
@@ -75,8 +75,8 @@ def test_return_code(md: Markdown, caplog) -> None:
             echo Not in the mood
             exit 1
             ```
-            """
-        )
+            """,
+        ),
     )
     assert "Not in the mood" in html
     assert "exited with" not in caplog.text
