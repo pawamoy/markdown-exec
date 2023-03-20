@@ -23,6 +23,30 @@ in the result, files which are not automatically added to the final site.
 --8<-- "gallery/diagrams.py"
 ```
 
+## Python dependency tree
+
+[pipdeptree](https://github.com/tox-dev/pipdeptree)
+is able to output a Mermaid diagram of your Python dependency tree.
+In this example we change the direction of the graph
+from top-down to left-right, and remove local version identifiers
+from our own package.
+
+```bash exec="1" source="tabbed-right" title="pipdeptree mermaid diagram"
+echo '```mermaid'
+pipdeptree -p markdown-exec --mermaid 2>/dev/null |
+    sed 's/flowchart TD/flowchart LR/' |
+    sed 's/\.dev.+"\]$/"]/;s/\+d.*"\]$/"]/'
+echo '```'
+```
+
+Another example with more dependencies and top-down direction:
+
+```bash exec="1" source="tabbed-right" title="pipdeptree mermaid diagram"
+echo '```mermaid'
+pipdeptree -p mkdocstrings-python --mermaid 2>/dev/null
+echo '```'
+```
+
 ## Python modules inter-dependencies
 
 This example uses [pydeps](https://github.com/thebjorn/pydeps) to build a graph

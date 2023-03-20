@@ -73,6 +73,7 @@ docs = [
     "numpy>=1.23; python_version >= '3.8' and python_version < '3.11'",
     "textual[dev]; python_version >= '3.8' and python_version < '3.11'",
     "pytermgui>=6.3; python_version >= '3.8' and python_version < '3.11'",
+    "pipdeptree>=2.6.0; python_version >= '3.8' and python_version < '3.11'",
 ]
 maintain = [
     "black>=23.1",
