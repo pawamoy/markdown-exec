@@ -79,6 +79,10 @@ plugins:
 - markdown-exec
 ```
 
+We do recommend enabling Markdown Exec with the MkDocs plugin
+if you are using MkDocs: it will take care of adding relevant
+assets (CSS/JS) to the final site when needed. 
+
 ## Usage
 
 You are now able to execute code blocks instead of displaying them:
