@@ -54,15 +54,7 @@ def _rec_format_tree(tree: list[tuple[str, list]], *, root: bool = True) -> list
     return lines
 
 
-def _format_tree(
-    code: str,
-    md: Markdown,
-    html: bool,  # noqa: ARG001,FBT001
-    source: str,  # noqa: ARG001
-    result: str,
-    tabs: tuple[str, str],  # noqa: ARG001
-    **options: Any,
-) -> str:
+def _format_tree(code: str, md: Markdown, result: str, **options: Any) -> str:
     markdown = MarkdownConverter(md)
     output = "\n".join(_rec_format_tree(_build_tree(code)))
     return markdown.convert(code_block(result or "bash", output, **options.get("extra", {})))
