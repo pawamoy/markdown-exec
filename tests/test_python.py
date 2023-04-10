@@ -1,8 +1,13 @@
 """Tests for the Python formatters."""
 
-from textwrap import dedent
+from __future__ import annotations
 
-from markdown import Markdown
+from textwrap import dedent
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import pytest
+    from markdown import Markdown
 
 
 def test_output_markdown(md: Markdown) -> None:
@@ -41,7 +46,7 @@ def test_output_html(md: Markdown) -> None:
     assert html == "<p>**Bold!**\n</p>"
 
 
-def test_error_raised(md: Markdown, caplog) -> None:
+def test_error_raised(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
     """Assert errors properly log a warning and return a formatted traceback.
 
     Parameters:

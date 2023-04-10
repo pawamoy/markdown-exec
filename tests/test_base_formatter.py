@@ -42,7 +42,7 @@ def test_render_source(md: Markdown, html: bool) -> None:
     assert "Source" in markup
 
 
-def test_render_console_plus_ansi_result(md) -> None:
+def test_render_console_plus_ansi_result(md: Markdown) -> None:
     """Assert we can render source as console style with `ansi` highlight.
 
     Parameters:

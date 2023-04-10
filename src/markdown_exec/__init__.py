@@ -111,7 +111,7 @@ def formatter(
     Returns:
         HTML contents.
     """
-    fmt = formatters.get(language, lambda source, **kwargs: source)  # noqa: ARG005
+    fmt = formatters.get(language, lambda source, **kwargs: source)
     return fmt(code=source, md=md, **options)  # type: ignore[operator]
 
 
