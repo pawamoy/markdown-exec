@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.4.1](https://github.com/pawamoy/markdown-exec/releases/tag/1.4.1) - 2023-04-16
+
+<small>[Compare with 1.4.0](https://github.com/pawamoy/markdown-exec/compare/1.4.0...1.4.1)</small>
+
+### Bug Fixes
+
+- Improve handling of errors within sessions ([87ac5f3](https://github.com/pawamoy/markdown-exec/commit/87ac5f352ce44370f52a7fb56d846c04b76447f9) by Timothée Mazzucotelli).
+- Swallow non-extra parameters in run functions ([f5d4fef](https://github.com/pawamoy/markdown-exec/commit/f5d4fef1f78d94c3f8850f873076e3cd68c0a981) by Timothée Mazzucotelli).
+
+### Code Refactoring
+
+- Simplify tree formatter signature ([09d5427](https://github.com/pawamoy/markdown-exec/commit/09d542772ccb0d1250366b39fa3a9c9362e1ed42) by Timothée Mazzucotelli).
+
 ## [1.4.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.4.0) - 2023-03-15
 
 <small>[Compare with 1.3.0](https://github.com/pawamoy/markdown-exec/compare/1.3.0...1.4.0)</small>
