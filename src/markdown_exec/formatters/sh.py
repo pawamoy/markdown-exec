@@ -9,7 +9,13 @@ from markdown_exec.formatters.base import ExecutionError, base_format
 from markdown_exec.rendering import code_block
 
 
-def _run_sh(code: str, *, returncode: int = 0, **extra: str) -> str:
+def _run_sh(
+    code: str,
+    returncode: int | None = None,
+    session: str | None = None,  # noqa: ARG001
+    id: str | None = None,  # noqa: A002,ARG001
+    **extra: str,
+) -> str:
     process = subprocess.run(
         ["sh", "-c", code],
         stdout=subprocess.PIPE,
