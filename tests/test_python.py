@@ -134,3 +134,31 @@ def test_sessions(md: Markdown) -> None:
     assert "b = 2" in html
     assert "ok" in html
     assert "ko" not in html
+
+
+def test_reporting_errors_in_sessions(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
+    """Assert errors and source lines are correctly reported across sessions.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+        caplog: Pytest fixture to capture logs.
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```python exec="1" session="a"
+            def fraise():
+                raise RuntimeError("strawberry")
+            ```
+
+            ```python exec="1" session="a"
+            print("hello")
+            fraise()
+            ```
+            """,
+        ),
+    )
+    assert "Traceback" in html
+    assert "strawberry" in html
+    assert "fraise()" in caplog.text
+    assert 'raise RuntimeError("strawberry")' in caplog.text

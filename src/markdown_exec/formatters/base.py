@@ -87,7 +87,7 @@ def base_format(
         source_output = code
 
     try:
-        output = run(source_input, returncode=returncode, session=session, **extra)
+        output = run(source_input, returncode=returncode, session=session, id=id, **extra)
     except ExecutionError as error:
         identifier = id or extra.get("title", "")
         identifier = identifier and f"'{identifier}' "
