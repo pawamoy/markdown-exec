@@ -70,6 +70,7 @@ def validator(
     result_value = inputs.pop("result", "")
     returncode_value = int(inputs.pop("returncode", "0"))
     session_value = inputs.pop("session", "")
+    update_toc_value = _to_bool(inputs.pop("updatetoc", "yes"))
     tabs_value = inputs.pop("tabs", "|".join(default_tabs))
     tabs = tuple(_tabs_re.split(tabs_value, maxsplit=1))
     options["id"] = id_value
@@ -78,6 +79,7 @@ def validator(
     options["result"] = result_value
     options["returncode"] = returncode_value
     options["session"] = session_value
+    options["update_toc"] = update_toc_value
     options["tabs"] = tabs
     options["extra"] = inputs
     return True

@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
+from functools import lru_cache
 from itertools import chain
 from textwrap import indent
 from typing import TYPE_CHECKING
 
 from markdown import Markdown
-from markdown.treeprocessors import Treeprocessor
 from markupsafe import Markup
+
+from markdown_exec.processors import (
+    HeadingReportingTreeprocessor,
+    IdPrependingTreeprocessor,
+    InsertHeadings,
+    RemoveHeadings,
+)
 
 if TYPE_CHECKING:
     from xml.etree.ElementTree import Element
@@ -99,49 +106,40 @@ def add_source(
     raise ValueError(f"unsupported location for sources: {location}")
 
 
-# code taken from mkdocstrings, credits to @oprypin
-class _IdPrependingTreeprocessor(Treeprocessor):
-    """Prepend the configured prefix to IDs of all HTML elements."""
-
-    name = "markdown_exec_ids"
-
-    def __init__(self, md: Markdown, id_prefix: str) -> None:
-        super().__init__(md)
-        self.id_prefix = id_prefix
-
-    def run(self, root: Element) -> None:
-        if not self.id_prefix:
-            return
-        for el in root.iter():
-            id_attr = el.get("id")
-            if id_attr:
-                el.set("id", self.id_prefix + id_attr)
-
-            href_attr = el.get("href")
-            if href_attr and href_attr.startswith("#"):
-                el.set("href", "#" + self.id_prefix + href_attr[1:])
-
-            name_attr = el.get("name")
-            if name_attr:
-                el.set("name", self.id_prefix + name_attr)
-
-            if el.tag == "label":
-                for_attr = el.get("for")
-                if for_attr:
-                    el.set("for", self.id_prefix + for_attr)
+@lru_cache(maxsize=None)
+def _register_headings_processors(md: Markdown) -> None:
+    md.treeprocessors.register(
+        InsertHeadings(md),
+        InsertHeadings.name,
+        priority=75,  # right before markdown.blockprocessors.HashHeaderProcessor
+    )
+    md.treeprocessors.register(
+        RemoveHeadings(md),
+        RemoveHeadings.name,
+        priority=4,  # right after toc
+    )
 
 
-def _mimic(md: Markdown) -> Markdown:
+def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) -> Markdown:
     md = getattr(md, "_original_md", md)
     new_md = Markdown()
     extensions = list(chain(md.registeredExtensions, ["tables", "md_in_html"]))
     new_md.registerExtensions(extensions, {})
     new_md.treeprocessors.register(
-        _IdPrependingTreeprocessor(md, ""),
-        _IdPrependingTreeprocessor.name,
-        priority=4,  # right after 'toc' (needed because that extension adds ids to headers)
+        IdPrependingTreeprocessor(md, ""),
+        IdPrependingTreeprocessor.name,
+        priority=4,  # right after 'toc' (needed because that extension adds ids to headings)
     )
     new_md._original_md = md  # type: ignore[attr-defined]
+
+    if update_toc:
+        _register_headings_processors(md)
+        new_md.treeprocessors.register(
+            HeadingReportingTreeprocessor(md, headings),
+            HeadingReportingTreeprocessor.name,
+            priority=1,  # Close to the end.
+        )
+
     return new_md
 
 
@@ -150,8 +148,10 @@ class MarkdownConverter:
 
     counter: int = 0
 
-    def __init__(self, md: Markdown) -> None:  # noqa: D107
+    def __init__(self, md: Markdown, *, update_toc: bool = True) -> None:  # noqa: D107
         self._md_ref: Markdown = md
+        self._headings: list[Element] = []
+        self._update_toc = update_toc
 
     def convert(self, text: str, stash: dict[str, str] | None = None) -> Markup:
         """Convert Markdown text to safe HTML.
@@ -163,19 +163,31 @@ class MarkdownConverter:
         Returns:
             Safe HTML.
         """
-        md = _mimic(self._md_ref)
+        md = _mimic(self._md_ref, self._headings, update_toc=self._update_toc)
 
         # prepare for conversion
-        md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = f"exec-{MarkdownConverter.counter}--"
+        md.treeprocessors[IdPrependingTreeprocessor.name].id_prefix = f"exec-{MarkdownConverter.counter}--"
         MarkdownConverter.counter += 1
 
         try:
             converted = md.convert(text)
         finally:
-            md.treeprocessors[_IdPrependingTreeprocessor.name].id_prefix = ""
+            md.treeprocessors[IdPrependingTreeprocessor.name].id_prefix = ""
 
         # restore html from stash
         for placeholder, stashed in (stash or {}).items():
             converted = converted.replace(placeholder, stashed)
 
-        return Markup(converted)
+        markup = Markup(converted)
+
+        # pass headings to upstream conversion layer
+        if self._update_toc:
+            self._md_ref.treeprocessors[InsertHeadings.name].headings[markup] = self.headings
+
+        return markup
+
+    @property
+    def headings(self) -> list[Element]:  # noqa: D102
+        headings = self._headings
+        self._headings = []
+        return headings

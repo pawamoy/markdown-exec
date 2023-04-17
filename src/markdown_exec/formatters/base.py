@@ -53,6 +53,7 @@ def base_format(
     returncode: int = 0,
     transform_source: Callable[[str], tuple[str, str]] | None = None,
     session: str | None = None,
+    update_toc: bool = True,
     **options: Any,
 ) -> Markup:
     """Execute code and return HTML.
@@ -72,12 +73,14 @@ def base_format(
             The input source is the one that is ran, the output source is the one that is
             rendered (when the source option is enabled).
         session: A session name, to persist state between executed code blocks.
+        update_toc: Whether to include generated headings
+            into the Markdown table of contents (toc extension).
         **options: Additional options passed from the formatter.
 
     Returns:
         HTML contents.
     """
-    markdown = MarkdownConverter(md)
+    markdown = MarkdownConverter(md, update_toc=update_toc)
     extra = options.get("extra", {})
 
     if transform_source:

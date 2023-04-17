@@ -157,6 +157,6 @@ In this example, we inspect the `argparse` parser to build better-looking
 Markdown/HTML contents. We simply use the description and iterate on options,
 but more complex stuff is possible of course.
 
-```python exec="true" source="tabbed-right" title="CLI help using argparse parser"
+```python exec="true" source="tabbed-right" updatetoc="no" title="CLI help using argparse parser"
 --8<-- "gallery/argparse.py"
 ```
