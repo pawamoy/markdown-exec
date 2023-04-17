@@ -31,21 +31,21 @@ In this example we change the direction of the graph
 from top-down to left-right, and remove local version identifiers
 from our own package.
 
-```bash exec="1" source="tabbed-right" title="pipdeptree mermaid diagram"
-echo '```mermaid'
+````md exec="1" source="tabbed-right" title="pipdeptree mermaid diagram"
+```bash exec="1" result="mermaid"
 pipdeptree -p markdown-exec --mermaid 2>/dev/null |
     sed 's/flowchart TD/flowchart LR/' |
     sed 's/\.dev.+"\]$/"]/;s/\+d.*"\]$/"]/'
-echo '```'
 ```
+````
 
 Another example with more dependencies and top-down direction:
 
-```bash exec="1" source="tabbed-right" title="pipdeptree mermaid diagram"
-echo '```mermaid'
+````md exec="1" source="tabbed-right" title="pipdeptree mermaid diagram"
+```bash exec="1" result="mermaid"
 pipdeptree -p mkdocstrings-python --mermaid 2>/dev/null
-echo '```'
 ```
+````
 
 ## Python modules inter-dependencies
 
