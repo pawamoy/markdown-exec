@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.5.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.5.0) - 2023-04-17
+
+<small>[Compare with 1.4.1](https://github.com/pawamoy/markdown-exec/compare/1.4.1...1.5.0)</small>
+
+### Features
+
+- Update ToC with generated headings ([5ea2263](https://github.com/pawamoy/markdown-exec/commit/5ea2263d53729b6d3e79da69c29b171bb6c3e22d) by Timothée Mazzucotelli).
+
 ## [1.4.1](https://github.com/pawamoy/markdown-exec/releases/tag/1.4.1) - 2023-04-16
 
 <small>[Compare with 1.4.0](https://github.com/pawamoy/markdown-exec/compare/1.4.0...1.4.1)</small>
