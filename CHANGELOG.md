@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.5.1](https://github.com/pawamoy/markdown-exec/releases/tag/1.5.1) - 2023-04-17
+
+<small>[Compare with 1.5.0](https://github.com/pawamoy/markdown-exec/compare/1.5.0...1.5.1)</small>
+
+### Bug Fixes
+
+- Remove pycon output lines when rendering source as console ([fb5a23d](https://github.com/pawamoy/markdown-exec/commit/fb5a23d8d1d50aa2a1ede97150c269a07fa200ec) by Timothée Mazzucotelli).
+- Fix nested rendering ([a110d44](https://github.com/pawamoy/markdown-exec/commit/a110d446209b390ec8a4ad8868818352f72a9808) by Timothée Mazzucotelli).
+
 ## [1.5.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.5.0) - 2023-04-17
 
 <small>[Compare with 1.4.1](https://github.com/pawamoy/markdown-exec/compare/1.4.1...1.5.0)</small>
