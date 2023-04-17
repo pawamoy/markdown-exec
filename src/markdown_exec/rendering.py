@@ -20,6 +20,8 @@ from markdown_exec.processors import (
 if TYPE_CHECKING:
     from xml.etree.ElementTree import Element
 
+    from markdown import Extension
+
 
 def code_block(language: str, code: str, **options: str) -> str:
     """Format code as a code block.
@@ -121,9 +123,8 @@ def _register_headings_processors(md: Markdown) -> None:
 
 
 def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) -> Markdown:
-    md = getattr(md, "_original_md", md)
     new_md = Markdown()
-    extensions = list(chain(md.registeredExtensions, ["tables", "md_in_html"]))
+    extensions: list[Extension | str] = list(chain(md.registeredExtensions, ["tables", "md_in_html"]))
     new_md.registerExtensions(extensions, {})
     new_md.treeprocessors.register(
         IdPrependingTreeprocessor(md, ""),
@@ -135,7 +136,7 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
     if update_toc:
         _register_headings_processors(md)
         new_md.treeprocessors.register(
-            HeadingReportingTreeprocessor(md, headings),
+            HeadingReportingTreeprocessor(new_md, headings),
             HeadingReportingTreeprocessor.name,
             priority=1,  # Close to the end.
         )
@@ -153,6 +154,10 @@ class MarkdownConverter:
         self._headings: list[Element] = []
         self._update_toc = update_toc
 
+    @property
+    def _original_md(self) -> Markdown:
+        return getattr(self._md_ref, "_original_md", self._md_ref)
+
     def convert(self, text: str, stash: dict[str, str] | None = None) -> Markup:
         """Convert Markdown text to safe HTML.
 
@@ -163,7 +168,7 @@ class MarkdownConverter:
         Returns:
             Safe HTML.
         """
-        md = _mimic(self._md_ref, self._headings, update_toc=self._update_toc)
+        md = _mimic(self._original_md, self._headings, update_toc=self._update_toc)
 
         # prepare for conversion
         md.treeprocessors[IdPrependingTreeprocessor.name].id_prefix = f"exec-{MarkdownConverter.counter}--"
@@ -182,7 +187,7 @@ class MarkdownConverter:
 
         # pass headings to upstream conversion layer
         if self._update_toc:
-            self._md_ref.treeprocessors[InsertHeadings.name].headings[markup] = self.headings
+            self._original_md.treeprocessors[InsertHeadings.name].headings[markup] = self.headings
 
         return markup
 

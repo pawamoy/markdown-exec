@@ -51,7 +51,7 @@ class IdPrependingTreeprocessor(Treeprocessor):
 class HeadingReportingTreeprocessor(Treeprocessor):
     """Records the heading elements encountered in the document."""
 
-    name = "mkdocstrings_headings_list"
+    name = "markdown_exec_record_headings"
     regex = re.compile("[Hh][1-6]")
 
     def __init__(self, md: Markdown, headings: list[Element]):  # noqa: D107
