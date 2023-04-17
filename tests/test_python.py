@@ -162,3 +162,23 @@ def test_reporting_errors_in_sessions(md: Markdown, caplog: pytest.LogCaptureFix
     assert "strawberry" in html
     assert "fraise()" in caplog.text
     assert 'raise RuntimeError("strawberry")' in caplog.text
+
+
+def test_removing_output_from_pycon_code(md: Markdown) -> None:
+    """Assert output lines are removed from pycon snippets.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```pycon exec="1" source="console"
+            >>> print("ok")
+            ko
+            ```
+            """,
+        ),
+    )
+    assert "ok" in html
+    assert "ko" not in html

@@ -16,11 +16,13 @@ logger = get_logger(__name__)
 
 def _transform_source(code: str) -> tuple[str, str]:
     python_lines = []
+    pycon_lines = []
     for line in code.split("\n"):
         if line.startswith((">>> ", "... ")):
+            pycon_lines.append(line)
             python_lines.append(line[4:])
     python_code = "\n".join(python_lines)
-    return python_code, code
+    return python_code, "\n".join(pycon_lines)
 
 
 def _format_pycon(**kwargs: Any) -> Markup:
