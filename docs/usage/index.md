@@ -12,7 +12,25 @@ print("Hello Markdown!")
 The `exec` option will be true for every possible value
 except `0`, `no`, `off` and `false` (case insensitive).
 
+## Options summary
+
+As the number of options grew over time,
+we now provide this summary listing every option,
+linking to their related documentation:
+
+- [`exec`](#usage): The mother of all other options, enabling code execution.
+- [`html`](#html-vs-markdown): Whether the output is alredady HTML, or needs to be converted from Markdown to HTML.
+- [`id`](#handling-errors): Give an identifier to your code blocks to help debugging errors.
+- [`result`](#wrap-result-in-a-code-block): Choose the syntax highlight of your code block output.
+- [`returncode`](./shell/#expecting-a-non-zero-exit-code): Tell what return code is expected (shell code).
+- [`session`](#sessions): Execute code blocks within a named session, reusing previously defined variables, etc..
+- [`source`](#render-the-source-code-as-well): Render the source as well as the output.
+- [`tabs`](#change-the-titles-of-tabs): When rendering the source using tabs, choose the tabs titles.
+- [`title`](#additional-options): Title is a [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) option.
+- [`updatetoc`](#generated-headings-in-table-of-contents): Whether to update the Table of Contents with generated headings.
+
 ## HTML vs. Markdown
+
 
 By default, Markdown Exec will render what you print as Markdown.
 If you want to skip rendering, to inject HTML directly,
