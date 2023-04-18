@@ -58,9 +58,13 @@ extra_css:
 
 markdown_extensions:
 - admonition
+- attr_list
 - callouts:
     strip_period: false
-- pymdownx.emoji
+- md_in_html
+- pymdownx.emoji:
+    emoji_index: !!python/name:materialx.emoji.twemoji
+    emoji_generator: !!python/name:materialx.emoji.to_svg
 - pymdownx.magiclink
 - pymdownx.snippets:
     check_paths: true

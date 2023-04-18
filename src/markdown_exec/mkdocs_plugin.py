@@ -13,7 +13,7 @@ from mkdocs.utils import write_file
 
 from markdown_exec import formatter, formatters, validator
 from markdown_exec.logger import patch_loggers
-from markdown_exec.rendering import MarkdownConverter
+from markdown_exec.rendering import MarkdownConverter, markdown_config
 
 if TYPE_CHECKING:
     from jinja2 import Environment
@@ -49,7 +49,22 @@ class MarkdownExecPlugin(BasePlugin):
 
     config_scheme = (("languages", config_options.Type(list, default=list(formatters.keys()))),)
 
-    def on_config(self, config: Config, **kwargs: Any) -> Config:  # noqa: ARG002,D102
+    def on_config(self, config: Config, **kwargs: Any) -> Config:  # noqa: ARG002
+        """Configure the plugin.
+
+        Hook for the [`on_config` event](https://www.mkdocs.org/user-guide/plugins/#on_config).
+        In this hook, we add custom fences for all the supported languages.
+
+        We also save the Markdown extensions configuration
+        into [`markdown_config`][markdown_exec.rendering.markdown_config].
+
+        Arguments:
+            config: The MkDocs config object.
+            **kwargs: Additional arguments passed by MkDocs.
+
+        Returns:
+            The modified config.
+        """
         self.languages = self.config["languages"]
         mdx_configs = config.setdefault("mdx_configs", {})
         superfences = mdx_configs.setdefault("pymdownx.superfences", {})
@@ -63,6 +78,7 @@ class MarkdownExecPlugin(BasePlugin):
                     "format": formatter,
                 },
             )
+        markdown_config.save(config["markdown_extensions"], config["mdx_configs"])
         return config
 
     def on_env(self, env: Environment, *, config: Config, files: Files) -> Environment | None:  # noqa: ARG002,D102
@@ -74,3 +90,4 @@ class MarkdownExecPlugin(BasePlugin):
 
     def on_post_build(self, *, config: Config) -> None:  # noqa: ARG002,D102
         MarkdownConverter.counter = 0
+        markdown_config.reset()

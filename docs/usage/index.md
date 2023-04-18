@@ -26,11 +26,10 @@ linking to their related documentation:
 - [`session`](#sessions): Execute code blocks within a named session, reusing previously defined variables, etc..
 - [`source`](#render-the-source-code-as-well): Render the source as well as the output.
 - [`tabs`](#change-the-titles-of-tabs): When rendering the source using tabs, choose the tabs titles.
-- [`title`](#additional-options): Title is a [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) option.
+- [`title`](#additional-options): Title is a [Material for MkDocs][material] option.
 - [`updatetoc`](#generated-headings-in-table-of-contents): Whether to update the Table of Contents with generated headings.
 
 ## HTML vs. Markdown
-
 
 By default, Markdown Exec will render what you print as Markdown.
 If you want to skip rendering, to inject HTML directly,
@@ -81,9 +80,13 @@ with one of the following values:
 
 - `above`: The source code will be rendered above the result.
 - `below`: The source code will be rendered below the result.
-- `material-block`: The source code and result will be wrapped in a nice-looking block (only works with Material for MkDocs).
-- `tabbed-left`: The source code and result will be rendered in tabs, in that order (remember to enable the `pymdownx.tabbed` extension).
-- `tabbed-right`: The result and source code will be rendered in tabs, in that order (remember to enable the `pymdownx.tabbed` extension).
+- `material-block`: The source code and result will be wrapped in a nice-looking block
+    (only works with [Material for MkDocs][material],
+    and requires the [`md_in_html`][md_in_html] extension)
+- `tabbed-left`: The source code and result will be rendered in tabs, in that order
+    (requires the [`pymdownx.tabbed`][pymdownx.tabbed] extension).
+- `tabbed-right`: The result and source code will be rendered in tabs, in that order
+    (requires the [`pymdownx.tabbed`][pymdownx.tabbed] extension).
 - `console`: The source and result are concatenated in a single code block, like an interactive console session.
 
 **Source above:**
@@ -114,6 +117,9 @@ with one of the following values:
 ```
 ````
 
+NOTE: **Important**  
+The `material-block` source option requires that you enable the [`md_in_html`][md_in_html] Markdown extension.
+
 ---
 
 **Tabbed on the left:**
@@ -123,6 +129,9 @@ with one of the following values:
 --8<-- "usage/source.py"
 ```
 ````
+
+NOTE: **Important**  
+The `tabbed-left` source option requires that you enable the [`pymdownx.tabbed`][pymdownx.tabbed] Markdown extension.
 
 ---
 
@@ -134,6 +143,9 @@ with one of the following values:
 ```
 ````
 
+NOTE: **Important**  
+The `tabbed-left` source option requires that you enable the [`pymdownx.tabbed`][pymdownx.tabbed] Markdown extension.
+
 ---
 
 **Console** <small>(best used with actual session syntax like
@@ -144,6 +156,9 @@ with one of the following values:
 --8<-- "usage/source.pycon"
 ```
 ````
+
+[md_in_html]: https://python-markdown.github.io/extensions/md_in_html/
+[pymdownx.tabbed]: https://facelessuser.github.io/pymdown-extensions/extensions/tabbed/
 
 ## Hiding lines from the source
 
@@ -207,7 +222,7 @@ Wrapping the result is not possible when HTML output is enabled.
 
 ## Additional options
 
-If you are using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/),
+If you are using [Material for MkDocs][material],
 you are probably familiar with the `title` option on code blocks:
 
 ````md
@@ -349,3 +364,5 @@ That makes for a very meta-markdown markup:
 > (click on "Raw" to see the code blocks execution options).
 
 Of course "executing" Markdown (or rather, making it "literate") only makes sense when the source is shown as well.
+
+[material]: https://squidfunk.github.io/mkdocs-material/

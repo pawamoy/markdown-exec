@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 from functools import lru_cache
-from itertools import chain
 from textwrap import indent
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from markdown import Markdown
 from markupsafe import Markup
@@ -108,6 +107,67 @@ def add_source(
     raise ValueError(f"unsupported location for sources: {location}")
 
 
+class MarkdownConfig:
+    """This class returns a singleton used to store Markdown extensions configuration.
+
+    You don't have to instantiate the singleton yourself:
+    we provide it as [`markdown_config`][markdown_exec.rendering.markdown_config].
+    """
+
+    _singleton: MarkdownConfig | None = None
+
+    def __new__(cls) -> MarkdownConfig:  # noqa: D102
+        if cls._singleton is None:
+            cls._singleton = super().__new__(cls)
+        return cls._singleton
+
+    def __init__(self) -> None:  # noqa: D107
+        self.exts: list[str | Extension] | None = None
+        self.exts_config: dict[str, dict[str, Any]] | None = None
+
+    def save(self, exts: list[str | Extension], exts_config: dict[str, dict[str, Any]]) -> None:
+        """Save Markdown extensions and their configuration.
+
+        Parameters:
+            exts: The Markdown extensions.
+            exts_config: The extensions configuration.
+        """
+        self.exts = exts
+        self.exts_config = exts_config
+
+    def reset(self) -> None:
+        """Reset Markdown extensions and their configuration."""
+        self.exts = None
+        self.exts_config = None
+
+
+markdown_config = MarkdownConfig()
+"""This object can be used to save the configuration of your Markdown extensions.
+
+For example, since we provide a MkDocs plugin, we use it to store the configuration
+that was read from `mkdocs.yml`:
+
+```python
+from markdown_exec.rendering import markdown_config
+
+# ...in relevant events/hooks, access and modify extensions and their configs, then:
+markdown_config.save(extensions, extensions_config)
+```
+
+See the actual event hook: [`on_config`][markdown_exec.mkdocs_plugin.MarkdownExecPlugin.on_config].
+See the [`save`][markdown_exec.rendering.MarkdownConfig.save]
+and [`reset`][markdown_exec.rendering.MarkdownConfig.reset] methods.
+
+Without it, Markdown Exec will rely on the `registeredExtensions` attribute
+of the original Markdown instance, which does not forward everything
+that was configured, notably extensions like `tables`. Other extensions
+such as `attr_list` are visible, but fail to register properly when
+reusing their instances. It means that the rendered HTML might differ
+from what you expect (tables not rendered, attribute lists not injected,
+emojis not working, etc.).
+"""
+
+
 @lru_cache(maxsize=None)
 def _register_headings_processors(md: Markdown) -> None:
     md.treeprocessors.register(
@@ -124,8 +184,9 @@ def _register_headings_processors(md: Markdown) -> None:
 
 def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) -> Markdown:
     new_md = Markdown()
-    extensions: list[Extension | str] = list(chain(md.registeredExtensions, ["tables", "md_in_html"]))
-    new_md.registerExtensions(extensions, {})
+    extensions: list[Extension | str] = markdown_config.exts or md.registeredExtensions  # type: ignore[assignment]
+    extensions_config: dict[str, dict[str, Any]] = markdown_config.exts_config or {}
+    new_md.registerExtensions(extensions, extensions_config)
     new_md.treeprocessors.register(
         IdPrependingTreeprocessor(md, ""),
         IdPrependingTreeprocessor.name,
