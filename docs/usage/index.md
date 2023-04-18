@@ -20,7 +20,9 @@ linking to their related documentation:
 
 - [`exec`](#usage): The mother of all other options, enabling code execution.
 - [`html`](#html-vs-markdown): Whether the output is alredady HTML, or needs to be converted from Markdown to HTML.
-- [`id`](#handling-errors): Give an identifier to your code blocks to help debugging errors.
+- [`id`](#handling-errors): Give an identifier to your code blocks to help
+    [debugging errors](#handling-errors), or to [prefix HTML ids](#html-ids).
+- [`idprefix`](#html-ids): Change or remove the prefix in front of HTML ids/hrefs.
 - [`result`](#wrap-result-in-a-code-block): Choose the syntax highlight of your code block output.
 - [`returncode`](./shell/#expecting-a-non-zero-exit-code): Tell what return code is expected (shell code).
 - [`session`](#sessions): Execute code blocks within a named session, reusing previously defined variables, etc..
@@ -69,6 +71,48 @@ print("# XL heading\n")
 print("## L heading\n")
 print("### M heading\n")
 print("#### S heading\n")
+```
+````
+
+## HTML ids
+
+When your executed code blocks output Markdown,
+this Markdown is rendered to HTML, and every HTML id
+is automatically prefixed with `exec-N--`, where N
+is an integer incremented with each code block.
+To avoid breaking links, every `href` attribute
+is also updated when relevant.
+
+You can change this prefix, or completely remove it
+with the `idprefix` option.
+
+The following ids are not prefixed:
+
+````md exec="1" source="material-block"
+```python exec="1" idprefix="" updatetoc="no"
+print("#### Commands")
+print("\n[link to commands](#commands)")
+```
+````
+
+The following ids are prefixed with `cli-`:
+
+````md exec="1" source="material-block"
+```python exec="1" idprefix="cli-" updatetoc="no"
+print("#### Commands")
+print("\n[link to commands](#commands)")
+```
+````
+
+If `idprefix` is not specified, and `id` is specified,
+then the id is used as prefix:
+
+The following ids are prefixed with `super-cli-`:
+
+````md exec="1" source="material-block"
+```python exec="1" id="super-cli" updatetoc="no"
+print("#### Commands")
+print("\n[link to commands](#commands)")
 ```
 ````
 

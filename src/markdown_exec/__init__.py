@@ -65,6 +65,7 @@ def validator(
     if language != "tree" and not exec_value:
         return False
     id_value = inputs.pop("id", "")
+    id_prefix_value = inputs.pop("idprefix", None)
     html_value = _to_bool(inputs.pop("html", "no"))
     source_value = inputs.pop("source", "")
     result_value = inputs.pop("result", "")
@@ -74,6 +75,7 @@ def validator(
     tabs_value = inputs.pop("tabs", "|".join(default_tabs))
     tabs = tuple(_tabs_re.split(tabs_value, maxsplit=1))
     options["id"] = id_value
+    options["id_prefix"] = id_prefix_value
     options["html"] = html_value
     options["source"] = source_value
     options["result"] = result_value

@@ -50,6 +50,7 @@ def base_format(
     result: str = "",
     tabs: tuple[str, str] = default_tabs,
     id: str = "",  # noqa: A002
+    id_prefix: str | None = None,
     returncode: int = 0,
     transform_source: Callable[[str], tuple[str, str]] | None = None,
     session: str | None = None,
@@ -68,6 +69,7 @@ def base_format(
         result: If provided, use as language to format result in a code block.
         tabs: Titles of tabs (if used).
         id: An optional ID for the code block (useful when warning about errors).
+        id_prefix: A string used to prefix HTML ids in the generated HTML.
         returncode: The expected exit code.
         transform_source: An optional callable that returns transformed versions of the source.
             The input source is the one that is ran, the output source is the one that is
@@ -130,4 +132,5 @@ def base_format(
             result=result,
             **extra,
         )
-    return markdown.convert(wrapped_output)
+    prefix = id_prefix if id_prefix is not None else (f"{id}-" if id else None)
+    return markdown.convert(wrapped_output, id_prefix=prefix)

@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+from contextlib import contextmanager
 from functools import lru_cache
 from textwrap import indent
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Iterator
 
 from markdown import Markdown
 from markupsafe import Markup
@@ -205,6 +206,17 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
     return new_md
 
 
+@contextmanager
+def _id_prefix(md: Markdown, prefix: str | None) -> Iterator[None]:
+    MarkdownConverter.counter += 1
+    id_prepending_processor = md.treeprocessors[IdPrependingTreeprocessor.name]
+    id_prepending_processor.id_prefix = prefix if prefix is not None else f"exec-{MarkdownConverter.counter}--"
+    try:
+        yield
+    finally:
+        id_prepending_processor.id_prefix = ""
+
+
 class MarkdownConverter:
     """Helper class to avoid breaking the original Markdown instance state."""
 
@@ -219,7 +231,11 @@ class MarkdownConverter:
     def _original_md(self) -> Markdown:
         return getattr(self._md_ref, "_original_md", self._md_ref)
 
-    def convert(self, text: str, stash: dict[str, str] | None = None) -> Markup:
+    def _report_headings(self, markup: Markup) -> None:
+        self._original_md.treeprocessors[InsertHeadings.name].headings[markup] = self._headings
+        self._headings = []
+
+    def convert(self, text: str, stash: dict[str, str] | None = None, id_prefix: str | None = None) -> Markup:
         """Convert Markdown text to safe HTML.
 
         Parameters:
@@ -231,14 +247,9 @@ class MarkdownConverter:
         """
         md = _mimic(self._original_md, self._headings, update_toc=self._update_toc)
 
-        # prepare for conversion
-        md.treeprocessors[IdPrependingTreeprocessor.name].id_prefix = f"exec-{MarkdownConverter.counter}--"
-        MarkdownConverter.counter += 1
-
-        try:
+        # convert markdown to html
+        with _id_prefix(md, id_prefix):
             converted = md.convert(text)
-        finally:
-            md.treeprocessors[IdPrependingTreeprocessor.name].id_prefix = ""
 
         # restore html from stash
         for placeholder, stashed in (stash or {}).items():
@@ -248,12 +259,6 @@ class MarkdownConverter:
 
         # pass headings to upstream conversion layer
         if self._update_toc:
-            self._original_md.treeprocessors[InsertHeadings.name].headings[markup] = self.headings
+            self._report_headings(markup)
 
         return markup
-
-    @property
-    def headings(self) -> list[Element]:  # noqa: D102
-        headings = self._headings
-        self._headings = []
-        return headings
