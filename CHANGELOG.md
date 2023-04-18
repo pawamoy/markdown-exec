@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.5.2](https://github.com/pawamoy/markdown-exec/releases/tag/1.5.2) - 2023-04-18
+
+<small>[Compare with 1.5.1](https://github.com/pawamoy/markdown-exec/compare/1.5.1...1.5.2)</small>
+
+### Code Refactoring
+
+- Reset counter in post build event ([3bf80de](https://github.com/pawamoy/markdown-exec/commit/3bf80deabe9a7438b459c73e962c9693bce71135) by Timothée Mazzucotelli).
+
 ## [1.5.1](https://github.com/pawamoy/markdown-exec/releases/tag/1.5.1) - 2023-04-17
 
 <small>[Compare with 1.5.0](https://github.com/pawamoy/markdown-exec/compare/1.5.0...1.5.1)</small>
