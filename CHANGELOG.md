@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.6.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.6.0) - 2023-04-18
+
+<small>[Compare with 1.5.3](https://github.com/pawamoy/markdown-exec/compare/1.5.3...1.6.0)</small>
+
+### Features
+
+- Add `idprefix` option allowing to change/remove HTML id/href prefixes ([4d91463](https://github.com/pawamoy/markdown-exec/commit/4d914630e5642feb87103644800d3c9f7b59c6ad) by Timothée Mazzucotelli).
+
 ## [1.5.3](https://github.com/pawamoy/markdown-exec/releases/tag/1.5.3) - 2023-04-18
 
 <small>[Compare with 1.5.2](https://github.com/pawamoy/markdown-exec/compare/1.5.2...1.5.3)</small>
