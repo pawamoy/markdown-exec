@@ -13,6 +13,7 @@ from mkdocs.utils import write_file
 
 from markdown_exec import formatter, formatters, validator
 from markdown_exec.logger import patch_loggers
+from markdown_exec.rendering import MarkdownConverter
 
 if TYPE_CHECKING:
     from jinja2 import Environment
@@ -70,3 +71,6 @@ class MarkdownExecPlugin(BasePlugin):
         write_file(css_content.encode("utf-8"), os.path.join(config["site_dir"], css_filename))
         config["extra_css"].insert(0, css_filename)
         return env
+
+    def on_post_build(self, *, config: Config) -> None:  # noqa: ARG002,D102
+        MarkdownConverter.counter = 0
