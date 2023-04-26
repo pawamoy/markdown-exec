@@ -132,8 +132,6 @@ plugins:
   git-committers:
     enabled: !ENV [DEPLOY, false]
     repository: pawamoy/markdown-exec
-  minify:
-    minify_html: !ENV [DEPLOY, false]
 
 extra:
   social:

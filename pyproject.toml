@@ -65,7 +65,6 @@ docs = [
     "mkdocs-git-committers-plugin-2>=1.1; python_version >= '3.8' and python_version < '3.11'",
     "mkdocs-literate-nav>=0.4; python_version >= '3.8' and python_version < '3.11'",
     "mkdocs-material>=7.3; python_version >= '3.8' and python_version < '3.11'",
-    "mkdocs-minify-plugin>=0.6; python_version >= '3.8' and python_version < '3.11'",
     "mkdocstrings[python]>=0.18; python_version >= '3.8' and python_version < '3.11'",
     # gallery dependencies
     "toml>=0.10; python_version >= '3.8' and python_version < '3.11'",
