@@ -168,6 +168,17 @@ from what you expect (tables not rendered, attribute lists not injected,
 emojis not working, etc.).
 """
 
+# FIXME: When a heading contains an XML entity such as &mdash;,
+# the entity is stashed and replaced with a placeholder.
+# The heading therefore contains this placeholder.
+# When reporting the heading to the upper conversion layer (for the ToC),
+# the placeholder gets unstashed using the upper Markdown instance
+# instead of the neste one. If the upper instance doesn't know the placeholder,
+# nothing happens. But if it knows it, we then get a heading with garbabe/previous
+# contents within it, messing up the ToC.
+# We should fix this somehow. In the meantime, the workaround is to avoid
+# XML entities that get stashed in headings.
+
 
 @lru_cache(maxsize=None)
 def _register_headings_processors(md: Markdown) -> None:
