@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier
-_commit: 0.12.1
+_commit: 0.13.4
 _src_path: gh:pawamoy/copier-pdm
 author_email: pawamoy@pm.me
 author_fullname: Timothée Mazzucotelli
@@ -8,9 +8,10 @@ copyright_date: '2022'
 copyright_holder: Timothée Mazzucotelli
 copyright_holder_email: pawamoy@pm.me
 copyright_license: ISC License
+insiders: true
 project_description: Utilities to execute code blocks in Markdown files.
 project_name: Markdown Exec
-python_package_command_line_name: markdown-exec
+python_package_command_line_name: ''
 python_package_distribution_name: markdown-exec
 python_package_import_name: markdown_exec
 repository_name: markdown-exec
