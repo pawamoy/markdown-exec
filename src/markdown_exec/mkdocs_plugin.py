@@ -82,12 +82,24 @@ class MarkdownExecPlugin(BasePlugin):
         return config
 
     def on_env(self, env: Environment, *, config: Config, files: Files) -> Environment | None:  # noqa: ARG002,D102
-        css_filename = "assets/_markdown_exec_ansi.css"
-        css_content = Path(__file__).parent.joinpath("ansi.css").read_text()
-        write_file(css_content.encode("utf-8"), os.path.join(config["site_dir"], css_filename))
-        config["extra_css"].insert(0, css_filename)
+        self._add_css(config, "ansi.css")
+        if "pyodide" in self.languages:
+            self._add_css(config, "pyodide.css")
+            self._add_js(config, "pyodide.js")
         return env
 
     def on_post_build(self, *, config: Config) -> None:  # noqa: ARG002,D102
         MarkdownConverter.counter = 0
         markdown_config.reset()
+
+    def _add_asset(self, config: Config, asset_file: str, asset_type: str) -> None:
+        asset_filename = f"assets/_markdown_exec_{asset_file}"
+        asset_content = Path(__file__).parent.joinpath(asset_file).read_text()
+        write_file(asset_content.encode("utf-8"), os.path.join(config["site_dir"], asset_filename))
+        config[f"extra_{asset_type}"].insert(0, asset_filename)
+
+    def _add_css(self, config: Config, css_file: str) -> None:
+        self._add_asset(config, css_file, "css")
+
+    def _add_js(self, config: Config, js_file: str) -> None:
+        self._add_asset(config, js_file, "javascript")

@@ -2,6 +2,6 @@
 
 ## Markdown Exec Insiders
 
-### 1.0.0 <small>April 22, 2023</small> { id="1.0.0" }
+### 1.0.0 <small>April 26, 2023</small> { id="1.0.0" }
 
-- Release first Insiders version
+- Add a [`pyodide` fence](../usage/pyodide/)
