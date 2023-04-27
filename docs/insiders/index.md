@@ -1,6 +1,6 @@
 # Insiders
 
-Markdown Exec follows the **sponsorware** release strategy, which means
+*Markdown Exec* follows the **sponsorware** release strategy, which means
 that new features are first exclusively released to sponsors as part of
 [Insiders][insiders]. Read on to learn [what sponsorships achieve][sponsorship],
 [how to become a sponsor][sponsors] to get access to Insiders,
@@ -8,7 +8,7 @@ and [what's in it for you][features]!
 
 ## What is Insiders?
 
-Markdown Exec Insiders is a private fork of Markdown Exec, hosted as
+*Markdown Exec Insiders* is a private fork of *Markdown Exec*, hosted as
 a private GitHub repository. Almost[^1] [all new features][features]
 are developed as part of this fork, which means that they are immediately
 available to all eligible sponsors, as they are made collaborators of this
@@ -17,11 +17,11 @@ repository.
   [^1]:
     In general, every new feature is first exclusively released to sponsors, but
     sometimes upstream dependencies enhance
-    existing features that must be supported by Markdown Exec.
+    existing features that must be supported by *Markdown Exec*.
 
 Every feature is tied to a [funding goal][funding] in monthly subscriptions. When a
 funding goal is hit, the features that are tied to it are merged back into
-Markdown Exec and released for general availability, making them available
+*Markdown Exec* and released for general availability, making them available
 to all users. Bugfixes are always released in tandem.
 
 Sponsorships start as low as [**$10 a month**][sponsors].[^2]
@@ -44,7 +44,7 @@ The biggest bottleneck in Open Source is time.[^3]
   [^3]:
     Making an Open Source project sustainable is exceptionally hard: maintainers
     burn out, projects are abandoned. That's not great and very unpredictable.
-    The sponsorware model ensures that if you decide to use Markdown Exec,
+    The sponsorware model ensures that if you decide to use *Markdown Exec*,
     you can be sure that bugs are fixed quickly and new features are added
     regularly.
 
@@ -66,7 +66,8 @@ print(f"""The moment you <a href="#how-to-become-a-sponsor">become a sponsor</a>
 access to {len(completed_features)} additional features** that you can start using right away, and
 which are currently exclusively available to sponsors:\n""")
 
-print_features(completed_features)
+for feature in completed_features:
+    feature.render(badge=True)
 ```
 
 ## How to become a sponsor
@@ -123,7 +124,7 @@ print_sponsors()
 
 <small>
   If you sponsor publicly, you're automatically added here with a link to
-  your profile and avatar to show your support for Markdown Exec.
+  your profile and avatar to show your support for *Markdown Exec*.
   Alternatively, if you wish to keep your sponsorship private, you'll be a
   silent +1. You can select visibility during checkout and change it
   afterwards.
@@ -166,11 +167,11 @@ for goal in goals.values():
 
 ### Compatibility
 
-*We're building an open source project and want to allow outside collaborators
-to use Markdown Exec locally without having access to Insiders.
-Is this still possible?*
+> We're building an open source project and want to allow outside collaborators
+to use *Markdown Exec* locally without having access to Insiders.
+Is this still possible?
 
-Yes. Insiders is compatible with Markdown Exec. Almost all new features
+Yes. Insiders is compatible with *Markdown Exec*. Almost all new features
 and configuration options are either backward-compatible or implemented behind
 feature flags. Most Insiders features enhance the overall experience,
 though while these features add value for the users of your project, they
@@ -180,7 +181,7 @@ shouldn't be necessary for previewing when making changes to content.
 
 ### Payment
 
-*We don't want to pay for sponsorship every month. Are there any other options?*
+> We don't want to pay for sponsorship every month. Are there any other options?
 
 Yes. You can sponsor on a yearly basis by [switching your GitHub account to a
 yearly billing cycle][billing cycle]. If for some reason you cannot do that, you
@@ -191,11 +192,11 @@ If you have any problems or further questions, please reach out to pawamoy@pm.me
 
 ### Terms
 
-*Are we allowed to use Insiders under the same terms and conditions as
-Markdown Exec?*
+> Are we allowed to use Insiders under the same terms and conditions as
+*Markdown Exec*?
 
 Yes. Whether you're an individual or a company, you may use *Markdown Exec
-Insiders* precisely under the same terms as Markdown Exec, which are given
+Insiders* precisely under the same terms as *Markdown Exec*, which are given
 by the [ISC License][license]. However, we kindly ask you to respect our
 **fair use policy**:
 

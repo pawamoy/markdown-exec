@@ -4,20 +4,18 @@ title: Getting started with Insiders
 
 # Getting started with Insiders
 
-Markdown Exec Insiders is a compatible drop-in replacement for Markdown Exec,
-and can be installed similarly using [`pip`][pip] or [`git`][git].
+*Markdown Exec Insiders* is a compatible drop-in replacement for *Markdown Exec*,
+and can be installed similarly using `pip` or `git`.
 Note that in order to access the Insiders  repository,
 you need to [become an eligible sponsor] of @pawamoy on GitHub.
 
-  [pip]: #with-pip
-  [git]: #with-git
   [become an eligible sponsor]: index.md#how-to-become-a-sponsor
 
 ## Installation
 
 ### with pip (ssh/https)
 
-Markdown Exec Insiders can be installed with `pip` [using SSH][using ssh]:
+*Markdown Exec Insiders* can be installed with `pip` [using SSH][using ssh]:
 
 ```bash
 pip install git+ssh://git@github.com/pawamoy-insiders/markdown-exec.git
@@ -52,7 +50,7 @@ pip install git+https://${GH_TOKEN}@github.com/pawamoy-insiders/markdown-exec.gi
 
 ### with pip (self-hosted)
 
-Self-hosting the Insiders package makes it possible to depend on Markdown Exec normally,
+Self-hosting the Insiders package makes it possible to depend on *Markdown Exec* normally,
 while transparently downloading and installing the Insiders version locally.
 It means that you can specify your dependencies normally, and your contributors without access
 to Insiders will get the public version, while you get the Insiders version on your machine.
@@ -141,6 +139,9 @@ as it is against our [Terms of use](../#terms).**
 > pip install --user build
 > # or pipx install build
 >
+> # checkout latest tag
+> git checkout $(git describe --tags --abbrev=0)
+>
 > # build the distributions
 > pyproject-build
 >
@@ -164,7 +165,7 @@ as it is against our [Terms of use](../#terms).**
 
 ### with git
 
-Of course, you can use Markdown Exec Insiders directly from `git`:
+Of course, you can use *Markdown Exec Insiders* directly from `git`:
 
 ```
 git clone git@github.com:pawamoy-insiders/markdown-exec
@@ -178,7 +179,7 @@ pip install -e markdown-exec
 
 ## Upgrading
 
-When upgrading Insiders, you should always check the version of Markdown Exec
+When upgrading Insiders, you should always check the version of *Markdown Exec*
 which makes up the first part of the version qualifier. For example, a version like
 `8.x.x.4.x.x` means that Insiders `4.x.x` is currently based on `8.x.x`.
 

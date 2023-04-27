@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import posixpath
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from itertools import chain
@@ -27,23 +28,36 @@ def human_readable_amount(amount: int) -> str:  # noqa: D103
 
 
 @dataclass
+class Project:
+    """Class representing an Insiders project."""
+
+    name: str
+    url: str
+
+
+@dataclass
 class Feature:
     """Class representing an Insiders feature."""
 
     name: str
     ref: str
     since: date | None
-    origin: str | None
+    project: Project | None
 
-    def url(self) -> str:
-        """The URL to the feature's documentation.
+    def url(self, rel_base: str = "..") -> str:  # noqa: D102
+        if self.project:
+            rel_base = self.project.url
+        return posixpath.join(rel_base, self.ref.lstrip("/"))
 
-        Returns:
-            The feature's local reference, or joined using its origin.
-        """
-        if self.origin:
-            return urljoin(self.origin, self.ref)
-        return self.ref
+    def render(self, rel_base: str = "..", *, badge: bool = False) -> None:  # noqa: D102
+        new = ""
+        if badge:
+            recent = self.since and date.today() - self.since <= timedelta(days=60)  # noqa: DTZ011
+            if recent:
+                ft_date = self.since.strftime("%B %d, %Y")  # type: ignore[union-attr]
+                new = f' :material-alert-decagram:{{ .new-feature .vibrate title="Added on {ft_date}" }}'
+        project = f"[{self.project.name}]({self.project.url}) — " if self.project else ""
+        print(f"- [{'x' if self.since else ' '}] {project}[{self.name}]({self.url(rel_base)}){new}")
 
 
 @dataclass
@@ -59,14 +73,14 @@ class Goal:
     def human_readable_amount(self) -> str:  # noqa: D102
         return human_readable_amount(self.amount)
 
-    def render(self) -> None:  # noqa: D102
+    def render(self, rel_base: str = "..") -> None:  # noqa: D102
         print(f"#### $ {self.human_readable_amount} — {self.name}\n")
         for feature in self.features:
-            print(f"- [{'x' if feature.since else ' '}] [{feature.name}]({feature.ref})")
+            feature.render(rel_base)
         print("")
 
 
-def load_goals(data: str, funding: int = 0, origin: str | None = None) -> dict[int, Goal]:
+def load_goals(data: str, funding: int = 0, project: Project | None = None) -> dict[int, Goal]:
     """Load goals from JSON data.
 
     Parameters:
@@ -89,7 +103,7 @@ def load_goals(data: str, funding: int = 0, origin: str | None = None) -> dict[i
                     ref=feature_data["ref"],
                     since=feature_data["since"]
                     and datetime.strptime(feature_data["since"], "%Y/%m/%d").date(),  # noqa: DTZ007
-                    origin=origin,
+                    project=project,
                 )
                 for feature_data in goal_data["features"]
             ],
@@ -98,7 +112,7 @@ def load_goals(data: str, funding: int = 0, origin: str | None = None) -> dict[i
     }
 
 
-def funding_goals(source: str | list[str], funding: int = 0) -> dict:
+def funding_goals(source: str | list[tuple[str, str, str]], funding: int = 0) -> dict:
     """Load funding goals from a given data source.
 
     Parameters:
@@ -115,13 +129,14 @@ def funding_goals(source: str | list[str], funding: int = 0) -> dict:
             raise RuntimeError(f"Could not load data from disk: {source}") from error
         return load_goals(data, funding)
     goals = {}
-    for src in source:
+    for project_name, project_url, data_fragment in source:
+        data_url = urljoin(project_url, data_fragment)
         try:
-            with urlopen(src) as response:  # noqa: S310
+            with urlopen(data_url) as response:  # noqa: S310
                 data = response.read()
         except HTTPError as error:
-            raise RuntimeError(f"Could not load data from network: {src}") from error
-        source_goals = load_goals(data, funding, origin=src)
+            raise RuntimeError(f"Could not load data from network: {data_url}") from error
+        source_goals = load_goals(data, funding, project=Project(name=project_name, url=project_url))
         for amount, goal in source_goals.items():
             if amount not in goals:
                 goals[amount] = goal
@@ -161,16 +176,6 @@ completed_features = sorted(
     key=lambda ft: cast(date, ft.since),
     reverse=True,
 )
-
-
-def print_features(features: list[Feature]) -> None:  # noqa: D103
-    for feature in features:
-        new = ""
-        recent = feature.since and date.today() - feature.since <= timedelta(days=60)  # noqa: DTZ011
-        if recent:
-            ft_date = feature.since.strftime("%B %d, %Y")  # type: ignore[union-attr]
-            new = f' :material-alert-decagram:{{ .new-feature .vibrate title="Added on {ft_date}" }}'
-        print(f"- [x] [{feature.name}]({feature.ref}){new}")
 
 
 def print_join_sponsors_button() -> None:  # noqa: D103
