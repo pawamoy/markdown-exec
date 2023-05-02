@@ -92,6 +92,7 @@ tests = [
     "pytest-cov>=3.0",
     "pytest-randomly>=3.10",
     "pytest-xdist>=2.4",
+    "pygments>=2.15.1",
 ]
 typing = [
     "mypy>=0.910",
