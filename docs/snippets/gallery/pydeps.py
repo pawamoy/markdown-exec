@@ -26,6 +26,7 @@ modules = (
     "markdown_exec.formatters.tree",
     "markdown_exec.logger",
     "markdown_exec.mkdocs_plugin",
+    "markdown_exec.processors",
     "markdown_exec.rendering",
 )
 for module in modules:
