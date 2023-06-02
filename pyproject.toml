@@ -68,14 +68,14 @@ docs = [
     "mkdocstrings[python]>=0.18; python_version >= '3.8' and python_version < '3.11'",
     # gallery dependencies
     "toml>=0.10; python_version >= '3.8' and python_version < '3.11'",
-    "pydeps>=1.10.12; python_version >= '3.8' and python_version < '3.11'",
-    "diagrams>=0.21.1; python_version >= '3.8' and python_version < '3.11'",
-    "rich>=12.3.0; python_version >= '3.8' and python_version < '3.11'",
-    "matplotlib>=3.5.2; python_version >= '3.8' and python_version < '3.11'",
+    "pydeps>=1.12; python_version >= '3.8' and python_version < '3.11'",
+    "diagrams>=0.21; python_version >= '3.8' and python_version < '3.11'",
+    "rich>=12.3; python_version >= '3.8' and python_version < '3.11'",
+    "matplotlib>=3.5; python_version >= '3.8' and python_version < '3.11'",
     "numpy>=1.23; python_version >= '3.8' and python_version < '3.11'",
     "textual[dev]; python_version >= '3.8' and python_version < '3.11'",
     "pytermgui>=6.3; python_version >= '3.8' and python_version < '3.11'",
-    "pipdeptree>=2.6.0; python_version >= '3.8' and python_version < '3.11'",
+    "pipdeptree>=2.6; python_version >= '3.8' and python_version < '3.11'",
 ]
 maintain = [
     "black>=23.1",
@@ -91,6 +91,7 @@ tests = [
     "pytest-cov>=3.0",
     "pytest-randomly>=3.10",
     "pytest-xdist>=2.4",
+    "pygments>=2.15.1",
 ]
 typing = [
     "mypy>=0.910",

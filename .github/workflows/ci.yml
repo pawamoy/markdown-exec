@@ -27,16 +27,19 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Set up Graphviz
+      uses: ts-graphviz/setup-graphviz@v1
+
     - name: Set up PDM
       uses: pdm-project/setup-pdm@v3
       with:
         python-version: "3.8"
 
     - name: Resolving dependencies
-      run: pdm lock -v
+      run: pdm lock -v -G:all
 
     - name: Install dependencies
-      run: pdm install -G duty -G docs -G quality -G typing -G security
+      run: pdm install -G:all
 
     - name: Check if the documentation builds correctly
       run: pdm run duty check-docs
