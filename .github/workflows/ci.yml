@@ -36,10 +36,10 @@ jobs:
         python-version: "3.8"
 
     - name: Resolving dependencies
-      run: pdm lock -v -G:all
+      run: pdm lock -v --no-cross-platform -G ci-quality
 
     - name: Install dependencies
-      run: pdm install -G:all
+      run: pdm install -G ci-quality
 
     - name: Check if the documentation builds correctly
       run: pdm run duty check-docs
@@ -56,7 +56,7 @@ jobs:
     - name: Check for breaking changes in the API
       run: pdm run duty check-api
 
-  exclude-jobs:
+  exclude-test-jobs:
     runs-on: ubuntu-latest
     outputs:
       jobs: ${{ steps.exclude-jobs.outputs.jobs }}
@@ -78,8 +78,9 @@ jobs:
 
   tests:
 
-    needs: exclude-jobs
+    needs: exclude-test-jobs
     strategy:
+      max-parallel: 4
       matrix:
         os:
         - ubuntu-latest
@@ -91,7 +92,7 @@ jobs:
         - "3.9"
         - "3.10"
         - "3.11"
-        exclude: ${{ fromJSON(needs.exclude-jobs.outputs.jobs) }}
+        exclude: ${{ fromJSON(needs.exclude-test-jobs.outputs.jobs) }}
 
     runs-on: ${{ matrix.os }}
 
@@ -105,10 +106,10 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Resolving dependencies
-      run: pdm lock -v
+      run: pdm lock -v --no-cross-platform -G ci-tests
 
     - name: Install dependencies
-      run: pdm install --no-editable -G duty -G tests
+      run: pdm install --no-editable -G ci-tests
 
     - name: Run the test suite
       run: pdm run duty test
