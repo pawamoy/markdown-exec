@@ -21,7 +21,7 @@ template = """
 <div class="pyodide-editor-bar">
 <span class="pyodide-bar-item">Editor (session: %(session)s)</span><span id="%(id_prefix)srun" title="Run: press Ctrl-Enter" class="pyodide-bar-item pyodide-clickable"><span class="twemoji">%(play_emoji)s</span> Run</span>
 </div>
-<div id="%(id_prefix)seditor" class="pyodide-editor">%(initial_code)s</div>
+<div><pre id="%(id_prefix)seditor" class="pyodide-editor">%(initial_code)s</pre></div>
 <div class="pyodide-editor-bar">
 <span class="pyodide-bar-item">Output</span><span id="%(id_prefix)sclear" class="pyodide-bar-item pyodide-clickable"><span class="twemoji">%(clear_emoji)s</span> Clear</span>
 </div>
