@@ -25,7 +25,7 @@ nav:
 - Development:
   - Contributing: contributing.md
   - Code of Conduct: code_of_conduct.md
-  - Coverage report: coverage.md
+  # - Coverage report: coverage.md
 - Insiders:
   - insiders/index.md
   - Getting started:
@@ -129,6 +129,7 @@ plugins:
           merge_init_into_class: true
           docstring_options:
             ignore_init_summary: true
+          show_source: false
 - git-committers:
     enabled: !ENV [DEPLOY, false]
     repository: pawamoy/markdown-exec
