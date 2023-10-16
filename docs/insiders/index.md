@@ -59,16 +59,20 @@ a handful of them, [thanks to our awesome sponsors][sponsors]!
 data_source = "docs/insiders/goals.yml"
 ```
 
+<!-- blacken-docs:off -->
 ```python exec="1" session="insiders"
 --8<-- "scripts/insiders.py"
 
-print(f"""The moment you <a href="#how-to-become-a-sponsor">become a sponsor</a>, you'll get **immediate
-access to {len(completed_features)} additional features** that you can start using right away, and
-which are currently exclusively available to sponsors:\n""")
+print(
+    f"""The moment you <a href="#how-to-become-a-sponsor">become a sponsor</a>, you'll get **immediate
+    access to {len(unreleased_features)} additional features** that you can start using right away, and
+    which are currently exclusively available to sponsors:\n"""
+)
 
-for feature in completed_features:
+for feature in unreleased_features:
     feature.render(badge=True)
 ```
+<!-- blacken-docs:on -->
 
 ## How to become a sponsor
 
@@ -108,34 +112,18 @@ You can cancel your sponsorship anytime.[^5]
     non-refundable.
 
 
-```python exec="1" session="insiders"
-print_join_sponsors_button()
-```
+[:octicons-heart-fill-24:{ .pulse } &nbsp; Join our <span id="sponsors-count"></span> awesome sponsors](https://github.com/sponsors/pawamoy){ .md-button .md-button--primary }
 
 <hr>
 <div class="premium-sponsors">
 
-<div class="bronze">
-  <b>Bronze sponsors</b>
-  <p>
+<div id="bronze-sponsors"></div>
 
-  <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" title="Material for MkDocs">
-    <img alt="Material for MkDocs" src="https://raw.githubusercontent.com/squidfunk/mkdocs-material/master/.github/assets/logo.svg" style="height: 240px;">
-  </a>
-  <a href="https://docs.pydantic.dev/latest/" target="_blank" title="Pydantic">
-    <img alt="Pydantic" src="https://github.com/pawamoy/website/assets/3999221/368ff871-8fae-40c4-9b66-781b66e12cbb" style="height: 100px;">
-  </a>
-
-  </p>
-</div>
 </div>
 
 <hr>
-<br>
 
-```python exec="1" session="insiders"
-print_sponsors()
-```
+<div id="sponsors"></div>
 
 <br>
 <br>
@@ -148,11 +136,7 @@ print_sponsors()
   afterwards.
 </small>
 
-## Funding
-
-```python exec="1" session="insiders" idprefix=""
-print(f"Current funding is at **$ {human_readable_amount(current_funding)}  a month**.")
-```
+## Funding <span class="sponsors-total"></span>
 
 ### Goals
 
@@ -236,5 +220,8 @@ by the [ISC License][license]. However, we kindly ask you to respect our
 [goals completed]: #goals-completed
 [github sponsor profile]: https://github.com/sponsors/pawamoy
 [billing cycle]: https://docs.github.com/en/github/setting-up-and-managing-billing-and-payments-on-github/changing-the-duration-of-your-billing-cycle
-[license]: ../license/
+[license]: ../license.md
 [private forks]: https://docs.github.com/en/github/setting-up-and-managing-your-github-user-account/removing-a-collaborator-from-a-personal-repository
+
+<script src="../js/insiders.js"></script>
+<script>updateInsidersPage('pawamoy');</script>
