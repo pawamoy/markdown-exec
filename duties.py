@@ -44,8 +44,8 @@ def material_insiders() -> Iterator[bool]:  # noqa: D103
         yield False
 
 
-between_38_310 = (3, 8) <= sys.version_info < (3, 11)
-skip_docs_reason = pyprefix("Building docs is not supported on Python 3.7 and 3.11, skipping")
+below_312 = sys.version_info < (3, 12)
+skip_docs_reason = pyprefix("Building docs is not supported on Python 3.12, skipping")
 
 
 @duty
@@ -118,7 +118,7 @@ def check_dependencies(ctx: Context) -> None:
     )
 
 
-@duty(skip_if=not between_38_310, skip_reason=skip_docs_reason)
+@duty(skip_if=not below_312, skip_reason=skip_docs_reason)
 def check_docs(ctx: Context) -> None:
     """Check if the documentation builds correctly.
 
@@ -187,7 +187,7 @@ def clean(ctx: Context) -> None:
     ctx.run("find . -name '*.rej' -delete")
 
 
-@duty(skip_if=not between_38_310, skip_reason=skip_docs_reason)
+@duty(skip_if=not below_312, skip_reason=skip_docs_reason)
 def docs(ctx: Context, host: str = "127.0.0.1", port: int = 8000) -> None:
     """Serve the documentation (localhost:8000).
 
@@ -204,7 +204,7 @@ def docs(ctx: Context, host: str = "127.0.0.1", port: int = 8000) -> None:
         )
 
 
-@duty(skip_if=not between_38_310, skip_reason=skip_docs_reason)
+@duty(skip_if=not below_312, skip_reason=skip_docs_reason)
 def docs_deploy(ctx: Context) -> None:
     """Deploy the documentation on GitHub pages.
 
