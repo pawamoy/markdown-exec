@@ -117,7 +117,7 @@ class MarkdownConfig:
 
     _singleton: MarkdownConfig | None = None
 
-    def __new__(cls) -> MarkdownConfig:  # noqa: D102
+    def __new__(cls) -> MarkdownConfig:  # noqa: D102,PYI034
         if cls._singleton is None:
             cls._singleton = super().__new__(cls)
         return cls._singleton

@@ -14,7 +14,7 @@ print("**Hello world!**")
 ```
 ````
 
-See the [Gallery](../../gallery) for more complex examples.
+See the [Gallery](../gallery.md) for more complex examples.
 
 ## Python console code
 
