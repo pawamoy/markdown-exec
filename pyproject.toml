@@ -9,7 +9,7 @@ authors = [{name = "Timothée Mazzucotelli", email = "pawamoy@pm.me"}]
 license = {text = "ISC"}
 readme = "README.md"
 requires-python = ">=3.8"
-keywords = []
+keywords = ["markdown", "python", "exec", "shell", "bash", "mkdocs"]
 dynamic = ["version"]
 classifiers = [
     "Development Status :: 4 - Beta",
