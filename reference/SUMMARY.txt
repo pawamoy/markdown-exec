@@ -1,4 +1,5 @@
 * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> markdown_exec](markdown_exec/index.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> debug](markdown_exec/debug.md)
     * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> formatters](markdown_exec/formatters/index.md)
         * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> base](markdown_exec/formatters/base.md)
         * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> bash](markdown_exec/formatters/bash.md)
