@@ -131,6 +131,8 @@ plugins:
       python:
         import:
         - https://docs.python.org/3/objects.inv
+        - https://python-markdown.github.io/objects.inv
+        - https://www.mkdocs.org/objects.inv
         paths: [src]
         options:
           docstring_options:
