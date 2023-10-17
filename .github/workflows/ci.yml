@@ -2,11 +2,9 @@ name: ci
 
 on:
   push:
-    branches:
-      - main
   pull_request:
     branches:
-      - main
+    - main
 
 defaults:
   run:
@@ -26,6 +24,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Fetch all tags
+      run: git fetch --depth=1 --tags
 
     - name: Set up Graphviz
       uses: ts-graphviz/setup-graphviz@v1
@@ -93,8 +94,8 @@ jobs:
         - "3.11"
         - "3.12"
         exclude: ${{ fromJSON(needs.exclude-test-jobs.outputs.jobs) }}
-
     runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.python-version == '3.12' }}
 
     steps:
     - name: Checkout
@@ -104,6 +105,7 @@ jobs:
       uses: pdm-project/setup-pdm@v3
       with:
         python-version: ${{ matrix.python-version }}
+        allow-python-prereleases: true
 
     - name: Resolving dependencies
       run: pdm lock -v --no-cross-platform -G ci-tests

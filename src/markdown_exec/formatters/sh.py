@@ -21,6 +21,7 @@ def _run_sh(
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
+        check=False,
     )
     if process.returncode != returncode:
         raise ExecutionError(code_block("sh", process.stdout, **extra), process.returncode)

@@ -14,6 +14,7 @@ and this HTML is injected in place of the code block.
 ## Installation
 
 With `pip`:
+
 ```bash
 pip install markdown-exec[ansi]
 ```

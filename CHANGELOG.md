@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.7.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.7.0) - 2023-10-17
+
+<small>[Compare with 1.6.0](https://github.com/pawamoy/markdown-exec/compare/1.6.0...1.7.0)</small>
+
+### Features
+
+- Set `MKDOCS_CONFIG_DIR` environment variable to build file path relative to it ([a2cbea5](https://github.com/pawamoy/markdown-exec/commit/a2cbea52d39ef43960c910830eae14dc846624d0) by Timothée Mazzucotelli).
+
 ## [1.6.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.6.0) - 2023-04-18
 
 <small>[Compare with 1.5.3](https://github.com/pawamoy/markdown-exec/compare/1.5.3...1.6.0)</small>
