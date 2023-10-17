@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, MutableMapping
 
-from mkdocs.config import Config, config_options
+from mkdocs.config import config_options
 from mkdocs.plugins import BasePlugin
 from mkdocs.utils import write_file
 
@@ -17,6 +17,7 @@ from markdown_exec.rendering import MarkdownConverter, markdown_config
 
 if TYPE_CHECKING:
     from jinja2 import Environment
+    from mkdocs.config.defaults import MkDocsConfig
     from mkdocs.structure.files import Files
 
 try:
@@ -49,7 +50,7 @@ class MarkdownExecPlugin(BasePlugin):
 
     config_scheme = (("languages", config_options.Type(list, default=list(formatters.keys()))),)
 
-    def on_config(self, config: Config, **kwargs: Any) -> Config:  # noqa: ARG002
+    def on_config(self, config: MkDocsConfig) -> MkDocsConfig | None:
         """Configure the plugin.
 
         Hook for the [`on_config` event](https://www.mkdocs.org/user-guide/plugins/#on_config).
@@ -60,11 +61,12 @@ class MarkdownExecPlugin(BasePlugin):
 
         Arguments:
             config: The MkDocs config object.
-            **kwargs: Additional arguments passed by MkDocs.
 
         Returns:
             The modified config.
         """
+        self.mkdocs_config_dir = os.getenv("MKDOCS_CONFIG_DIR")
+        os.environ["MKDOCS_CONFIG_DIR"] = os.path.dirname(config["config_file_path"])
         self.languages = self.config["languages"]
         mdx_configs = config.setdefault("mdx_configs", {})
         superfences = mdx_configs.setdefault("pymdownx.superfences", {})
@@ -81,25 +83,35 @@ class MarkdownExecPlugin(BasePlugin):
         markdown_config.save(config["markdown_extensions"], config["mdx_configs"])
         return config
 
-    def on_env(self, env: Environment, *, config: Config, files: Files) -> Environment | None:  # noqa: ARG002,D102
+    def on_env(  # noqa: D102
+        self,
+        env: Environment,
+        *,
+        config: MkDocsConfig,
+        files: Files,  # noqa: ARG002
+    ) -> Environment | None:
         self._add_css(config, "ansi.css")
         if "pyodide" in self.languages:
             self._add_css(config, "pyodide.css")
             self._add_js(config, "pyodide.js")
         return env
 
-    def on_post_build(self, *, config: Config) -> None:  # noqa: ARG002,D102
+    def on_post_build(self, *, config: MkDocsConfig) -> None:  # noqa: ARG002,D102
         MarkdownConverter.counter = 0
         markdown_config.reset()
+        if self.mkdocs_config_dir is None:
+            os.environ.pop("MKDOCS_CONFIG_DIR", None)
+        else:
+            os.environ["MKDOCS_CONFIG_DIR"] = self.mkdocs_config_dir
 
-    def _add_asset(self, config: Config, asset_file: str, asset_type: str) -> None:
+    def _add_asset(self, config: MkDocsConfig, asset_file: str, asset_type: str) -> None:
         asset_filename = f"assets/_markdown_exec_{asset_file}"
         asset_content = Path(__file__).parent.joinpath(asset_file).read_text()
         write_file(asset_content.encode("utf-8"), os.path.join(config["site_dir"], asset_filename))
         config[f"extra_{asset_type}"].insert(0, asset_filename)
 
-    def _add_css(self, config: Config, css_file: str) -> None:
+    def _add_css(self, config: MkDocsConfig, css_file: str) -> None:
         self._add_asset(config, css_file, "css")
 
-    def _add_js(self, config: Config, js_file: str) -> None:
+    def _add_js(self, config: MkDocsConfig, js_file: str) -> None:
         self._add_asset(config, js_file, "javascript")

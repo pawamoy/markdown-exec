@@ -4,20 +4,17 @@ from __future__ import annotations
 
 import os
 import sys
+from contextlib import contextmanager
+from importlib.metadata import version as pkgversion
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Iterator
 
 from duty import duty
-from duty.callables import black, blacken_docs, coverage, lazy, mkdocs, mypy, pytest, ruff, safety
-
-if sys.version_info < (3, 8):
-    from importlib_metadata import version as pkgversion
-else:
-    from importlib.metadata import version as pkgversion
-
+from duty.callables import black, coverage, lazy, mkdocs, mypy, pytest, ruff, safety
 
 if TYPE_CHECKING:
     from duty.context import Context
+
 
 PY_SRC_PATHS = (Path(_) for _ in ("src", "tests", "duties.py", "scripts"))
 PY_SRC_LIST = tuple(str(_) for _ in PY_SRC_PATHS)
@@ -35,36 +32,20 @@ def pyprefix(title: str) -> str:  # noqa: D103
     return title
 
 
-def merge(d1: Any, d2: Any) -> Any:  # noqa: D103
-    basic_types = (int, float, str, bool, complex)
-    if isinstance(d1, dict) and isinstance(d2, dict):
-        for key, value in d2.items():
-            if key in d1:
-                if isinstance(d1[key], basic_types):
-                    d1[key] = value
-                else:
-                    d1[key] = merge(d1[key], value)
-            else:
-                d1[key] = value
-        return d1
-    if isinstance(d1, list) and isinstance(d2, list):
-        return d1 + d2
-    return d2
-
-
-def mkdocs_config() -> str:  # noqa: D103
-    from mkdocs import utils
-
-    # patch YAML loader to merge arrays
-    utils.merge = merge
-
+@contextmanager
+def material_insiders() -> Iterator[bool]:  # noqa: D103
     if "+insiders" in pkgversion("mkdocs-material"):
-        return "mkdocs.insiders.yml"
-    return "mkdocs.yml"
+        os.environ["MATERIAL_INSIDERS"] = "true"
+        try:
+            yield True
+        finally:
+            os.environ.pop("MATERIAL_INSIDERS")
+    else:
+        yield False
 
 
-below_311 = sys.version_info < (3, 11)
-skip_docs_reason = pyprefix("Building docs is not supported on Python 3.11 and higher, skipping")
+below_312 = sys.version_info < (3, 12)
+skip_docs_reason = pyprefix("Building docs is not supported on Python 3.12, skipping")
 
 
 @duty
@@ -86,7 +67,7 @@ def changelog(ctx: Context) -> None:
             parse_trailers=True,
             parse_refs=False,
             sections=["build", "deps", "feat", "fix", "refactor"],
-            bump_latest=True,
+            bump="auto",
             in_place=True,
         ),
         title="Updating changelog",
@@ -112,6 +93,7 @@ def check_quality(ctx: Context) -> None:
     ctx.run(
         ruff.check(*PY_SRC_LIST, config="config/ruff.toml"),
         title=pyprefix("Checking code quality"),
+        command=f"ruff check --config config/ruff.toml {PY_SRC}",
     )
 
 
@@ -129,10 +111,14 @@ def check_dependencies(ctx: Context) -> None:
         allow_overrides=False,
     )
 
-    ctx.run(safety.check(requirements), title="Checking dependencies")
+    ctx.run(
+        safety.check(requirements),
+        title="Checking dependencies",
+        command="pdm export -f requirements --without-hashes | safety check --stdin",
+    )
 
 
-@duty(skip_if=not below_311, skip_reason=skip_docs_reason)
+@duty(skip_if=not below_312, skip_reason=skip_docs_reason)
 def check_docs(ctx: Context) -> None:
     """Check if the documentation builds correctly.
 
@@ -141,7 +127,12 @@ def check_docs(ctx: Context) -> None:
     """
     Path("htmlcov").mkdir(parents=True, exist_ok=True)
     Path("htmlcov/index.html").touch(exist_ok=True)
-    ctx.run(mkdocs.build(strict=True, config_file=mkdocs_config()), title=pyprefix("Building documentation"))
+    with material_insiders():
+        ctx.run(
+            mkdocs.build(strict=True, verbose=True),
+            title=pyprefix("Building documentation"),
+            command="mkdocs build -vs",
+        )
 
 
 @duty
@@ -154,6 +145,7 @@ def check_types(ctx: Context) -> None:
     ctx.run(
         mypy.run(*PY_SRC_LIST, config_file="config/mypy.ini"),
         title=pyprefix("Type-checking"),
+        command=f"mypy --config-file config/mypy.ini {PY_SRC}",
     )
 
 
@@ -168,8 +160,9 @@ def check_api(ctx: Context) -> None:
 
     griffe_check = lazy(g_check, name="griffe.check")
     ctx.run(
-        griffe_check("markdown_exec", search_paths=["src"]),
+        griffe_check("markdown_exec", search_paths=["src"], color=True),
         title="Checking for API breaking changes",
+        command="griffe check -ssrc markdown_exec",
         nofail=True,
     )
 
@@ -194,7 +187,7 @@ def clean(ctx: Context) -> None:
     ctx.run("find . -name '*.rej' -delete")
 
 
-@duty(skip_if=not below_311, skip_reason=skip_docs_reason)
+@duty(skip_if=not below_312, skip_reason=skip_docs_reason)
 def docs(ctx: Context, host: str = "127.0.0.1", port: int = 8000) -> None:
     """Serve the documentation (localhost:8000).
 
@@ -203,14 +196,15 @@ def docs(ctx: Context, host: str = "127.0.0.1", port: int = 8000) -> None:
         host: The host to serve the docs from.
         port: The port to serve the docs on.
     """
-    ctx.run(
-        mkdocs.serve(dev_addr=f"{host}:{port}", config_file=mkdocs_config()),
-        title="Serving documentation",
-        capture=False,
-    )
+    with material_insiders():
+        ctx.run(
+            mkdocs.serve(dev_addr=f"{host}:{port}"),
+            title="Serving documentation",
+            capture=False,
+        )
 
 
-@duty(skip_if=not below_311, skip_reason=skip_docs_reason)
+@duty(skip_if=not below_312, skip_reason=skip_docs_reason)
 def docs_deploy(ctx: Context) -> None:
     """Deploy the documentation on GitHub pages.
 
@@ -218,22 +212,22 @@ def docs_deploy(ctx: Context) -> None:
         ctx: The context instance (passed automatically).
     """
     os.environ["DEPLOY"] = "true"
-    config_file = mkdocs_config()
-    if config_file == "mkdocs.yml":
-        ctx.run(lambda: False, title="Not deploying docs without Material for MkDocs Insiders!")
-    origin = ctx.run("git config --get remote.origin.url", silent=True)
-    if "pawamoy-insiders/markdown-exec" in origin:
-        ctx.run("git remote add upstream git@github.com:pawamoy/markdown-exec", silent=True, nofail=True)
-        ctx.run(
-            mkdocs.gh_deploy(config_file=config_file, remote_name="upstream", force=True),
-            title="Deploying documentation",
-        )
-    else:
-        ctx.run(
-            lambda: False,
-            title="Not deploying docs from public repository (do that from insiders instead!)",
-            nofail=True,
-        )
+    with material_insiders() as insiders:
+        if not insiders:
+            ctx.run(lambda: False, title="Not deploying docs without Material for MkDocs Insiders!")
+        origin = ctx.run("git config --get remote.origin.url", silent=True)
+        if "pawamoy-insiders/markdown-exec" in origin:
+            ctx.run("git remote add upstream git@github.com:pawamoy/markdown-exec", silent=True, nofail=True)
+            ctx.run(
+                mkdocs.gh_deploy(remote_name="upstream", force=True),
+                title="Deploying documentation",
+            )
+        else:
+            ctx.run(
+                lambda: False,
+                title="Not deploying docs from public repository (do that from insiders instead!)",
+                nofail=True,
+            )
 
 
 @duty
@@ -248,11 +242,6 @@ def format(ctx: Context) -> None:
         title="Auto-fixing code",
     )
     ctx.run(black.run(*PY_SRC_LIST, config="config/black.toml"), title="Formatting code")
-    ctx.run(
-        blacken_docs.run(*PY_SRC_LIST, "docs", exts=["py", "md"], line_length=120),
-        title="Formatting docs",
-        nofail=True,
-    )
 
 
 @duty(post=["docs-deploy"])
@@ -301,6 +290,32 @@ def test(ctx: Context, match: str = "") -> None:
     py_version = f"{sys.version_info.major}{sys.version_info.minor}"
     os.environ["COVERAGE_FILE"] = f".coverage.{py_version}"
     ctx.run(
-        pytest.run("-n", "auto", "tests", config_file="config/pytest.ini", select=match),
+        pytest.run("-n", "auto", "tests", config_file="config/pytest.ini", select=match, color="yes"),
         title=pyprefix("Running tests"),
+        command=f"pytest -c config/pytest.ini -n auto -k{match!r} --color=yes tests",
     )
+
+
+@duty
+def vscode(ctx: Context) -> None:
+    """Configure VSCode.
+
+    This task will overwrite the following files,
+    so make sure to back them up:
+
+    - `.vscode/launch.json`
+    - `.vscode/settings.json`
+    - `.vscode/tasks.json`
+
+    Parameters:
+        ctx: The context instance (passed automatically).
+    """
+
+    def update_config(filename: str) -> None:
+        source_file = Path("config", "vscode", filename)
+        target_file = Path(".vscode", filename)
+        target_file.parent.mkdir(exist_ok=True)
+        target_file.write_text(source_file.read_text())
+
+    for filename in ("launch.json", "settings.json", "tasks.json"):
+        ctx.run(update_config, args=[filename], title=f"Update .vscode/{filename}")

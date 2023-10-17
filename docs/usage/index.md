@@ -24,7 +24,7 @@ linking to their related documentation:
     [debugging errors](#handling-errors), or to [prefix HTML ids](#html-ids).
 - [`idprefix`](#html-ids): Change or remove the prefix in front of HTML ids/hrefs.
 - [`result`](#wrap-result-in-a-code-block): Choose the syntax highlight of your code block output.
-- [`returncode`](./shell/#expecting-a-non-zero-exit-code): Tell what return code is expected (shell code).
+- [`returncode`](shell.md#expecting-a-non-zero-exit-code): Tell what return code is expected (shell code).
 - [`session`](#sessions): Execute code blocks within a named session, reusing previously defined variables, etc..
 - [`source`](#render-the-source-code-as-well): Render the source as well as the output.
 - [`tabs`](#change-the-titles-of-tabs): When rendering the source using tabs, choose the tabs titles.
@@ -193,7 +193,7 @@ The `tabbed-left` source option requires that you enable the [`pymdownx.tabbed`]
 ---
 
 **Console** <small>(best used with actual session syntax like
-[`pycon`](python/#python-console-code) or [`console`](shell/#console))</small>:
+[`pycon`](python.md#python-console-code) or [`console`](shell.md#console))</small>:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
 ```pycon exec="true" source="console"
@@ -293,7 +293,7 @@ Code blocks execution can fail.
 For example, your Python code may raise exceptions,
 or your shell code may return a non-zero exit code
 (for shell commands that are expected to return non-zero,
-see [Expecting a non-zero exit code](shell/#expecting-a-non-zero-exit-code)).
+see [Expecting a non-zero exit code](shell.md#expecting-a-non-zero-exit-code)).
 
 In these cases, the exception and traceback (Python),
 or the current output (shell) will be rendered
@@ -408,5 +408,37 @@ That makes for a very meta-markdown markup:
 > (click on "Raw" to see the code blocks execution options).
 
 Of course "executing" Markdown (or rather, making it "literate") only makes sense when the source is shown as well.
+
+## MkDocs integration
+
+As seen in the [Configuration section](../index.md#configuration),
+Markdown Exec can be configured directly as a MkDocs plugin:
+
+```yaml
+# mkdocs.yml
+plugins:
+- search
+- markdown-exec
+```
+
+When configured this way, it will set a `MKDOCS_CONFIG_DIR` environment variable
+that you can use in your code snippets to compute file paths as relative
+to the MkDocs configuration file directory, instead of relative to the current
+working directory. This will make it possible to use the `-f` option of MkDocs,
+to build the documentation from a different directory than the repository root.
+
+Example:
+
+```python exec="1" source="material-block"
+import os
+
+config_dir = os.environ['MKDOCS_CONFIG_DIR']
+
+# This will show my local path since I deploy docs from my machine:
+print(f"Configuration file directory: `{config_dir}`")
+```
+
+The environment variable will be restored to its previous value, if any,
+at the end of the build.
 
 [material]: https://squidfunk.github.io/mkdocs-material/

@@ -2,7 +2,7 @@
 
 Shell code blocks are executed using the same interpreter specified
 as language of the code block, in sub-processes. The output is captured
-and rendered as Markdown or HTML (see [Usage](../#html-vs-markdown)).
+and rendered as Markdown or HTML (see [Usage](../index.md#html-vs-markdown)).
 
 ## Bash
 

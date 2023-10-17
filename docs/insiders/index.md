@@ -59,16 +59,20 @@ a handful of them, [thanks to our awesome sponsors][sponsors]!
 data_source = "docs/insiders/goals.yml"
 ```
 
+<!-- blacken-docs:off -->
 ```python exec="1" session="insiders"
 --8<-- "scripts/insiders.py"
 
-print(f"""The moment you <a href="#how-to-become-a-sponsor">become a sponsor</a>, you'll get **immediate
-access to {len(unreleased_features)} additional features** that you can start using right away, and
-which are currently exclusively available to sponsors:\n""")
+print(
+    f"""The moment you <a href="#how-to-become-a-sponsor">become a sponsor</a>, you'll get **immediate
+    access to {len(unreleased_features)} additional features** that you can start using right away, and
+    which are currently exclusively available to sponsors:\n"""
+)
 
 for feature in unreleased_features:
     feature.render(badge=True)
 ```
+<!-- blacken-docs:on -->
 
 ## How to become a sponsor
 
@@ -113,9 +117,8 @@ You can cancel your sponsorship anytime.[^5]
 <hr>
 <div class="premium-sponsors">
 
-
-
 <div id="bronze-sponsors"></div>
+
 </div>
 
 <hr>
@@ -217,7 +220,7 @@ by the [ISC License][license]. However, we kindly ask you to respect our
 [goals completed]: #goals-completed
 [github sponsor profile]: https://github.com/sponsors/pawamoy
 [billing cycle]: https://docs.github.com/en/github/setting-up-and-managing-billing-and-payments-on-github/changing-the-duration-of-your-billing-cycle
-[license]: ../license/
+[license]: ../license.md
 [private forks]: https://docs.github.com/en/github/setting-up-and-managing-your-github-user-account/removing-a-collaborator-from-a-personal-repository
 
 <script src="../js/insiders.js"></script>
