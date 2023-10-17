@@ -1,7 +1,7 @@
 # Pyodide
 
-[:octicons-heart-fill-24:{ .pulse } Sponsors only](../../insiders){ .insiders } &mdash;
-[:octicons-tag-24: Insiders 1.0.0](../../insiders/changelog#1.0.0)
+[:octicons-heart-fill-24:{ .pulse } Sponsors only](../insiders/index.md){ .insiders } &mdash;
+[:octicons-tag-24: Insiders 1.0.0](../insiders/changelog.md#1.0.0)
 
 This special `pyodide` fence uses [Pyodide](https://pyodide.org), [Ace](https://ace.c9.io/)
 and [Highlight.js](https://highlightjs.org/) to render an interactive Python editor.
