@@ -409,4 +409,36 @@ That makes for a very meta-markdown markup:
 
 Of course "executing" Markdown (or rather, making it "literate") only makes sense when the source is shown as well.
 
+## MkDocs integration
+
+As seen in the [Configuration section](../index.md#configuration),
+Markdown Exec can be configured directly as a MkDocs plugin:
+
+```yaml
+# mkdocs.yml
+plugins:
+- search
+- markdown-exec
+```
+
+When configured this way, it will set a `MKDOCS_CONFIG_DIR` environment variable
+that you can use in your code snippets to compute file paths as relative
+to the MkDocs configuration file directory, instead of relative to the current
+working directory. This will make it possible to use the `-f` option of MkDocs,
+to build the documentation from a different directory than the repository root.
+
+Example:
+
+```python exec="1" source="material-block"
+import os
+
+config_dir = os.environ['MKDOCS_CONFIG_DIR']
+
+# This will show my local path since I deploy docs from my machine:
+print(f"Configuration file directory: `{config_dir}`")
+```
+
+The environment variable will be restored to its previous value, if any,
+at the end of the build.
+
 [material]: https://squidfunk.github.io/mkdocs-material/

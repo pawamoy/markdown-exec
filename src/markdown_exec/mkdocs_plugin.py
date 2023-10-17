@@ -65,6 +65,8 @@ class MarkdownExecPlugin(BasePlugin):
         Returns:
             The modified config.
         """
+        self.mkdocs_config_dir = os.getenv("MKDOCS_CONFIG_DIR")
+        os.environ["MKDOCS_CONFIG_DIR"] = os.path.dirname(config["config_file_path"])
         self.languages = self.config["languages"]
         mdx_configs = config.setdefault("mdx_configs", {})
         superfences = mdx_configs.setdefault("pymdownx.superfences", {})
@@ -97,3 +99,7 @@ class MarkdownExecPlugin(BasePlugin):
     def on_post_build(self, *, config: MkDocsConfig) -> None:  # noqa: ARG002,D102
         MarkdownConverter.counter = 0
         markdown_config.reset()
+        if self.mkdocs_config_dir is None:
+            os.environ.pop("MKDOCS_CONFIG_DIR", None)
+        else:
+            os.environ["MKDOCS_CONFIG_DIR"] = self.mkdocs_config_dir
