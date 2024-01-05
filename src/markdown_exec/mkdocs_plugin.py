@@ -49,9 +49,12 @@ patch_loggers(_get_logger)
 class MarkdownExecPluginConfig(Config):
     """Configuration of the plugin (for `mkdocs.yml`)."""
 
-    ansi: str | bool = config_options.Choice(("auto", "off", "required", True, False), default="auto")
+    ansi = config_options.Choice(("auto", "off", "required", True, False), default="auto")
     """Whether the `ansi` extra is required when installing the package."""
-    languages: list[str] = config_options.ListOfItems(config_options.Choice(formatters.keys()), default=list(formatters.keys()))
+    languages = config_options.ListOfItems(
+        config_options.Choice(formatters.keys()),
+        default=list(formatters.keys()),
+    )
     """Which languages to enabled the extension for."""
 
 

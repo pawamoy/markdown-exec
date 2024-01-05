@@ -93,6 +93,8 @@ markdown_extensions:
     strip_period: false
 - footnotes
 - md_in_html
+- pymdownx.blocks.admonition
+- pymdownx.blocks.details
 - pymdownx.emoji:
     emoji_index: !!python/name:material.extensions.emoji.twemoji
     emoji_generator: !!python/name:material.extensions.emoji.to_svg
