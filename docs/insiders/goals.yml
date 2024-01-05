@@ -1,1 +1,7 @@
-goals: {}
+goals:
+  500:
+    name: PlasmaVac User Guide
+    features:
+    - name: Pyodide fence
+      ref: /usage/pyodide/
+      since: 2023/04/26
