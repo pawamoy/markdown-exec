@@ -49,6 +49,8 @@ patch_loggers(_get_logger)
 class MarkdownExecPluginConfig(Config):
     """Configuration of the plugin (for `mkdocs.yml`)."""
 
+    ansi: str | bool = config_options.Choice(("auto", "off", "required", True, False), default="auto")
+    """Whether the `ansi` extra is required when installing the package."""
     languages: list[str] = config_options.ListOfItems(config_options.Choice(formatters.keys()), default=list(formatters.keys()))
     """Which languages to enabled the extension for."""
 
@@ -96,7 +98,8 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
         config: MkDocsConfig,
         files: Files,  # noqa: ARG002
     ) -> Environment | None:
-        self._add_css(config, "ansi.css")
+        if self.config.ansi in ("required", True) or (self.config.ansi == "auto" and ansi_ok):
+            self._add_css(config, "ansi.css")
         if "pyodide" in self.languages:
             self._add_css(config, "pyodide.css")
             self._add_js(config, "pyodide.js")

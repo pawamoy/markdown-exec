@@ -120,7 +120,8 @@ markdown_extensions:
 
 plugins:
 - search
-- markdown-exec
+- markdown-exec:
+    ansi: required
 - gen-files:
     scripts:
     - scripts/gen_ref_nav.py
