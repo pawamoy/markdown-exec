@@ -1,6 +1,6 @@
 from textual.app import App, ComposeResult
-from textual.pilot import Pilot
 from textual.widgets import Static
+from textual._doc import take_svg_screenshot
 
 
 class TextApp(App):
@@ -24,8 +24,4 @@ class TextApp(App):
         yield Static("[b]World![/b]")
 
 
-async def auto_pilot(pilot: Pilot):
-    pilot.app.exit(pilot.app.export_screenshot())
-
-
-print(TextApp().run(headless=True, size=(80, 24), auto_pilot=auto_pilot))
+print(take_svg_screenshot(app=TextApp(), terminal_size=(80, 24)))
