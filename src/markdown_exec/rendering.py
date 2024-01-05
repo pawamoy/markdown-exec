@@ -221,11 +221,11 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
 def _id_prefix(md: Markdown, prefix: str | None) -> Iterator[None]:
     MarkdownConverter.counter += 1
     id_prepending_processor = md.treeprocessors[IdPrependingTreeprocessor.name]
-    id_prepending_processor.id_prefix = prefix if prefix is not None else f"exec-{MarkdownConverter.counter}--"
+    id_prepending_processor.id_prefix = prefix if prefix is not None else f"exec-{MarkdownConverter.counter}--"  # type: ignore[attr-defined]
     try:
         yield
     finally:
-        id_prepending_processor.id_prefix = ""
+        id_prepending_processor.id_prefix = ""  # type: ignore[attr-defined]
 
 
 class MarkdownConverter:
@@ -243,7 +243,7 @@ class MarkdownConverter:
         return getattr(self._md_ref, "_original_md", self._md_ref)
 
     def _report_headings(self, markup: Markup) -> None:
-        self._original_md.treeprocessors[InsertHeadings.name].headings[markup] = self._headings
+        self._original_md.treeprocessors[InsertHeadings.name].headings[markup] = self._headings  # type: ignore[attr-defined]
         self._headings = []
 
     def convert(self, text: str, stash: dict[str, str] | None = None, id_prefix: str | None = None) -> Markup:
