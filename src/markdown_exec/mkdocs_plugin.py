@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, MutableMapping
 
 from mkdocs.config import config_options
+from mkdocs.config.base import Config
 from mkdocs.plugins import BasePlugin
 from mkdocs.utils import write_file
 
@@ -45,10 +46,15 @@ def _get_logger(name: str) -> _LoggerAdapter:
 patch_loggers(_get_logger)
 
 
-class MarkdownExecPlugin(BasePlugin):
-    """MkDocs plugin to easily enable custom fences for code blocks execution."""
+class MarkdownExecPluginConfig(Config):
+    """Configuration of the plugin (for `mkdocs.yml`)."""
 
-    config_scheme = (("languages", config_options.Type(list, default=list(formatters.keys()))),)
+    languages: list[str] = config_options.ListOfItems(config_options.Choice(formatters.keys()), default=list(formatters.keys()))
+    """Which languages to enabled the extension for."""
+
+
+class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
+    """MkDocs plugin to easily enable custom fences for code blocks execution."""
 
     def on_config(self, config: MkDocsConfig) -> MkDocsConfig | None:
         """Configure the plugin.
@@ -67,7 +73,7 @@ class MarkdownExecPlugin(BasePlugin):
         """
         self.mkdocs_config_dir = os.getenv("MKDOCS_CONFIG_DIR")
         os.environ["MKDOCS_CONFIG_DIR"] = os.path.dirname(config["config_file_path"])
-        self.languages = self.config["languages"]
+        self.languages = self.config.languages
         mdx_configs = config.setdefault("mdx_configs", {})
         superfences = mdx_configs.setdefault("pymdownx.superfences", {})
         custom_fences = superfences.setdefault("custom_fences", [])
@@ -80,7 +86,7 @@ class MarkdownExecPlugin(BasePlugin):
                     "format": formatter,
                 },
             )
-        markdown_config.save(config["markdown_extensions"], config["mdx_configs"])
+        markdown_config.save(config.markdown_extensions, config.mdx_configs)
         return config
 
     def on_env(  # noqa: D102
@@ -107,7 +113,7 @@ class MarkdownExecPlugin(BasePlugin):
     def _add_asset(self, config: MkDocsConfig, asset_file: str, asset_type: str) -> None:
         asset_filename = f"assets/_markdown_exec_{asset_file}"
         asset_content = Path(__file__).parent.joinpath(asset_file).read_text()
-        write_file(asset_content.encode("utf-8"), os.path.join(config["site_dir"], asset_filename))
+        write_file(asset_content.encode("utf-8"), os.path.join(config.site_dir, asset_filename))
         config[f"extra_{asset_type}"].insert(0, asset_filename)
 
     def _add_css(self, config: MkDocsConfig, css_file: str) -> None:
