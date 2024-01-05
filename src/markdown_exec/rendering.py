@@ -123,10 +123,10 @@ class MarkdownConfig:
         return cls._singleton
 
     def __init__(self) -> None:  # noqa: D107
-        self.exts: list[str | Extension] | None = None
+        self.exts: list[str] | None = None
         self.exts_config: dict[str, dict[str, Any]] | None = None
 
-    def save(self, exts: list[str | Extension], exts_config: dict[str, dict[str, Any]]) -> None:
+    def save(self, exts: list[str], exts_config: dict[str, dict[str, Any]]) -> None:
         """Save Markdown extensions and their configuration.
 
         Parameters:
