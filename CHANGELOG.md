@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.8.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.8.0) - 2024-01-05
+
+<small>[Compare with 1.7.0](https://github.com/pawamoy/markdown-exec/compare/1.7.0...1.8.0)</small>
+
+### Features
+
+- Add `pyodide` fence ([3a2fab0](https://github.com/pawamoy/markdown-exec/commit/3a2fab0b23196a4122bcee6d9b81d3f421f11bbb) by Timothée Mazzucotelli).
+- Add `ansi` option to mark ANSI extra as required or not ([27743c2](https://github.com/pawamoy/markdown-exec/commit/27743c20f56dd00ce730e1d028d362a4f95e48c7) by Timothée Mazzucotelli). [Issue #28](https://github.com/pawamoy/markdown-exec/issues/28), [Issue #29](https://github.com/pawamoy/markdown-exec/issues/29)
+
+### Code Refactoring
+
+- Modernize MkDocs plugin ([4864608](https://github.com/pawamoy/markdown-exec/commit/48646081746c6c5ece0c6566a4b9733ace518791) by Timothée Mazzucotelli).
+
 ## [1.7.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.7.0) - 2023-10-17
 
 <small>[Compare with 1.6.0](https://github.com/pawamoy/markdown-exec/compare/1.6.0...1.7.0)</small>
