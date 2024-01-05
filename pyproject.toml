@@ -62,17 +62,16 @@ duty = ["duty>=0.10"]
 ci-quality = ["markdown-exec[duty,docs,quality,typing,security]"]
 ci-tests = ["markdown-exec[duty,tests]"]
 docs = [
-    "black>=23.9; python_version < '3.12'",
-    "markdown-callouts>=0.3; python_version < '3.12'",
-    "markdown-exec>=1.6; python_version < '3.12'",
-    "mkdocs>=1.5; python_version < '3.12'",
-    "mkdocs-coverage>=1.0; python_version < '3.12'",
-    "mkdocs-gen-files>=0.5; python_version < '3.12'",
-    "mkdocs-git-committers-plugin-2>=1.2; python_version < '3.12'",
-    "mkdocs-literate-nav>=0.6; python_version < '3.12'",
-    "mkdocs-material>=9.4; python_version < '3.12'",
-    "mkdocs-minify-plugin>=0.7; python_version < '3.12'",
-    "mkdocstrings[python]>=0.23; python_version < '3.12'",
+    "black>=23.9",
+    "markdown-callouts>=0.3",
+    "mkdocs>=1.5",
+    "mkdocs-coverage>=1.0",
+    "mkdocs-gen-files>=0.5",
+    "mkdocs-git-committers-plugin-2>=1.2",
+    "mkdocs-literate-nav>=0.6",
+    "mkdocs-material>=9.4",
+    "mkdocs-minify-plugin>=0.7",
+    "mkdocstrings[python]>=0.23",
     "tomli>=2.0; python_version < '3.11'",
     # gallery dependencies
     "toml>=0.10; python_version < '3.12'",
