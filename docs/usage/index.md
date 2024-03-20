@@ -256,8 +256,8 @@ Changing the title for only one tab is not supported.
 You can wrap the result in a code block by specifying a code block language:
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
-```console exec="1" result="json"
-$ pdm info --env
+```console exec="1" result="ini"
+$ cat .git/config
 ```
 ````
 
