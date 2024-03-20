@@ -19,9 +19,11 @@ as base64 encoded PNG data. Finally we output an HTML image with the base64 data
 Using SVG is not possible here since Diagrams embeds actual, smaller PNG files
 in the result, files which are not automatically added to the final site.
 
-```python exec="true" html="true" source="tabbed-right" title="Diagrams"
+````md exec="1" source="tabbed-right" title="Diagrams"
+```python exec="true" html="true"
 --8<-- "gallery/diagrams.py"
 ```
+````
 
 ## Python dependency tree
 
@@ -34,16 +36,16 @@ from our own package.
 ````md exec="1" source="tabbed-right" title="pipdeptree mermaid diagram"
 ```bash exec="1" result="mermaid"
 pipdeptree -p markdown-exec --mermaid 2>/dev/null |
-    sed 's/flowchart TD/flowchart LR/' |
-    sed 's/\.dev.+"\]$/"]/;s/\+d.*"\]$/"]/'
+    sed -E 's/\.dev.+"\]$/"]/;s/\+d.*"\]$/"]/'
 ```
 ````
 
-Another example with more dependencies and top-down direction:
+Another example with more dependencies:
 
 ````md exec="1" source="tabbed-right" title="pipdeptree mermaid diagram"
 ```bash exec="1" result="mermaid"
-pipdeptree -p mkdocstrings-python --mermaid 2>/dev/null
+pipdeptree -p mkdocstrings-python --mermaid 2>/dev/null |
+    sed 's/flowchart TD/flowchart LR/'
 ```
 ````
 
@@ -60,9 +62,11 @@ so the code is a bit convoluted, but you could make a function of it,
 put it in an importable script/module, and reuse it cleanly in your executed
 code blocks.
 
-```python exec="true" html="true" source="tabbed-right" title="pydeps module dependencies graph"
+````md exec="1" source="tabbed-right" title="pydeps module dependencies graph"
+```python exec="true" html="true"
 --8<-- "gallery/pydeps.py"
 ```
+````
 
 ## Code snippets
 
@@ -73,9 +77,11 @@ from somewhere else using the
 or by reading it dynamically from Python.
 We also prevent Rich from actually writing to the terminal.
 
-```python exec="true" html="true" source="tabbed-right" title="Rich SVG code snippet"
+````md exec="1" source="tabbed-right" title="Rich SVG code snippet"
+```python exec="true" html="true"
 --8<-- "gallery/rich.py"
 ```
+````
 
 <!--
 Similarly, [PyTermGUI](https://github.com/bczsalba/pytermgui) also allows
@@ -100,33 +106,41 @@ allowing to render them naturally in your documentation pages.
 For this to happen, use the
 [`result="ansi"` option](http://localhost:8000/markdown-exec/usage/#wrap-result-in-a-code-block).
 
-```bash exec="true" source="tabbed-right" title="ANSI terminal output" result="ansi"
+````md exec="1" source="tabbed-right" title="ANSI terminal output"
+```bash exec="true" result="ansi"
 --8<-- "gallery/ansi.sh"
 ```
+````
 
 As an alternative, we can use Rich again to render the output of a command in a terminal, with colors.
 This example is taken directly from the documentation of the [Griffe](https://github.com/mkdocstrings/griffe) project.
 
-```python exec="true" html="true" source="tabbed-right" title="Rich terminal output"
+````md exec="1" source="tabbed-right" title="Rich terminal output"
+```python exec="true" html="true"
 --8<-- "gallery/rich_terminal.py"
 ```
+````
 
 ## TUI screenshots
 
 [Textual](https://github.com/Textualize/textual) allows to build Terminal User Interfaces (TUIs).
 In this example we generate the SVG image of a terminal interface.
 
-```python exec="1" html="true" source="tabbed-right" tabs="Source|Result"
+````md exec="1" source="tabbed-right" title="Textual screenshot"
+```python exec="1" html="true"
 --8<-- "gallery/textual.py"
 ```
+````
 
 ## Charts and Plots
 
 With [Matplotlib](https://matplotlib.org/):
 
-```python exec="1" html="1" source="tabbed-right" title="matplotlib graph"
+````md exec="1" source="tabbed-right" title="matplotlib graph"
+```python exec="1" html="1"
 --8<-- "gallery/matplotlib.py"
 ```
+````
 
 ## Python module output
 
@@ -134,9 +148,11 @@ This example uses Python's [`runpy`][runpy] module to run another
 Python module. This other module's output is captured by temporarily
 patching `sys.stdout` with a text buffer. 
 
-```python exec="true" source="tabbed-right" title="runpy and script/module output"
+````md exec="1" source="tabbed-right" title="runpy and script/module output"
+```python exec="true"
 --8<-- "gallery/runpy.py"
 ```
+````
 
 ## Python CLI documentation
 
@@ -147,9 +163,11 @@ if you know the project is using [`argparse`][argparse] to build its command lin
 interface, and if it exposes its parser, then you can get the help message
 directly from the parser.
 
-```python exec="true" source="tabbed-right" title="argparse parser help message"
+````md exec="1" source="tabbed-right" title="argparse parser help message"
+```python exec="true"
 --8<-- "gallery/argparse_format.py"
 ```
+````
 
 ### Argparse parser documentation
 
@@ -157,6 +175,8 @@ In this example, we inspect the `argparse` parser to build better-looking
 Markdown/HTML contents. We simply use the description and iterate on options,
 but more complex stuff is possible of course.
 
-```python exec="true" source="tabbed-right" updatetoc="no" title="CLI help using argparse parser"
+````md exec="1" source="tabbed-right" title="CLI help using argparse parser"
+```python exec="true" updatetoc="no"
 --8<-- "gallery/argparse.py"
 ```
+````
