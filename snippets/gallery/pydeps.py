@@ -21,6 +21,7 @@ modules = (
     "markdown_exec.formatters.console",
     "markdown_exec.formatters.markdown",
     "markdown_exec.formatters.pycon",
+    "markdown_exec.formatters.pyodide",
     "markdown_exec.formatters.python",
     "markdown_exec.formatters.sh",
     "markdown_exec.formatters.tree",
