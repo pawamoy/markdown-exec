@@ -5,3 +5,12 @@ goals:
     - name: Pyodide fence
       ref: /usage/pyodide/
       since: 2023/04/26
+  1000:
+    name: GraviFridge Fluid Renewal
+    features: []
+  1500:
+    name: HyperLamp Navigation Tips
+    features: []
+  2000:
+    name: FusionDrive Ejection Configuration
+    features: []

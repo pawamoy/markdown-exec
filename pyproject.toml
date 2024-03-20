@@ -49,61 +49,7 @@ markdown-exec = "markdown_exec.mkdocs_plugin:MarkdownExecPlugin"
 
 [tool.pdm]
 version = {source = "scm"}
-plugins = [
-    "pdm-multirun",
-]
 
 [tool.pdm.build]
 package-dir = "src"
 editable-backend = "editables"
-
-[tool.pdm.dev-dependencies]
-duty = ["duty>=0.10"]
-ci-quality = ["markdown-exec[duty,docs,quality,typing,security]"]
-ci-tests = ["markdown-exec[duty,tests]"]
-docs = [
-    "black>=23.9",
-    "markdown-callouts>=0.3",
-    "mkdocs>=1.5",
-    "mkdocs-coverage>=1.0",
-    "mkdocs-gen-files>=0.5",
-    "mkdocs-git-committers-plugin-2>=1.2",
-    "mkdocs-literate-nav>=0.6",
-    "mkdocs-material>=9.4",
-    "mkdocs-minify-plugin>=0.7",
-    "mkdocstrings[python]>=0.23",
-    "tomli>=2.0; python_version < '3.11'",
-    # gallery dependencies
-    "toml>=0.10; python_version < '3.12'",
-    "pydeps>=1.12; python_version < '3.12'",
-    "diagrams>=0.21; python_version < '3.12'",
-    "rich>=12.3; python_version < '3.12'",
-    "matplotlib>=3.5; python_version < '3.12'",
-    "numpy>=1.23; python_version < '3.12'",
-    "textual; python_version < '3.12'",
-    "pytermgui>=6.3; python_version < '3.12'",
-    "pipdeptree>=2.6; python_version < '3.12'",
-]
-maintain = [
-    "black>=23.9",
-    "blacken-docs>=1.16",
-    "git-changelog>=2.3",
-]
-quality = [
-    "ruff>=0.0",
-]
-tests = [
-    "pytest>=7.4",
-    "pytest-cov>=4.1",
-    "pytest-randomly>=3.15",
-    "pytest-xdist>=3.3",
-    "pygments>=2.15",
-]
-typing = [
-    "mypy>=1.5",
-    "types-markdown>=3.5",
-    "types-pyyaml>=6.0",
-]
-security = [
-    "safety>=2.3",
-]
