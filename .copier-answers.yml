@@ -1,14 +1,15 @@
 # Changes here will be overwritten by Copier
-_commit: 1.1.3
+_commit: 1.2.6
 _src_path: gh:pawamoy/copier-pdm
-author_email: pawamoy@pm.me
+author_email: dev@pawamoy.fr
 author_fullname: Timothée Mazzucotelli
 author_username: pawamoy
 copyright_date: '2022'
 copyright_holder: Timothée Mazzucotelli
-copyright_holder_email: pawamoy@pm.me
+copyright_holder_email: dev@pawamoy.fr
 copyright_license: ISC License
 insiders: true
+insiders_email: insiders@pawamoy.fr
 insiders_repository_name: markdown-exec
 project_description: Utilities to execute code blocks in Markdown files.
 project_name: Markdown Exec
