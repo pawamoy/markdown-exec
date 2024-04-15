@@ -14,7 +14,7 @@ uv_install() {
     if [ -z "${CI}" ]; then
         uv pip install -e .[ansi]
     else
-        uv pip install "markdown-exec @ .[ansi]"
+        uv pip install "markdown-exec[ansi] @ ."
     fi
 }
 
