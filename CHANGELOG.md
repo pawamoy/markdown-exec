@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.8.2](https://github.com/pawamoy/markdown-exec/releases/tag/1.8.2) - 2024-05-20
+
+<small>[Compare with 1.8.1](https://github.com/pawamoy/markdown-exec/compare/1.8.1...1.8.2)</small>
+
+### Bug Fixes
+
+- Give `__name__` to executed Python "modules", and populate `sys.modules` too ([db25ee7](https://github.com/pawamoy/markdown-exec/commit/db25ee703da9b70cb4a13b2b4b61634d697119c4) by Timothée Mazzucotelli). [Issue-47](https://github.com/pawamoy/markdown-exec/issues/47)
+
 ## [1.8.1](https://github.com/pawamoy/markdown-exec/releases/tag/1.8.1) - 2024-04-15
 
 <small>[Compare with 1.8.0](https://github.com/pawamoy/markdown-exec/compare/1.8.0...1.8.1)</small>
