@@ -182,3 +182,24 @@ def test_removing_output_from_pycon_code(md: Markdown) -> None:
     )
     assert "ok" in html
     assert "ko" not in html
+
+
+def test_functions_have_a_module_attribute(md: Markdown) -> None:
+    """Assert functions have a `__module__` attribute.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```python exec="1"
+            def func():
+                pass
+
+            print(f"`{func.__module__}`")
+            ```
+            """,
+        ),
+    )
+    assert "_code_block_n" in html

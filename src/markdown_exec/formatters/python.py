@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import re
+import sys
 import traceback
 from collections import defaultdict
 from functools import partial
 from io import StringIO
+from types import ModuleType
 from typing import Any
 
 from markdown_exec.formatters.base import ExecutionError, base_format
@@ -50,6 +53,15 @@ def _run_python(
     code_block_id = _code_block_id(id, session, title)
     _code_blocks[code_block_id] = code.split("\n")
     exec_globals = _sessions_globals[session] if session else {}
+
+    # Other libraries expect functions to have a valid `__module__` attribute.
+    # To achieve this, we need to add a `__name__` attribute to the globals.
+    # We compute the name from the code block ID, replacing invalid characters with `_`.
+    # We also create a module object with the same name and add it to `sys.modules`,
+    # because that's what yet other libraries expect (`dataclasses` for example).
+    module_name = re.sub(r"[^a-zA-Z\d]+", "_", code_block_id)
+    exec_globals["__name__"] = module_name
+    sys.modules[module_name] = ModuleType(module_name)
 
     buffer = StringIO()
     exec_globals["print"] = partial(_buffer_print, buffer)
