@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from textwrap import dedent
 from typing import TYPE_CHECKING
 
@@ -203,3 +204,28 @@ def test_functions_have_a_module_attribute(md: Markdown) -> None:
         ),
     )
     assert "_code_block_n" in html
+
+
+def test_future_annotations_do_not_leak_into_user_code(md: Markdown) -> None:
+    """Assert future annotations do not leak into user code.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```python exec="1"
+            class Int:
+                ...
+
+            def f(x: Int) -> None:
+                return x + 1.0
+
+            print(f"`{f.__annotations__['x']}`")
+            ```
+            """,
+        ),
+    )
+    assert "<code>Int</code>" not in html
+    assert re.search(r"class '_code_block_n\d+_\.Int'", html)

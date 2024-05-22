@@ -11,6 +11,7 @@ from io import StringIO
 from types import ModuleType
 from typing import Any
 
+from markdown_exec.formatters._exec_python import exec_python
 from markdown_exec.formatters.base import ExecutionError, base_format
 from markdown_exec.rendering import code_block
 
@@ -67,8 +68,7 @@ def _run_python(
     exec_globals["print"] = partial(_buffer_print, buffer)
 
     try:
-        compiled = compile(code, filename=code_block_id, mode="exec")
-        exec(compiled, exec_globals)  # noqa: S102
+        exec_python(code, code_block_id, exec_globals)
     except Exception as error:  # noqa: BLE001
         trace = traceback.TracebackException.from_exception(error)
         for frame in trace.stack:
