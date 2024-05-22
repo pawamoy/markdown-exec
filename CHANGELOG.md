@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.8.3](https://github.com/pawamoy/markdown-exec/releases/tag/1.8.3) - 2024-05-22
+
+<small>[Compare with 1.8.2](https://github.com/pawamoy/markdown-exec/compare/1.8.2...1.8.3)</small>
+
+### Bug Fixes
+
+- Don't leak future annotations in user code ([ba0c35e](https://github.com/pawamoy/markdown-exec/commit/ba0c35e89e3056325b3dcbc7e61b6f108ec55885) by Timothée Mazzucotelli). [Issue-47](https://github.com/pawamoy/markdown-exec/issues/47)
+
 ## [1.8.2](https://github.com/pawamoy/markdown-exec/releases/tag/1.8.2) - 2024-05-20
 
 <small>[Compare with 1.8.1](https://github.com/pawamoy/markdown-exec/compare/1.8.1...1.8.2)</small>
