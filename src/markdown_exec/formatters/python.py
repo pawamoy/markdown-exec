@@ -69,7 +69,7 @@ def _run_python(
 
     try:
         exec_python(code, code_block_id, exec_globals)
-    except Exception as error:  # noqa: BLE001
+    except Exception as error:
         trace = traceback.TracebackException.from_exception(error)
         for frame in trace.stack:
             if frame.filename.startswith("<code block: "):
