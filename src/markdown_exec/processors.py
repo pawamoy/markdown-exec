@@ -92,9 +92,9 @@ class InsertHeadings(Treeprocessor):
             if match:
                 counter = int(match.group(1))
                 markup: Markup = self.md.htmlStash.rawHtmlBlocks[counter]  # type: ignore[assignment]
-                if markup in self.headings:
+                if headings := self.headings.get(markup):
                     div = Element("div", {"class": "markdown-exec"})
-                    div.extend(self.headings[markup])
+                    div.extend(headings)
                     el.append(div)
 
 
@@ -104,15 +104,20 @@ class RemoveHeadings(Treeprocessor):
     name = "markdown_exec_remove_headings"
 
     def run(self, root: Element) -> None:  # noqa: D102
+        self._remove_duplicated_headings(root)
+
+    def _remove_duplicated_headings(self, parent: Element) -> None:
         carry_text = ""
-        for el in reversed(root):  # Reversed mainly for the ability to mutate during iteration.
-            for subel in reversed(el):
-                if subel.tag == "div" and subel.get("class") == "markdown-exec":
-                    # Delete the duplicated headings along with their container, but keep the text (i.e. the actual HTML).
-                    carry_text = (subel.text or "") + carry_text
-                    el.remove(subel)
-                elif carry_text:
-                    subel.tail = (subel.tail or "") + carry_text
+        for el in reversed(parent):  # Reversed mainly for the ability to mutate during iteration.
+            if el.tag == "div" and el.get("class") == "markdown-exec":
+                # Delete the duplicated headings along with their container, but keep the text (i.e. the actual HTML).
+                carry_text = (el.text or "") + carry_text
+                parent.remove(el)
+            else:
+                if carry_text:
+                    el.tail = (el.tail or "") + carry_text
                     carry_text = ""
-            if carry_text:
-                el.text = (el.text or "") + carry_text
+                self._remove_duplicated_headings(el)
+
+        if carry_text:
+            parent.text = (parent.text or "") + carry_text

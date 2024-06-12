@@ -23,6 +23,6 @@ def md() -> Markdown:
         for language in formatters
     ]
     return Markdown(
-        extensions=["pymdownx.superfences"],
+        extensions=["pymdownx.superfences", "pymdownx.tabbed"],
         extension_configs={"pymdownx.superfences": {"custom_fences": fences}},
     )
