@@ -105,6 +105,9 @@ def base_format(
         logger.warning(log_message)
         return markdown.convert(str(error))
 
+    if not output:
+        return Markup()
+
     if html:
         if source:
             placeholder = str(uuid4())

@@ -58,3 +58,18 @@ def test_render_console_plus_ansi_result(md: Markdown) -> None:
         result="ansi",
     )
     assert "<code>ansi" in markup
+
+
+def test_dont_render_anything_if_output_is_empty(md: Markdown) -> None:
+    """Assert nothing is rendered if output is empty.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    markup = base_format(
+        language="bash",
+        run=lambda code, **_: "",
+        code="whatever",
+        md=md,
+    )
+    assert not markup
