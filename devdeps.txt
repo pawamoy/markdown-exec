@@ -20,7 +20,6 @@ types-pyyaml>=6.0
 # docs
 black>=24.4
 markdown-callouts>=0.4
-markdown-exec>=1.8
 mkdocs>=1.6
 mkdocs-coverage>=1.0
 mkdocs-gen-files>=0.5
@@ -40,3 +39,6 @@ pytermgui>=6.3
 pipdeptree>=2.6
 pip>=24
 pygments>=2.15
+drawsvg
+hyperbolic
+qrcode
