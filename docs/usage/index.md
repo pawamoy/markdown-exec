@@ -36,6 +36,7 @@ linking to their related documentation:
 - [`session`](#sessions): Execute code blocks within a named session, reusing previously defined variables, etc..
 - [`source`](#render-the-source-code-as-well): Render the source as well as the output.
 - [`tabs`](#change-the-titles-of-tabs): When rendering the source using tabs, choose the tabs titles.
+- [`width`](#change-the-console-width): Change the console width through the `COLUMNS` environment variable.
 - [`workdir`](#change-the-working-directory): Change the working directory.
 - [`title`](#additional-options): Title is a [Material for MkDocs][material] option.
 - [`updatetoc`](#generated-headings-in-table-of-contents): Whether to update the Table of Contents with generated headings.
@@ -272,6 +273,25 @@ $ cat .git/config
 
 WARNING: **Limitation**  
 Wrapping the result is not possible when HTML output is enabled.
+
+## Change the console width
+
+To change the console width for the execution of a code block, use the `width` option.
+Internally, Markdown Exec will set the `COLUMNS` environment variable accordingly,
+and restore its previous value after execution.
+
+If the executed code doesn't support this environment variable,
+the default console width will be used (it could be the current width or some arbitrary value).
+
+````md exec="1" source="tabbed-left"
+```bash exec="1" width="10"
+echo $COLUMNS
+```
+
+```bash exec="1" width="1000"
+echo $COLUMNS
+```
+````
 
 ## Change the working directory
 

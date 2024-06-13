@@ -91,3 +91,20 @@ def test_changing_working_directory(md: Markdown) -> None:
         workdir="/",
     )
     assert markup == "<p>/</p>"
+
+
+def test_console_width(md: Markdown) -> None:
+    """Assert we can change the console width with `width`.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    for width in (10, 1000):
+        markup = base_format(
+            language="bash",
+            run=lambda code, **_: subprocess.check_output(code, shell=True, text=True),  # noqa: S602,
+            code="echo width: $COLUMNS",
+            md=md,
+            width=width,
+        )
+        assert f"width: {width}" in markup

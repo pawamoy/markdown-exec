@@ -38,6 +38,29 @@ def working_directory(path: str | None = None) -> Iterator[None]:
         yield
 
 
+@contextmanager
+def console_width(width: int | None = None) -> Iterator[None]:
+    """Set the console width for the duration of the context.
+
+    The console width is set using the `COLUMNS` environment variable.
+
+    Parameters:
+        width: The width to set the console to.
+    """
+    if width:
+        old_width = os.environ.get("COLUMNS", None)
+        os.environ["COLUMNS"] = str(width)
+        try:
+            yield
+        finally:
+            if old_width is None:
+                del os.environ["COLUMNS"]
+            else:
+                os.environ["COLUMNS"] = old_width
+    else:
+        yield
+
+
 class ExecutionError(Exception):
     """Exception raised for errors during execution of a code block.
 
@@ -76,6 +99,7 @@ def base_format(
     session: str | None = None,
     update_toc: bool = True,
     workdir: str | None = None,
+    width: int | None = None,
     **options: Any,
 ) -> Markup:
     """Execute code and return HTML.
@@ -114,7 +138,7 @@ def base_format(
         source_output = code
 
     try:
-        with working_directory(workdir):
+        with working_directory(workdir), console_width(width):
             output = run(source_input, returncode=returncode, session=session, id=id, **extra)
     except ExecutionError as error:
         identifier = id or extra.get("title", "")
