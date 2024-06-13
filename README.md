@@ -78,6 +78,10 @@ markdown_extensions:
 plugins:
 - search
 - markdown-exec
+
+# SuperFences must still be enabled!
+markdown_extensions:
+- pymdownx.superfences
 ```
 
 We do recommend enabling Markdown Exec with the MkDocs plugin

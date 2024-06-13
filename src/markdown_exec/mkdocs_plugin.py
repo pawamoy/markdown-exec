@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Any, MutableMapping
 
 from mkdocs.config import config_options
 from mkdocs.config.base import Config
+from mkdocs.exceptions import PluginError
 from mkdocs.plugins import BasePlugin
 from mkdocs.utils import write_file
 
@@ -76,6 +77,9 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
         Returns:
             The modified config.
         """
+        if "pymdownx.superfences" not in config["markdown_extensions"]:
+            message = "The 'markdown-exec' plugin requires the 'pymdownx.superfences' Markdown extension to work."
+            raise PluginError(message)
         self.mkdocs_config_dir = os.getenv("MKDOCS_CONFIG_DIR")
         os.environ["MKDOCS_CONFIG_DIR"] = os.path.dirname(config["config_file_path"])
         self.languages = self.config.languages
