@@ -28,6 +28,7 @@ linking to their related documentation:
 - [`session`](#sessions): Execute code blocks within a named session, reusing previously defined variables, etc..
 - [`source`](#render-the-source-code-as-well): Render the source as well as the output.
 - [`tabs`](#change-the-titles-of-tabs): When rendering the source using tabs, choose the tabs titles.
+- [`workdir`](#change-the-working-directory): Change the working directory.
 - [`title`](#additional-options): Title is a [Material for MkDocs][material] option.
 - [`updatetoc`](#generated-headings-in-table-of-contents): Whether to update the Table of Contents with generated headings.
 
@@ -263,6 +264,20 @@ $ cat .git/config
 
 WARNING: **Limitation**  
 Wrapping the result is not possible when HTML output is enabled.
+
+## Change the working directory
+
+To change the working directory for the execution of a code block, use the `workdir` option.
+
+````md exec="1" source="tabbed-left"
+```bash exec="1"
+pwd
+```
+
+```bash exec="1" workdir=".."
+pwd
+```
+````
 
 ## Additional options
 

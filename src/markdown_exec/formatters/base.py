@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import os
+from contextlib import contextmanager
 from textwrap import indent
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterator
 from uuid import uuid4
 
 from markupsafe import Markup
@@ -16,6 +18,24 @@ if TYPE_CHECKING:
 
 logger = get_logger(__name__)
 default_tabs = ("Source", "Result")
+
+
+@contextmanager
+def working_directory(path: str | None = None) -> Iterator[None]:
+    """Change the working directory for the duration of the context.
+
+    Parameters:
+        path: The path to change the working directory to.
+    """
+    if path:
+        old_cwd = os.getcwd()
+        os.chdir(path)
+        try:
+            yield
+        finally:
+            os.chdir(old_cwd)
+    else:
+        yield
 
 
 class ExecutionError(Exception):
@@ -55,6 +75,7 @@ def base_format(
     transform_source: Callable[[str], tuple[str, str]] | None = None,
     session: str | None = None,
     update_toc: bool = True,
+    workdir: str | None = None,
     **options: Any,
 ) -> Markup:
     """Execute code and return HTML.
@@ -77,6 +98,7 @@ def base_format(
         session: A session name, to persist state between executed code blocks.
         update_toc: Whether to include generated headings
             into the Markdown table of contents (toc extension).
+        workdir: The working directory to use for the execution.
         **options: Additional options passed from the formatter.
 
     Returns:
@@ -92,7 +114,8 @@ def base_format(
         source_output = code
 
     try:
-        output = run(source_input, returncode=returncode, session=session, id=id, **extra)
+        with working_directory(workdir):
+            output = run(source_input, returncode=returncode, session=session, id=id, **extra)
     except ExecutionError as error:
         identifier = id or extra.get("title", "")
         identifier = identifier and f"'{identifier}' "

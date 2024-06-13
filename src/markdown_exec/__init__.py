@@ -76,6 +76,7 @@ def validator(
     update_toc_value = _to_bool(inputs.pop("updatetoc", "yes"))
     tabs_value = inputs.pop("tabs", "|".join(default_tabs))
     tabs = tuple(_tabs_re.split(tabs_value, maxsplit=1))
+    workdir_value = inputs.pop("workdir", None)
     options["id"] = id_value
     options["id_prefix"] = id_prefix_value
     options["html"] = html_value
@@ -85,6 +86,7 @@ def validator(
     options["session"] = session_value
     options["update_toc"] = update_toc_value
     options["tabs"] = tabs
+    options["workdir"] = workdir_value
     options["extra"] = inputs
     return True
 
