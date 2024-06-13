@@ -39,6 +39,8 @@ class _Logger:
     _default_logger: Any = logging.getLogger
     _instances: ClassVar[dict[str, _Logger]] = {}
 
+    # FIXME: Loggers with the same name must be reused!
+    # See same code in Griffe project.
     def __init__(self, name: str) -> None:
         # default logger that can be patched by third-party
         self._logger = self.__class__._default_logger(name)
