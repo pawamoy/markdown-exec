@@ -39,24 +39,35 @@ class _Logger:
     _default_logger: Any = logging.getLogger
     _instances: ClassVar[dict[str, _Logger]] = {}
 
-    # FIXME: Loggers with the same name must be reused!
     # See same code in Griffe project.
     def __init__(self, name: str) -> None:
-        # default logger that can be patched by third-party
+        # Default logger that can be patched by third-party.
         self._logger = self.__class__._default_logger(name)
-        # register instance
-        self._instances[name] = self
 
     def __getattr__(self, name: str) -> Any:
-        # forward everything to the logger
+        # Forward everything to the logger.
         return getattr(self._logger, name)
 
     @classmethod
+    def get(cls, name: str) -> _Logger:
+        """Get a logger instance.
+
+        Parameters:
+            name: The logger name.
+
+        Returns:
+            The logger instance.
+        """
+        if name not in cls._instances:
+            cls._instances[name] = cls(name)
+        return cls._instances[name]
+
+    @classmethod
     def _patch_loggers(cls, get_logger_func: Callable) -> None:
-        # patch current instances
+        # Patch current instances.
         for name, instance in cls._instances.items():
             instance._logger = get_logger_func(name)
-        # future instances will be patched as well
+        # Future instances will be patched as well.
         cls._default_logger = get_logger_func
 
 
@@ -69,7 +80,7 @@ def get_logger(name: str) -> _Logger:
     Returns:
         The logger.
     """
-    return _Logger(name)
+    return _Logger.get(name)
 
 
 def patch_loggers(get_logger_func: Callable[[str], Any]) -> None:
