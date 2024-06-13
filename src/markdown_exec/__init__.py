@@ -8,6 +8,7 @@ Utilities to execute code blocks in Markdown files.
 
 from __future__ import annotations
 
+import os
 import re
 from typing import TYPE_CHECKING, Any
 
@@ -26,6 +27,7 @@ from markdown_exec.formatters.tree import _format_tree
 
 __all__: list[str] = ["formatter", "validator"]
 
+MARKDOWN_EXEC_AUTO = [lang.strip() for lang in os.getenv("MARKDOWN_EXEC_AUTO", "").split(",")]
 
 formatters = {
     "bash": _format_bash,
@@ -63,7 +65,7 @@ def validator(
     Returns:
         Success or not.
     """
-    exec_value = _to_bool(inputs.pop("exec", "no"))
+    exec_value = language in MARKDOWN_EXEC_AUTO or _to_bool(inputs.pop("exec", "no"))
     if language not in {"tree", "pyodide"} and not exec_value:
         return False
     id_value = inputs.pop("id", "")

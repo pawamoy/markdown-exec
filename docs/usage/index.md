@@ -12,6 +12,14 @@ print("Hello Markdown!")
 The `exec` option will be true for every possible value
 except `0`, `no`, `off` and `false` (case insensitive).
 
+To enable automatic execution of code blocks for specific languages
+(without having to add the `exec="on" option to your code blocks),
+set the `MARKDOWN_EXEC_AUTO` environment variable:
+
+```bash
+MARKDOWN_EXEC_AUTO=python,bash
+```
+
 ## Options summary
 
 As the number of options grew over time,
