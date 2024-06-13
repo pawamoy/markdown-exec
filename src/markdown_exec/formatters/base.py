@@ -110,7 +110,7 @@ def base_format(
 
     if html:
         if source:
-            placeholder = str(uuid4())
+            placeholder = f'<div class="{uuid4()}"></div>'
             wrapped_output = add_source(
                 source=source_output,
                 location=source,
