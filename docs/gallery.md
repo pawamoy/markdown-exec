@@ -63,6 +63,16 @@ pipdeptree -p mkdocstrings-python --mermaid 2>/dev/null |
 ```
 ````
 
+### with [Plotly](https://plotly.com/python/)
+
+> The interactive graphing library for Python ✨
+
+````md exec="1" source="tabbed-right"
+```python exec="true" html="true"
+--8<-- "gallery/plotly.py"
+```
+````
+
 ### with [pydeps](https://github.com/thebjorn/pydeps)
 
 > Python Module Dependency graphs.
