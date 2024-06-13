@@ -80,6 +80,12 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
         if "pymdownx.superfences" not in config["markdown_extensions"]:
             message = "The 'markdown-exec' plugin requires the 'pymdownx.superfences' Markdown extension to work."
             raise PluginError(message)
+        if self.config.ansi in ("required", True) and not ansi_ok:
+            raise PluginError(
+                "The configuration for the 'markdown-exec' plugin requires "
+                "that it is installed with the 'ansi' extra. "
+                "Install it with 'pip install markdown-exec[ansi]'.",
+            )
         self.mkdocs_config_dir = os.getenv("MKDOCS_CONFIG_DIR")
         os.environ["MKDOCS_CONFIG_DIR"] = os.path.dirname(config["config_file_path"])
         self.languages = self.config.languages
