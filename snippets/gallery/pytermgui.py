@@ -1,3 +1,12 @@
+import os  # markdown-exec: hide
+for envvar in ("PYTHON_VERSIONS", "CI", "MULTIRUN"):  # markdown-exec: hide
+    if envvar in os.environ:  # markdown-exec: hide
+        print(  # markdown-exec: hide
+            "PyTermGUI blocks when querying the terminal foreground color with an ANSI sequence "  # markdown-exec: hide
+            "because we capture the output ourselves through `failprint`, "  # markdown-exec: hide
+            "so this gallery example is disabled in CI.",  # markdown-exec: hide
+        )  # markdown-exec: hide
+        raise SystemExit(0)  # markdown-exec: hide
 from io import StringIO
 
 import pytermgui as ptg
@@ -23,4 +32,8 @@ terminal = ptg.Terminal(stream=StringIO(), size=(80, 16))
 ptg.set_global_terminal(terminal)
 with terminal.record() as recorder:
     recorder.write(ptg.tim.parse(ptg.highlight_python(code)))
-print(recorder.export_svg(inline_styles=True))
+svg = recorder.export_svg(inline_styles=True)
+
+# Wrapping the SVG in a div prevents it from being wrapped in a paragraph,
+# which would add unnecessary space around it.
+print(f"<div>{svg}</div>")
