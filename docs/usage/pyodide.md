@@ -82,3 +82,23 @@ import dependenpy
 print("OK!")
 ```
 ````
+
+## Excluding assets
+
+When you add a Pyodide fence to a page,
+Markdown Exec will inject `<script>` and `<link>` tags
+to load Javascript and CSS assets.
+If you add multiple Pyodide fences to the same page,
+the same assets will be included many times.
+The browser is clever enough not to re-download them everytime
+(they are cached), but we can still avoid re-injecting assets
+to make the HTML page smaller and faster.
+
+````md
+```pyodide assets="no"
+print("hello")
+```
+````
+
+**Make sure that at least one Pyodide fence per page injects the assets.**
+
