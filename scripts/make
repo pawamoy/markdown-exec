@@ -37,12 +37,12 @@ def uv_install() -> None:
     uv_opts = ""
     if "UV_RESOLUTION" in os.environ:
         uv_opts = f"--resolution={os.getenv('UV_RESOLUTION')}"
-    cmd = f"uv pip compile {uv_opts} pyproject.toml devdeps.txt | uv pip install -r -"
+    cmd = f"uv pip compile {uv_opts} --all-extras pyproject.toml devdeps.txt | uv pip install -r -"
     shell(cmd)
     if "CI" not in os.environ:
-        shell("uv pip install --no-deps -e .[ansi]")
+        shell("uv pip install --no-deps -e .")
     else:
-        shell("uv pip install --no-deps .[ansi]")
+        shell("uv pip install --no-deps .")
 
 
 def setup() -> None:
