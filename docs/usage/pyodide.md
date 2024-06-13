@@ -8,7 +8,7 @@ Everything runs on the client side. The first time Pyodide is loaded by the brow
 can be a bit long, but then it will be cached and the next time you load the page
 it will be much faster.
 
-Click the "Run" button in the top-right corner, or hit ++ctrl+enter++ to run the code.
+Click the **:material-play: Run** button in the top-right corner, or hit ++ctrl+enter++ to run the code.
 You can install packages with Micropip:
 
 ````md exec="1" source="tabbed-right" tabs="Markdown|Rendered"
