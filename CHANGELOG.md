@@ -5,6 +5,30 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.9.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.9.0) - 2024-06-13
+
+<small>[Compare with 1.8.3](https://github.com/pawamoy/markdown-exec/compare/1.8.3...1.9.0)</small>
+
+### Features
+
+- Abort with error when the plugin is configured to require the ANSI extra but it is not installed ([25bcbbe](https://github.com/pawamoy/markdown-exec/commit/25bcbbe6cbc0e0df764456a508f03de2abfcd938) by Timothée Mazzucotelli).
+- Allow excluding assets when rendering Pyodide fence ([5412353](https://github.com/pawamoy/markdown-exec/commit/541235354210522f67af8ff2dc03dfa5216bca20) by Timothée Mazzucotelli).
+- Detect when SuperFences is not enabled and error out early ([5d771d2](https://github.com/pawamoy/markdown-exec/commit/5d771d285cecfcb631438f04b94f5b20275d03df) by Timothée Mazzucotelli). [Issue-39](https://github.com/pawamoy/markdown-exec/issues/39)
+- Allow changing the console width for the execution of code blocks ([76d603c](https://github.com/pawamoy/markdown-exec/commit/76d603ce57232f2ee98f5abec265d2f67174fbdd) by Timothée Mazzucotelli). [Issue-34](https://github.com/pawamoy/markdown-exec/issues/34)
+- Allow automatic execution of code blocks thanks to the `MARKDOWN_EXEC_AUTO` environment variable ([0db27b2](https://github.com/pawamoy/markdown-exec/commit/0db27b23dd7697afb19755b4ec32db43c4add75a) by Timothée Mazzucotelli). [Issue-24](https://github.com/pawamoy/markdown-exec/issues/24)
+- Allow changing working directory for code blocks execution ([ee3fae9](https://github.com/pawamoy/markdown-exec/commit/ee3fae957193e2beb6ac9a0bad3b261d1b67584e) by Timothée Mazzucotelli). [Issue-20](https://github.com/pawamoy/markdown-exec/issues/20)
+
+### Bug Fixes
+
+- Reuse existing loggers tp prevent wrong dispatch ([8967270](https://github.com/pawamoy/markdown-exec/commit/8967270d821e5e021a2298ff8e458bc6ce0f1762) by Timothée Mazzucotelli).
+- Don't render anything when code block output is empty ([4337d13](https://github.com/pawamoy/markdown-exec/commit/4337d1337b5aedd190627287f7e0a48000396902) by Timothée Mazzucotelli). [Issue-17](https://github.com/pawamoy/markdown-exec/issues/17)
+- Increase minimum height of Pyodide output code blocks ([93598b2](https://github.com/pawamoy/markdown-exec/commit/93598b285babfca59b2b297adf804719f012f812) by Timothée Mazzucotelli). [Issue-40](https://github.com/pawamoy/markdown-exec/issues/40)
+- Fix removal of temporary div for headings forwarding ([c012c1d](https://github.com/pawamoy/markdown-exec/commit/c012c1d9f194f492dcb055638c790580aa91c51e) by Timothée Mazzucotelli). [Issue-50](https://github.com/pawamoy/markdown-exec/issues/50)
+
+### Code Refactoring
+
+- Wrap placeholders in `<div>` to avoid them being wrapped in `<p>` ([500ed1b](https://github.com/pawamoy/markdown-exec/commit/500ed1b3a6bb94edd3d5d7152cd818bc3db27bbd) by Timothée Mazzucotelli).
+
 ## [1.8.3](https://github.com/pawamoy/markdown-exec/releases/tag/1.8.3) - 2024-05-22
 
 <small>[Compare with 1.8.2](https://github.com/pawamoy/markdown-exec/compare/1.8.2...1.8.3)</small>
