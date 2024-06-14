@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Coverage report</title>
-    <link rel="icon" sizes="32x32" href="favicon_32.png">
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <script type="text/javascript" src="coverage_html.js" defer></script>
+    <link rel="icon" sizes="32x32" href="favicon_32_cb_58284776.png">
+    <link rel="stylesheet" href="style_cb_8e611ae1.css" type="text/css">
+    <script src="coverage_html_cb_6fb7b396.js" defer></script>
 </head>
 <body class="indexfile">
 <header>
     <div class="content">
         <h1>Coverage report:
-            <span class="pc_cov">70.71%</span>
+            <span class="pc_cov">73.84%</span>
         </h1>
         <aside id="help_panel_wrapper">
             <input id="help_panel_state" type="checkbox">
             <label for="help_panel_state">
-                <img id="keyboard_icon" src="keybd_closed.png" alt="Show/hide keyboard shortcuts" />
+                <img id="keyboard_icon" src="keybd_closed_cb_ce680311.png" alt="Show/hide keyboard shortcuts">
             </label>
             <div id="help_panel">
                 <p class="legend">Shortcuts on this page</p>
                 <div class="keyhelp">
                     <p>
-                        <kbd>n</kbd>
+                        <kbd>f</kbd>
                         <kbd>s</kbd>
                         <kbd>m</kbd>
                         <kbd>x</kbd>
@@ -43,11 +43,20 @@
             </div>
         </aside>
         <form id="filter_container">
-            <input id="filter" type="text" value="" placeholder="filter..." />
+            <input id="filter" type="text" value="" placeholder="filter...">
+            <div>
+                <input id="hide100" type="checkbox" >
+                <label for="hide100">hide covered</label>
+            </div>
         </form>
+        <h2>
+                <a class="button current">Files</a>
+                <a class="button" href="function_index.html">Functions</a>
+                <a class="button" href="class_index.html">Classes</a>
+        </h2>
         <p class="text">
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.4.4">coverage.py v7.4.4</a>,
-            created at 2024-05-20 20:15 +0200
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.5.3">coverage.py v7.5.3</a>,
+            created at 2024-06-14 09:26 +0200
         </p>
     </div>
 </header>
@@ -55,18 +64,18 @@
     <table class="index" data-sortable>
         <thead>
             <tr class="tablehead" title="Click to sort">
-                <th class="name left" aria-sort="none" data-shortcut="n">Module</th>
-                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="s">statements</th>
-                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="m">missing</th>
-                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="x">excluded</th>
-                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="b">branches</th>
-                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="p">partial</th>
-                <th class="right" aria-sort="none" data-shortcut="c">coverage</th>
+                <th id="file" class="name left" aria-sort="none" data-shortcut="f">File<span class="arrows"></span></th>
+                <th id="statements" aria-sort="none" data-default-sort-order="descending" data-shortcut="s">statements<span class="arrows"></span></th>
+                <th id="missing" aria-sort="none" data-default-sort-order="descending" data-shortcut="m">missing<span class="arrows"></span></th>
+                <th id="excluded" aria-sort="none" data-default-sort-order="descending" data-shortcut="x">excluded<span class="arrows"></span></th>
+                <th id="branches" aria-sort="none" data-default-sort-order="descending" data-shortcut="b">branches<span class="arrows"></span></th>
+                <th id="partial" aria-sort="none" data-default-sort-order="descending" data-shortcut="p">partial<span class="arrows"></span></th>
+                <th id="coverage" class="right" aria-sort="none" data-shortcut="c">coverage<span class="arrows"></span></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="file">
-                <td class="name left"><a href="d_49b8b38e36e48c02_debug_py.html">src/markdown_exec/debug.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_49b8b38e36e48c02_debug_py.html">src/markdown_exec/debug.py</a></td>
                 <td>63</td>
                 <td>63</td>
                 <td>0</td>
@@ -74,8 +83,8 @@
                 <td>0</td>
                 <td class="right" data-ratio="0 83">0.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_3066f438197cb952___init___py.html">src/markdown_exec/formatters/__init__.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952___init___py.html">src/markdown_exec/formatters/__init__.py</a></td>
                 <td>0</td>
                 <td>0</td>
                 <td>0</td>
@@ -83,17 +92,26 @@
                 <td>0</td>
                 <td class="right" data-ratio="0 0">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_3066f438197cb952_base_py.html">src/markdown_exec/formatters/base.py</a></td>
-                <td>48</td>
-                <td>1</td>
-                <td>2</td>
-                <td>14</td>
-                <td>2</td>
-                <td class="right" data-ratio="59 62">95.16%</td>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952__exec_python_py.html">src/markdown_exec/formatters/_exec_python.py</a></td>
+                <td>4</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 4">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_3066f438197cb952_bash_py.html">src/markdown_exec/formatters/bash.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952_base_py.html">src/markdown_exec/formatters/base.py</a></td>
+                <td>73</td>
+                <td>2</td>
+                <td>2</td>
+                <td>28</td>
+                <td>3</td>
+                <td class="right" data-ratio="96 101">95.05%</td>
+            </tr>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952_bash_py.html">src/markdown_exec/formatters/bash.py</a></td>
                 <td>12</td>
                 <td>5</td>
                 <td>0</td>
@@ -101,8 +119,8 @@
                 <td>0</td>
                 <td class="right" data-ratio="7 14">50.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_3066f438197cb952_console_py.html">src/markdown_exec/formatters/console.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952_console_py.html">src/markdown_exec/formatters/console.py</a></td>
                 <td>17</td>
                 <td>8</td>
                 <td>2</td>
@@ -110,8 +128,8 @@
                 <td>0</td>
                 <td class="right" data-ratio="9 21">42.86%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_3066f438197cb952_markdown_py.html">src/markdown_exec/formatters/markdown.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952_markdown_py.html">src/markdown_exec/formatters/markdown.py</a></td>
                 <td>5</td>
                 <td>0</td>
                 <td>0</td>
@@ -119,8 +137,8 @@
                 <td>0</td>
                 <td class="right" data-ratio="7 7">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_3066f438197cb952_pycon_py.html">src/markdown_exec/formatters/pycon.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952_pycon_py.html">src/markdown_exec/formatters/pycon.py</a></td>
                 <td>17</td>
                 <td>0</td>
                 <td>2</td>
@@ -128,17 +146,17 @@
                 <td>0</td>
                 <td class="right" data-ratio="21 21">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_3066f438197cb952_pyodide_py.html">src/markdown_exec/formatters/pyodide.py</a></td>
-                <td>16</td>
-                <td>9</td>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952_pyodide_py.html">src/markdown_exec/formatters/pyodide.py</a></td>
+                <td>21</td>
+                <td>13</td>
                 <td>2</td>
-                <td>2</td>
+                <td>4</td>
                 <td>0</td>
-                <td class="right" data-ratio="7 18">38.89%</td>
+                <td class="right" data-ratio="8 25">32.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_3066f438197cb952_python_py.html">src/markdown_exec/formatters/python.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952_python_py.html">src/markdown_exec/formatters/python.py</a></td>
                 <td>50</td>
                 <td>2</td>
                 <td>0</td>
@@ -146,8 +164,8 @@
                 <td>2</td>
                 <td class="right" data-ratio="60 64">93.75%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_3066f438197cb952_sh_py.html">src/markdown_exec/formatters/sh.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952_sh_py.html">src/markdown_exec/formatters/sh.py</a></td>
                 <td>12</td>
                 <td>0</td>
                 <td>0</td>
@@ -155,44 +173,44 @@
                 <td>0</td>
                 <td class="right" data-ratio="14 14">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_3066f438197cb952_tree_py.html">src/markdown_exec/formatters/tree.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_3066f438197cb952_tree_py.html">src/markdown_exec/formatters/tree.py</a></td>
                 <td>42</td>
-                <td>9</td>
+                <td>3</td>
                 <td>2</td>
                 <td>14</td>
                 <td>2</td>
-                <td class="right" data-ratio="39 56">69.64%</td>
+                <td class="right" data-ratio="49 56">87.50%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_49b8b38e36e48c02_logger_py.html">src/markdown_exec/logger.py</a></td>
-                <td>20</td>
+            <tr class="region">
+                <td class="name left"><a href="z_49b8b38e36e48c02_logger_py.html">src/markdown_exec/logger.py</a></td>
+                <td>24</td>
                 <td>4</td>
                 <td>0</td>
-                <td>4</td>
-                <td>0</td>
-                <td class="right" data-ratio="18 24">75.00%</td>
-            </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_49b8b38e36e48c02_mkdocs_plugin_py.html">src/markdown_exec/mkdocs_plugin.py</a></td>
-                <td>66</td>
-                <td>66</td>
-                <td>4</td>
                 <td>8</td>
+                <td>1</td>
+                <td class="right" data-ratio="25 32">78.12%</td>
+            </tr>
+            <tr class="region">
+                <td class="name left"><a href="z_49b8b38e36e48c02_mkdocs_plugin_py.html">src/markdown_exec/mkdocs_plugin.py</a></td>
+                <td>72</td>
+                <td>72</td>
+                <td>4</td>
+                <td>12</td>
                 <td>0</td>
-                <td class="right" data-ratio="0 74">0.00%</td>
+                <td class="right" data-ratio="0 84">0.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_49b8b38e36e48c02_processors_py.html">src/markdown_exec/processors.py</a></td>
-                <td>73</td>
-                <td>10</td>
+            <tr class="region">
+                <td class="name left"><a href="z_49b8b38e36e48c02_processors_py.html">src/markdown_exec/processors.py</a></td>
+                <td>75</td>
+                <td>5</td>
                 <td>3</td>
-                <td>38</td>
-                <td>6</td>
-                <td class="right" data-ratio="91 111">81.98%</td>
+                <td>36</td>
+                <td>5</td>
+                <td class="right" data-ratio="101 111">90.99%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_49b8b38e36e48c02_rendering_py.html">src/markdown_exec/rendering.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_49b8b38e36e48c02_rendering_py.html">src/markdown_exec/rendering.py</a></td>
                 <td>100</td>
                 <td>6</td>
                 <td>3</td>
@@ -200,8 +218,8 @@
                 <td>4</td>
                 <td class="right" data-ratio="122 134">91.04%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_a44f0ac069e85531_conftest_py.html">tests/conftest.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_a44f0ac069e85531_conftest_py.html">tests/conftest.py</a></td>
                 <td>7</td>
                 <td>0</td>
                 <td>0</td>
@@ -209,17 +227,17 @@
                 <td>0</td>
                 <td class="right" data-ratio="11 11">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_a44f0ac069e85531_test_base_formatter_py.html">tests/test_base_formatter.py</a></td>
-                <td>14</td>
+            <tr class="region">
+                <td class="name left"><a href="z_a44f0ac069e85531_test_base_formatter_py.html">tests/test_base_formatter.py</a></td>
+                <td>25</td>
                 <td>0</td>
                 <td>0</td>
-                <td>8</td>
+                <td>16</td>
                 <td>0</td>
-                <td class="right" data-ratio="22 22">100.00%</td>
+                <td class="right" data-ratio="41 41">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_a44f0ac069e85531_test_converter_py.html">tests/test_converter.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_a44f0ac069e85531_test_converter_py.html">tests/test_converter.py</a></td>
                 <td>20</td>
                 <td>0</td>
                 <td>2</td>
@@ -227,17 +245,26 @@
                 <td>0</td>
                 <td class="right" data-ratio="22 22">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_a44f0ac069e85531_test_python_py.html">tests/test_python.py</a></td>
-                <td>37</td>
+            <tr class="region">
+                <td class="name left"><a href="z_a44f0ac069e85531_test_headings_py.html">tests/test_headings.py</a></td>
+                <td>6</td>
+                <td>0</td>
+                <td>2</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="6 6">100.00%</td>
+            </tr>
+            <tr class="region">
+                <td class="name left"><a href="z_a44f0ac069e85531_test_python_py.html">tests/test_python.py</a></td>
+                <td>42</td>
                 <td>0</td>
                 <td>3</td>
                 <td>0</td>
                 <td>0</td>
-                <td class="right" data-ratio="37 37">100.00%</td>
+                <td class="right" data-ratio="42 42">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_a44f0ac069e85531_test_shell_py.html">tests/test_shell.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_a44f0ac069e85531_test_shell_py.html">tests/test_shell.py</a></td>
                 <td>17</td>
                 <td>0</td>
                 <td>3</td>
@@ -245,8 +272,8 @@
                 <td>0</td>
                 <td class="right" data-ratio="17 17">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_a44f0ac069e85531_test_toc_py.html">tests/test_toc.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_a44f0ac069e85531_test_toc_py.html">tests/test_toc.py</a></td>
                 <td>25</td>
                 <td>0</td>
                 <td>2</td>
@@ -254,8 +281,8 @@
                 <td>0</td>
                 <td class="right" data-ratio="25 25">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_a44f0ac069e85531_test_tree_py.html">tests/test_tree.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_a44f0ac069e85531_test_tree_py.html">tests/test_tree.py</a></td>
                 <td>5</td>
                 <td>0</td>
                 <td>0</td>
@@ -263,8 +290,8 @@
                 <td>0</td>
                 <td class="right" data-ratio="5 5">100.00%</td>
             </tr>
-            <tr class="file">
-                <td class="name left"><a href="d_a44f0ac069e85531_test_validator_py.html">tests/test_validator.py</a></td>
+            <tr class="region">
+                <td class="name left"><a href="z_a44f0ac069e85531_test_validator_py.html">tests/test_validator.py</a></td>
                 <td>6</td>
                 <td>0</td>
                 <td>0</td>
@@ -276,12 +303,12 @@
         <tfoot>
             <tr class="total">
                 <td class="name left">Total</td>
-                <td>672</td>
+                <td>740</td>
                 <td>183</td>
-                <td>30</td>
-                <td>178</td>
-                <td>16</td>
-                <td class="right" data-ratio="601 850">70.71%</td>
+                <td>32</td>
+                <td>208</td>
+                <td>17</td>
+                <td class="right" data-ratio="700 948">73.84%</td>
             </tr>
         </tfoot>
     </table>
@@ -292,16 +319,16 @@
 <footer>
     <div class="content">
         <p>
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.4.4">coverage.py v7.4.4</a>,
-            created at 2024-05-20 20:15 +0200
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.5.3">coverage.py v7.5.3</a>,
+            created at 2024-06-14 09:26 +0200
         </p>
     </div>
     <aside class="hidden">
-        <a id="prevFileLink" class="nav" href="d_a44f0ac069e85531_test_validator_py.html"/>
-        <a id="nextFileLink" class="nav" href="d_49b8b38e36e48c02_debug_py.html"/>
-        <button type="button" class="button_prev_file" data-shortcut="["/>
-        <button type="button" class="button_next_file" data-shortcut="]"/>
-        <button type="button" class="button_show_hide_help" data-shortcut="?"/>
+        <a id="prevFileLink" class="nav" href="z_a44f0ac069e85531_test_validator_py.html"></a>
+        <a id="nextFileLink" class="nav" href="z_49b8b38e36e48c02_debug_py.html"></a>
+        <button type="button" class="button_prev_file" data-shortcut="["></button>
+        <button type="button" class="button_next_file" data-shortcut="]"></button>
+        <button type="button" class="button_show_hide_help" data-shortcut="?"></button>
     </aside>
 </footer>
 </body>
