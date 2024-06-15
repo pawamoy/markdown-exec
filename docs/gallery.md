@@ -139,6 +139,15 @@ $ griffe check markdown_exec -ssrc -b1.8.3 -a1.5.0 --color --verbose
 
 ## SVG drawings
 
+### with [Chalk](https://github.com/chalk-diagrams/chalk)
+
+> A declarative drawing API in Python.
+
+````md exec="1" source="tabbed-right"
+```python exec="true" html="true"
+--8<-- "gallery/chalk.py"
+```
+````
 ### with [Drawsvg 2](https://github.com/cduck/drawsvg)
 
 > Programmatically generate SVG (vector) images, animations, and interactive Jupyter widgets.

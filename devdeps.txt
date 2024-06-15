@@ -46,3 +46,4 @@ hyperbolic>=2.0
 qrcode>=7.4
 plotly>=5.22
 pandas>=2.2
+chalk-diagrams>=0.2
