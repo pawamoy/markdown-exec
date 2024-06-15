@@ -54,7 +54,7 @@ version = {source = "scm"}
 [tool.pdm.build]
 package-dir = "src"
 editable-backend = "editables"
-source-includes = ["share"]
+source-includes = ["share", "tests"]
 
 [tool.pdm.build.wheel-data]
 data = [

@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.9.1](https://github.com/pawamoy/markdown-exec/releases/tag/1.9.1) - 2024-06-14
+
+<small>[Compare with 1.9.0](https://github.com/pawamoy/markdown-exec/compare/1.9.0...1.9.1)</small>
+
+### Build
+
+- Re-include tests folder in source distributions ([ae549db](https://github.com/pawamoy/markdown-exec/commit/ae549dbfb7382cf4fa8c35bdcfa4619231f37f4b) by Timothée Mazzucotelli). [Issue-55](https://github.com/pawamoy/markdown-exec/issues/55)
+
 ## [1.9.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.9.0) - 2024-06-13
 
 <small>[Compare with 1.8.3](https://github.com/pawamoy/markdown-exec/compare/1.8.3...1.9.0)</small>
