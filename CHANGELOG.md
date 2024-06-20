@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.9.2](https://github.com/pawamoy/markdown-exec/releases/tag/1.9.2) - 2024-06-20
+
+<small>[Compare with 1.9.1](https://github.com/pawamoy/markdown-exec/compare/1.9.1...1.9.2)</small>
+
+### Bug Fixes
+
+- Render source even if output is empty ([d3f1e6b](https://github.com/pawamoy/markdown-exec/commit/d3f1e6bcf245c656b0014e859e66137ad1e89549) by Timothée Mazzucotelli). [Issue-57](https://github.com/pawamoy/markdown-exec/issues/57)
+
 ## [1.9.1](https://github.com/pawamoy/markdown-exec/releases/tag/1.9.1) - 2024-06-14
 
 <small>[Compare with 1.9.0](https://github.com/pawamoy/markdown-exec/compare/1.9.0...1.9.1)</small>
