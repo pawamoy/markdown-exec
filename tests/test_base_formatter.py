@@ -77,6 +77,22 @@ def test_dont_render_anything_if_output_is_empty(md: Markdown) -> None:
     assert not markup
 
 
+def test_render_source_even_if_output_is_empty(md: Markdown) -> None:
+    """Assert source is rendered even if output is empty.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    markup = base_format(
+        language="bash",
+        run=lambda code, **_: "",
+        code="whatever",
+        md=md,
+        source="tabbed-left",
+    )
+    assert "Source" in markup
+
+
 def test_changing_working_directory(md: Markdown) -> None:
     """Assert we can change the working directory with `workdir`.
 

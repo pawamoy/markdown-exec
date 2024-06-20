@@ -152,7 +152,7 @@ def base_format(
         logger.warning(log_message)
         return markdown.convert(str(error))
 
-    if not output:
+    if not output and not source:
         return Markup()
 
     if html:
