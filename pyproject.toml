@@ -54,7 +54,19 @@ version = {source = "scm"}
 [tool.pdm.build]
 package-dir = "src"
 editable-backend = "editables"
-source-includes = ["share", "tests"]
+excludes = ["**/.pytest_cache"]
+source-includes = [
+    "config",
+    "docs",
+    "scripts",
+    "share",
+    "tests",
+    "devdeps.txt",
+    "duties.py",
+    "mkdocs.yml",
+    "*.md",
+    "LICENSE",
+]
 
 [tool.pdm.build.wheel-data]
 data = [
