@@ -1,99 +1,61 @@
 import math
-import numpy as np
 
-import drawsvg as draw
 from drawsvg import Drawing
-from hyperbolic import euclid
 from hyperbolic.poincare import *
-from hyperbolic.poincare.util import (
-    radial_euclid_to_poincare, triangle_side_for_angles,
-)
+from hyperbolic.poincare.util import triangle_side_for_angles
 import hyperbolic.tiles as htiles
- 
 
-# Control the orientation that tiles are placed together
-class TileLayoutIsosceles(htiles.TileLayout):
-    def calc_gen_index(self, code):
-        ''' Controls which type of tile to place '''
-        return 0
-    def calc_tile_touch_side(self, code, gen_index):
-        ''' Controls tile orientation '''
-        try:
-            side, colors = code
-            return 2 - side
-        except TypeError:
-            return 0
-    def calc_side_codes(self, code, gen_index, touch_side, default_codes):
-        ''' Controls tile side codes '''
-        try:
-            side, colors = code
-            # 0=red, 1=orange, 2=yellow, 3=lime, 4=green, 5=blue, 6=pink
-            if side != 1:
-                if side == 0: shift = -1
-                elif side == 2: shift = 1
-                else: shift = 0
-                nc = len(colors)
-                new_colors = [colors[(i+shift)%nc] for i in range(nc)]
-            else:
-                new_colors = [colors[0], colors[1], colors[6], colors[4],
-                    colors[3], colors[5], colors[2]]
-        except TypeError:
-            nc = q1
-            new_colors = [(i+code)%nc for i in range(nc)]
-        return [(side, new_colors) for side in range(3)]
 
-q1 = 7  # Number of polygons around some points
-q2 = 6  # Number of polygons around other points
-depth = 10  # How far from the center to draw tiles
+p1 = 4
+p2 = 3
+q = 3
+rotate = 0
 
-# Calculate isosceles triangle
-assert q2 > 4 and q2 % 2 == 0, 'q2 must be even and at least 6'
-phi1, phi2 = math.pi*2/q1, math.pi*2/q2
-# Side lengths
-s0 = triangle_side_for_angles(phi1, phi2, phi2)
-s1 = triangle_side_for_angles(phi2, phi2, phi1)
-s2 = s0
-pt0 = Point.from_h_polar(0,0)
-pt1 = Point.from_h_polar(s0,0)
-pt2 = Point.from_h_polar(s2,-phi1)
-# Circumcircle
-circumcirc = euclid.Circle.from_points(*pt0, *pt1, *pt2)
-r = radial_euclid_to_poincare(circumcirc.r)
-pt_center = Point.from_euclid(circumcirc.cx, circumcirc.cy)
-# Translate triangle to center
-trans_center = Transform.shift_origin(pt_center, pt0)
-ptc0, ptc1, ptc2 = trans_center(pt0, pt1, pt2)
-center_points = (ptc0, ptc1, ptc2)
-tile = htiles.Tile(center_points)
+theta1, theta2 = math.pi*2/p1, math.pi*2/p2
+phi_sum = math.pi*2/q
+r1 = triangle_side_for_angles(theta1/2, phi_sum/2, theta2/2)
+r2 = triangle_side_for_angles(theta2/2, phi_sum/2, theta1/2)
 
-# Calculate weave width
-# For right triangle: tan(A) = tanh(opp) / sinh(adj)
-# => opp = atanh(tan(A) * sinh(adj))
-r_insc = math.atanh(math.tan(phi2/2) * math.sinh(s1/2))  # Inscribed circle radius
-h = math.atanh(math.tan(phi2) * math.sinh(s1/2))  # Triangle height
-center_diff = r - (h - r_insc)
+t_gen1 = htiles.TileGen.make_regular(p1, hr=r1, skip=1)
+t_gen2 = htiles.TileGen.make_regular(p2, hr=r2, skip=1)
 
-t_gen = htiles.TileGen.from_center_tile(tile)
+t_layout = htiles.TileLayout()
+t_layout.add_generator(t_gen1, (1,)*p1)
+t_layout.add_generator(t_gen2, (0,)*p2, htiles.TileDecoratorNull())
+start_tile = t_layout.default_start_tile(rotate_deg=rotate)
 
-decorator_late = htiles.TileDecoratorLateInit()
+t1 = start_tile
+t2 = t_layout.place_tile(t1.sides[-1])
+t3 = t_layout.place_tile(t2.sides[-1])
+point_base = t3.vertices[-1]
+points = [Transform.rotation(deg=-i*360/p1).apply_to_point(point_base)
+          for i in range(p1)]
+vertices = start_tile.vertices
+edges = []
+for i, point in enumerate(points):
+    v1 = vertices[i]
+    v2 = vertices[(i+1)%p1]
+    edge = Hypercycle.from_points(*v1, *v2, *point, segment=True, exclude_mid=True)
+    edges.append(edge)
+decorate_poly = Polygon(edges=edges, vertices=vertices)
+decorator1 = htiles.TileDecoratorPolygons(decorate_poly)
+t_layout.set_decorator(decorator1, 0)
 
-t_layout = TileLayoutIsosceles()
-t_layout.add_generator(t_gen, (0,)*4, decorator_late)
-start_tile = t_layout.start_tile(code=2,rotate_deg=0,center_corner=False)
+start_tile = t_layout.default_start_tile(rotate_deg=rotate)
+tiles = t_layout.tile_plane(start_tile, depth=6)
 
-tiles = t_layout.tile_plane(start_tile, depth=depth)
-
-def draw_tiles(drawing, tiles):
-    for tile in tiles:
-        tile.decorator = None
-        d.draw(tile, hwidth=0.02, fill='white')
-    for tile in tiles:
-        d.draw(tile, draw_verts=True, hradius=0.05, hwidth=0.02,
-                     fill='black', opacity=0.6)
-        
-d = draw.Drawing(2, 2, origin='center')
-d.draw(euclid.Circle(0, 0, 1), fill='#ddd')
-draw_tiles(d, tiles)
+d = Drawing(2, 2, origin='center')
+#d.draw(euclid.Circle(0, 0, 1), fill='silver')
+for tile in tiles:
+    d.draw(tile, hwidth=0.02, fill='red')
+tiles[0].decorator = None
+d.draw(
+    Hypercycle.from_points(
+        *tiles[0].vertices[0], *tiles[0].vertices[1], *point_base
+    ),
+    hwidth=0.02,
+    fill='black',
+)
 
 d.set_render_size(w=400)
 print(d.as_svg())
