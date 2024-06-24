@@ -73,7 +73,10 @@ def _run_python(
         trace = traceback.TracebackException.from_exception(error)
         for frame in trace.stack:
             if frame.filename.startswith("<code block: "):
-                frame._line = _code_blocks[frame.filename][frame.lineno - 1]  # type: ignore[attr-defined,operator]
+                if sys.version_info >= (3, 13):
+                    frame._lines = _code_blocks[frame.filename][frame.lineno - 1]  # type: ignore[attr-defined,operator]
+                else:
+                    frame._line = _code_blocks[frame.filename][frame.lineno - 1]  # type: ignore[attr-defined,operator]
         raise ExecutionError(code_block("python", "".join(trace.format()), **extra)) from error
     return buffer.getvalue()
 
