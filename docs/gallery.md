@@ -119,14 +119,6 @@ If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec
 ```
 ````
 
-Another example with [Griffe](https://mkdocstrings.github.io/griffe/):
-
-````md exec="1" source="tabbed-right"
-```console exec="1" source="console" result="ansi" returncode="1"
-$ griffe check markdown_exec -ssrc -b1.8.3 -a1.5.0 --color --verbose
-```
-````
-
 ### with [Rich](https://github.com/Textualize/rich)
 
 > Rich is a Python library for rich text and beautiful formatting in the terminal.
