@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.9.3](https://github.com/pawamoy/markdown-exec/releases/tag/1.9.3) - 2024-06-24
+
+<small>[Compare with 1.9.2](https://github.com/pawamoy/markdown-exec/compare/1.9.2...1.9.3)</small>
+
+### Bug Fixes
+
+- Fix patching lines in tracebacks on Python 3.13 ([917af4c](https://github.com/pawamoy/markdown-exec/commit/917af4c90138a861fb488b91b754231a04bf9f96) by Timothée Mazzucotelli). [Issue-58](https://github.com/pawamoy/markdown-exec/issues/58)
+
 ## [1.9.2](https://github.com/pawamoy/markdown-exec/releases/tag/1.9.2) - 2024-06-20
 
 <small>[Compare with 1.9.1](https://github.com/pawamoy/markdown-exec/compare/1.9.1...1.9.2)</small>
