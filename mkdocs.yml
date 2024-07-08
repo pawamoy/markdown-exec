@@ -100,9 +100,8 @@ markdown_extensions:
     emoji_generator: !!python/name:material.extensions.emoji.to_svg
 - pymdownx.magiclink
 - pymdownx.snippets:
-    base_path: [!relative $config_dir]
+    base_path: [!relative $config_dir, !relative $docs_dir/snippets]
     check_paths: true
-    base_path: [docs/snippets, "."]
 - pymdownx.highlight
 - pymdownx.keys
 - pymdownx.superfences:
