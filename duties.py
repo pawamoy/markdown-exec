@@ -125,10 +125,19 @@ def docs_deploy(ctx: Context) -> None:
     with material_insiders() as insiders:
         if not insiders:
             ctx.run(lambda: False, title="Not deploying docs without Material for MkDocs Insiders!")
-        ctx.run(
-            tools.mkdocs.gh_deploy(force=True),
-            title="Deploying documentation",
-        )
+        origin = ctx.run("git config --get remote.origin.url", silent=True, allow_overrides=False)
+        if "pawamoy-insiders/markdown-exec" in origin:
+            ctx.run("git remote add upstream git@github.com:pawamoy/markdown-exec", silent=True, nofail=True)
+            ctx.run(
+                tools.mkdocs.gh_deploy(remote_name="upstream", force=True),
+                title="Deploying documentation",
+            )
+        else:
+            ctx.run(
+                lambda: False,
+                title="Not deploying docs from public repository (do that from insiders instead!)",
+                nofail=True,
+            )
 
 
 @duty
