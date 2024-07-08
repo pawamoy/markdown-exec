@@ -16,8 +16,8 @@ def _run_sh(
     id: str | None = None,  # noqa: A002,ARG001
     **extra: str,
 ) -> str:
-    process = subprocess.run(
-        ["sh", "-c", code],  # noqa: S603,S607
+    process = subprocess.run(  # noqa: S603
+        ["sh", "-c", code],  # noqa: S607
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
