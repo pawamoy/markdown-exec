@@ -184,6 +184,20 @@ If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec
 ```
 ````
 
+## File-trees
+
+This example displays a file-tree of the current project, in which you can descend thanks to Material for MkDocs' [code annotations](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#code-annotations). It uses a recursive Python function which accept a code block session name as parameter 🤯:
+
+````md exec="1" source="tabbed-right"
+```python exec="1" session="filetree"
+--8<-- "gallery/expandable_filetree.py"
+```
+
+```python exec="1" session="filetree"
+exptree(".", "filetree")
+```
+````
+
 ## Python CLI documentation
 
 ### with [`argparse`](https://docs.python.org/3/library/argparse.html#module-argparse) (code block)
@@ -205,8 +219,6 @@ In this example, we inspect the `argparse` parser to build better-looking Markdo
 --8<-- "gallery/argparse.py"
 ```
 ````
-
-## Other techniques
 
 ### with [`runpy`](https://docs.python.org/3/library/runpy.html#module-runpy)
 
