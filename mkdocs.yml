@@ -86,6 +86,9 @@ extra_css:
 - css/mkdocstrings.css
 - css/insiders.css
 
+extra_javascript:
+- js/feedback.js
+
 markdown_extensions:
 - admonition
 - attr_list
@@ -154,9 +157,10 @@ plugins:
           show_symbol_type_toc: true
           signature_crossrefs: true
           summary: true
-- git-committers:
+- git-revision-date-localized:
     enabled: !ENV [DEPLOY, false]
-    repository: pawamoy/markdown-exec
+    enable_creation_date: true
+    type: timeago
 - minify:
     minify_html: !ENV [DEPLOY, false]
 - group:
@@ -176,3 +180,15 @@ extra:
     link: https://gitter.im/markdown-exec/community
   - icon: fontawesome/brands/python
     link: https://pypi.org/project/markdown-exec/
+  analytics:
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/emoticon-happy-outline
+          name: This page was helpful
+          data: 1
+          note: Thanks for your feedback!
+        - icon: material/emoticon-sad-outline
+          name: This page could be improved
+          data: 0
+          note: Let us know how we can improve this page.
