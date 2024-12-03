@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
-from functools import lru_cache
+from functools import cache
 from textwrap import indent
-from typing import TYPE_CHECKING, Any, Iterator
+from typing import TYPE_CHECKING, Any
 
 from markdown import Markdown
 from markupsafe import Markup
@@ -18,6 +18,7 @@ from markdown_exec.processors import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
     from xml.etree.ElementTree import Element
 
     from markdown import Extension
@@ -180,7 +181,7 @@ emojis not working, etc.).
 # XML entities that get stashed in headings.
 
 
-@lru_cache(maxsize=None)
+@cache
 def _register_headings_processors(md: Markdown) -> None:
     md.treeprocessors.register(
         InsertHeadings(md),

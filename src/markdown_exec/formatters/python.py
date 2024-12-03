@@ -50,7 +50,7 @@ def _run_python(
     id: str | None = None,  # noqa: A002
     **extra: str,
 ) -> str:
-    title = extra.get("title", None)
+    title = extra.get("title")
     code_block_id = _code_block_id(id, session, title)
     _code_blocks[code_block_id] = code.split("\n")
     exec_globals = _sessions_globals[session] if session else {}

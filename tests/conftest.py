@@ -6,7 +6,7 @@ from markdown import Markdown
 from markdown_exec import formatter, formatters, validator
 
 
-@pytest.fixture()
+@pytest.fixture
 def md() -> Markdown:
     """Return a Markdown instance.
 

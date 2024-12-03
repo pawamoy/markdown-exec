@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 from contextlib import contextmanager
 from textwrap import indent
-from typing import TYPE_CHECKING, Any, Callable, Iterator
+from typing import TYPE_CHECKING, Any, Callable
 from uuid import uuid4
 
 from markupsafe import Markup
@@ -14,6 +14,8 @@ from markdown_exec.logger import get_logger
 from markdown_exec.rendering import MarkdownConverter, add_source, code_block
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from markdown.core import Markdown
 
 logger = get_logger(__name__)

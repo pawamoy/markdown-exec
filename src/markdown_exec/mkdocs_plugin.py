@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, MutableMapping
+from typing import TYPE_CHECKING, Any
 
 from mkdocs.config import config_options
 from mkdocs.config.base import Config
@@ -18,6 +18,8 @@ from markdown_exec.logger import patch_loggers
 from markdown_exec.rendering import MarkdownConverter, markdown_config
 
 if TYPE_CHECKING:
+    from collections.abc import MutableMapping
+
     from jinja2 import Environment
     from mkdocs.config.defaults import MkDocsConfig
     from mkdocs.structure.files import Files
