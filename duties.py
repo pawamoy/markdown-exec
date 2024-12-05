@@ -45,8 +45,8 @@ def material_insiders() -> Iterator[bool]:  # noqa: D103
         yield False
 
 
-below_312 = sys.version_info < (3, 12)
-skip_docs_reason = pyprefix("Building docs is not supported on Python 3.12, skipping")
+below_314 = sys.version_info < (3, 14)
+skip_docs_reason = pyprefix("Building docs is not supported on Python 3.14, skipping")
 
 
 @duty
@@ -73,7 +73,7 @@ def check_quality(ctx: Context) -> None:
     )
 
 
-@duty(skip_if=not below_312, skip_reason=skip_docs_reason)
+@duty(skip_if=not below_314, skip_reason=skip_docs_reason)
 def check_docs(ctx: Context) -> None:
     """Check if the documentation builds correctly."""
     Path("htmlcov").mkdir(parents=True, exist_ok=True)
@@ -104,7 +104,7 @@ def check_api(ctx: Context, *cli_args: str) -> None:
     )
 
 
-@duty(skip_if=not below_312, skip_reason=skip_docs_reason)
+@duty(skip_if=not below_314, skip_reason=skip_docs_reason)
 def docs(ctx: Context, *cli_args: str, host: str = "127.0.0.1", port: int = 8000) -> None:
     """Serve the documentation (localhost:8000).
 
@@ -120,7 +120,7 @@ def docs(ctx: Context, *cli_args: str, host: str = "127.0.0.1", port: int = 8000
         )
 
 
-@duty(skip_if=not below_312, skip_reason=skip_docs_reason)
+@duty(skip_if=not below_314, skip_reason=skip_docs_reason)
 def docs_deploy(ctx: Context, *, force: bool = False) -> None:
     """Deploy the documentation to GitHub pages.
 
