@@ -16,7 +16,7 @@ clear_emoji = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path
 assets = """
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.16.0/ace.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/pyodide/v%(version)s/full/pyodide.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/pyodide/v{version}/full/pyodide.js"></script>
 <link title="light" rel="alternate stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/tomorrow.min.css" disabled="disabled">
 <link title="dark" rel="alternate stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/tomorrow-night-blue.min.css" disabled="disabled">
 """
@@ -46,7 +46,7 @@ _counter = 0
 def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **options: Any) -> str:  # noqa: ARG001
     global _counter  # noqa: PLW0603
     _counter += 1
-    version = options.get("version", "0.26.4").lstrip("v")
+    version = extra.get("version", "0.26.4").lstrip("v")
     install = extra.pop("install", "")
     install = install.split(",") if install else []
     exclude_assets = extra.pop("assets", "1").lower() in {"0", "false", "no", "off"}
@@ -67,4 +67,4 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     rendered = template % data
     if exclude_assets:
         return rendered
-    return assets % {"version": version} + rendered
+    return assets.format(version=version) + rendered
