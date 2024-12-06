@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.10.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.10.0) - 2024-12-06
+
+<small>[Compare with 1.9.3](https://github.com/pawamoy/markdown-exec/compare/1.9.3...1.10.0)</small>
+
+### Build
+
+- Drop support for Python 3.8 ([103bc1d](https://github.com/pawamoy/markdown-exec/commit/103bc1dc5f07f330b9e7ca4f052714350c52389d) by Timothée Mazzucotelli).
+
+### Features
+
+- Allow setting Pyodide version ([912c8c7](https://github.com/pawamoy/markdown-exec/commit/912c8c75a5f579a949644f33bcead0b71e9637fd) by Andrew). [Issue-66](https://github.com/pawamoy/markdown-exec/issues/66), [PR-67](https://github.com/pawamoy/markdown-exec/pull/67), Co-authored-by: Timothée Mazzucotelli <dev@pawamoy.fr>
+
 ## [1.9.3](https://github.com/pawamoy/markdown-exec/releases/tag/1.9.3) - 2024-06-24
 
 <small>[Compare with 1.9.2](https://github.com/pawamoy/markdown-exec/compare/1.9.2...1.9.3)</small>
