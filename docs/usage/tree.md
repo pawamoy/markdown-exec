@@ -70,5 +70,5 @@ root1
 
 It is recommended to always append trailing slashes to directory anyway.
 
-WARNING: **Limitation**  
+WARNING: **Limitation:**
 Spaces in file names are not supported when searching for a trailing slash.

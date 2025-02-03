@@ -360,7 +360,7 @@ so we cannot provide generic guidance here.
 > when using our MkDocs plugin and enabling ANSI support,
 > to help tools like MkDocs and its `get-deps` command
 > know that the `ansi` extra dependency is required.
-> 
+>
 > ```yaml
 > plugins:
 > - markdown-exec:

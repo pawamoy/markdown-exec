@@ -21,7 +21,7 @@ Welcome to our gallery of examples!
 
 ### with [D2](https://d2lang.com/)
 
-> A modern diagram scripting language that turns text to diagrams. 
+> A modern diagram scripting language that turns text to diagrams.
 
 ````md exec="1" source="tabbed-right"
 ```python exec="true" html="true"

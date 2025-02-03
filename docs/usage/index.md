@@ -171,7 +171,7 @@ with one of the following values:
 ```
 ````
 
-NOTE: **Important**  
+NOTE: **Important:**
 The `material-block` source option requires that you enable the [`md_in_html`][md_in_html] Markdown extension.
 
 ---
@@ -184,7 +184,7 @@ The `material-block` source option requires that you enable the [`md_in_html`][m
 ```
 ````
 
-NOTE: **Important**  
+NOTE: **Important:**
 The `tabbed-left` source option requires that you enable the [`pymdownx.tabbed`][pymdownx.tabbed] Markdown extension.
 
 ---
@@ -197,7 +197,7 @@ The `tabbed-left` source option requires that you enable the [`pymdownx.tabbed`]
 ```
 ````
 
-NOTE: **Important**  
+NOTE: **Important:**
 The `tabbed-left` source option requires that you enable the [`pymdownx.tabbed`][pymdownx.tabbed] Markdown extension.
 
 ---
@@ -258,7 +258,7 @@ and the "Result" tab title second. It allows to switch from tabbed-left
 to tabbed-right and inversely without having to switch the titles as well.
 
 
-WARNING: **Limitation**  
+WARNING: **Limitation:**
 Changing the title for only one tab is not supported.
 
 ## Wrap result in a code block
@@ -271,7 +271,7 @@ $ cat .git/config
 ```
 ````
 
-WARNING: **Limitation**  
+WARNING: **Limitation:**
 Wrapping the result is not possible when HTML output is enabled.
 
 ## Change the console width
@@ -380,7 +380,7 @@ assert 1 + 1 == 11
 WARNING  -  markdown_exec: Execution of python code block 'print hello' exited with errors
 ```
 
-> TIP: **Titles act as IDs as well!**  
+> TIP: **Titles act as IDs as well!**
 > You *don't need* to provide an ID
 > if you already set a (Material for MkDocs) title:
 >
@@ -413,7 +413,7 @@ greet("Ping")
 ```
 ````
 
-WARNING: **Limitation**  
+WARNING: **Limitation:**
 Sessions only work with Python and Pycon syntax for now.
 
 ## Literate Markdown
@@ -435,9 +435,9 @@ That makes for a very meta-markdown markup:
 ```
 ````
 
-> TIP: **So power, such meta**  
+> TIP: **So power, such meta.**
 > The above example (both tabs) was entirely generated using *a literate code block in a literate code block* 🤯:
-> 
+>
 > `````md
 > ````md exec="1" source="tabbed-left"
 > ```md exec="1" source="material-block" title="Markdown link"
