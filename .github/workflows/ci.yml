@@ -15,6 +15,7 @@ env:
   LC_ALL: en_US.utf-8
   PYTHONIOENCODING: UTF-8
   PYTHON_VERSIONS: ""
+  JUPYTER_PLATFORM_DIRS: 1
 
 jobs:
 
@@ -32,6 +33,9 @@ jobs:
     - name: Set up Graphviz
       uses: ts-graphviz/setup-graphviz@v1
 
+    - name: Set up Deno
+      uses: denoland/setup-deno@v2
+
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
@@ -45,6 +49,59 @@ jobs:
 
     - name: Install dependencies
       run: make setup
+
+    - name: Install Deno Jupyter Kernel
+      run: deno jupyter --install
+
+    - name: Fix deno path on macOS
+      if: runner.os == 'macOS'
+      run: |
+        source .venv/bin/activate
+        export JUPYTER_PLATFORM_DIRS=0
+
+        # ensure jupyter can find the kernel config using the old path structure
+        jupyter kernelspec list | grep -q deno || exit 1
+
+        ORIG_JUPYTER_KERNEL_PATH="$(jupyter --data-dir)/kernels"
+        
+        export JUPYTER_PLATFORM_DIRS=1
+
+        # make the data directory for the new path structure
+        mkdir -p "$(jupyter --data-dir)/kernels"
+
+        cp -r "$ORIG_JUPYTER_KERNEL_PATH/deno" "$(jupyter --data-dir)/kernels"
+
+        # fail if jupyter still can't find the kernel config
+        jupyter kernelspec list | grep -q deno
+        
+        deactivate
+
+    - name: Fix deno path on Windows
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        .\.venv\bin\activate.ps1
+        $env:JUPYTER_PLATFORM_DIRS = "0"
+
+        # ensure jupyter can find the kernel config using the old path structure
+        $kernelCheck = jupyter kernelspec list | Select-String -Pattern "deno"
+        if (-not $kernelCheck) { exit 1 }
+
+        $origKernelPath = Join-Path (jupyter --data-dir) "kernels"
+        
+        $env:JUPYTER_PLATFORM_DIRS = "1"
+
+        # make the data directory for the new path structure
+        $newKernelPath = Join-Path (jupyter --data-dir) "kernels"
+        New-Item -ItemType Directory -Force -Path $newKernelPath
+
+        Copy-Item -Path (Join-Path $origKernelPath "deno") -Destination $newKernelPath -Recurse -Force
+
+        # fail if jupyter still can't find the kernel config
+        $kernelCheck = jupyter kernelspec list | Select-String -Pattern "deno"
+        if (-not $kernelCheck) { exit 1 }
+        
+        deactivate
 
     - name: Check if the documentation builds correctly
       run: make check-docs
@@ -118,6 +175,9 @@ jobs:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
 
+    - name: Set up Deno
+      uses: denoland/setup-deno@v2
+
     - name: Setup uv
       uses: astral-sh/setup-uv@v3
       with:
@@ -129,6 +189,59 @@ jobs:
       env:
         UV_RESOLUTION: ${{ matrix.resolution }}
       run: make setup
+
+    - name: Install Deno Jupyter Kernel
+      run: deno jupyter --install
+
+    - name: Fix deno path on macOS
+      if: runner.os == 'macOS'
+      run: |
+        source .venv/bin/activate
+        export JUPYTER_PLATFORM_DIRS=0
+
+        # ensure jupyter can find the kernel config using the old path structure
+        jupyter kernelspec list | grep -q deno || exit 1
+
+        ORIG_JUPYTER_KERNEL_PATH="$(jupyter --data-dir)/kernels"
+        
+        export JUPYTER_PLATFORM_DIRS=1
+
+        # make the data directory for the new path structure
+        mkdir -p "$(jupyter --data-dir)/kernels"
+
+        cp -r "$ORIG_JUPYTER_KERNEL_PATH/deno" "$(jupyter --data-dir)/kernels"
+
+        # fail if jupyter still can't find the kernel config
+        jupyter kernelspec list | grep -q deno
+        
+        deactivate
+
+    - name: Fix deno path on Windows
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        .\.venv\bin\activate.ps1
+        $env:JUPYTER_PLATFORM_DIRS = "0"
+
+        # ensure jupyter can find the kernel config using the old path structure
+        $kernelCheck = jupyter kernelspec list | Select-String -Pattern "deno"
+        if (-not $kernelCheck) { exit 1 }
+
+        $origKernelPath = Join-Path (jupyter --data-dir) "kernels"
+        
+        $env:JUPYTER_PLATFORM_DIRS = "1"
+
+        # make the data directory for the new path structure
+        $newKernelPath = Join-Path (jupyter --data-dir) "kernels"
+        New-Item -ItemType Directory -Force -Path $newKernelPath
+
+        Copy-Item -Path (Join-Path $origKernelPath "deno") -Destination $newKernelPath -Recurse -Force
+
+        # fail if jupyter still can't find the kernel config
+        $kernelCheck = jupyter kernelspec list | Select-String -Pattern "deno"
+        if (-not $kernelCheck) { exit 1 }
+        
+        deactivate
 
     - name: Run the test suite
       run: make test

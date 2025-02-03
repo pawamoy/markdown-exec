@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     from markdown import Markdown
 
-from markdown_exec.formatters.base import default_tabs
+from markdown_exec.formatters.base import ExecutionError, default_tabs
 from markdown_exec.formatters.bash import _format_bash
 from markdown_exec.formatters.console import _format_console
 from markdown_exec.formatters.markdown import _format_markdown
@@ -24,6 +24,8 @@ from markdown_exec.formatters.pyodide import _format_pyodide
 from markdown_exec.formatters.python import _format_python
 from markdown_exec.formatters.sh import _format_sh
 from markdown_exec.formatters.tree import _format_tree
+from markdown_exec.formatters.tscon import _format_tscon
+from markdown_exec.formatters.typescript import _format_typescript
 
 __all__: list[str] = ["formatter", "validator"]
 
@@ -40,6 +42,9 @@ formatters = {
     "pyodide": _format_pyodide,
     "sh": _format_sh,
     "tree": _format_tree,
+    "ts": _format_typescript,
+    "typescript": _format_typescript,
+    "tscon": _format_tscon,
 }
 
 # negative look behind: matches only if | (pipe) if not preceded by \ (backslash)
@@ -65,6 +70,7 @@ def validator(
     Returns:
         Success or not.
     """
+    # print(f"language: {language}")
     exec_value = language in MARKDOWN_EXEC_AUTO or _to_bool(inputs.pop("exec", "no"))
     if language not in {"tree", "pyodide"} and not exec_value:
         return False
@@ -124,7 +130,10 @@ def formatter(
         HTML contents.
     """
     fmt = formatters.get(language, lambda source, **kwargs: source)
-    return fmt(code=source, md=md, **options)  # type: ignore[operator]
+    try:
+        return fmt(code=source, md=md, **options)  # type: ignore[operator]
+    except Exception as e:
+        raise ExecutionError(e) from e
 
 
 falsy_values = {"", "no", "off", "false", "0"}

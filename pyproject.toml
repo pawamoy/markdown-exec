@@ -29,6 +29,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
+    "jupyter-client>=8.6.3",
     "pymdown-extensions>=9",
 ]
 

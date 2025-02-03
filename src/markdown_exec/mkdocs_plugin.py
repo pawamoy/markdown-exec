@@ -14,6 +14,7 @@ from mkdocs.plugins import BasePlugin
 from mkdocs.utils import write_file
 
 from markdown_exec import formatter, formatters, validator
+from markdown_exec.formatters.jupyter import _shutdown_kernels
 from markdown_exec.logger import patch_loggers
 from markdown_exec.rendering import MarkdownConverter, markdown_config
 
@@ -127,6 +128,8 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
             os.environ.pop("MKDOCS_CONFIG_DIR", None)
         else:
             os.environ["MKDOCS_CONFIG_DIR"] = self.mkdocs_config_dir
+
+        _shutdown_kernels()
 
     def _add_asset(self, config: MkDocsConfig, asset_file: str, asset_type: str) -> None:
         asset_filename = f"assets/_markdown_exec_{asset_file}"

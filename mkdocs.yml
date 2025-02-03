@@ -23,6 +23,7 @@ nav:
   - usage/index.md
   - Python: usage/python.md
   - Pyodide: usage/pyodide.md
+  - TypeScript: usage/typescript.md
   - Shell: usage/shell.md
   - Tree: usage/tree.md
 - Gallery: gallery.md

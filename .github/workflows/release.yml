@@ -4,6 +4,9 @@ on: push
 permissions:
   contents: write
 
+env:
+  JUPYTER_PLATFORM_DIRS: 1
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -20,6 +23,10 @@ jobs:
         python-version: "3.12"
     - name: Setup uv
       uses: astral-sh/setup-uv@v3
+    - name: Set up Deno
+      uses: denoland/setup-deno@v2
+    - name: Install Deno Jupyter Kernel
+      run: deno jupyter --install
     - name: Build dists
       if: github.repository_owner == 'pawamoy-insiders'
       run: uv tool run --from build pyproject-build
