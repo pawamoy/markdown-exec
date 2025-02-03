@@ -33,7 +33,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-ansi = ["pygments-ansi-color"]
+ansi = ["pygments-ansi-color>=0.3"]
 
 [project.urls]
 Homepage = "https://pawamoy.github.io/markdown-exec"
