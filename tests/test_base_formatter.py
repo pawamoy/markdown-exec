@@ -1,5 +1,6 @@
 """Tests for the base formatter."""
 
+import os
 import subprocess
 
 import pytest
@@ -93,6 +94,7 @@ def test_render_source_even_if_output_is_empty(md: Markdown) -> None:
     assert "Source" in markup
 
 
+@pytest.mark.skipif(os.name != "posix", reason="No time for the annoying OS.")
 def test_changing_working_directory(md: Markdown) -> None:
     """Assert we can change the working directory with `workdir`.
 
@@ -109,6 +111,7 @@ def test_changing_working_directory(md: Markdown) -> None:
     assert markup == "<p>/</p>"
 
 
+@pytest.mark.skipif(os.name != "posix", reason="No time for the annoying OS.")
 def test_console_width(md: Markdown) -> None:
     """Assert we can change the console width with `width`.
 
