@@ -137,9 +137,6 @@ def _shutdown_kernels() -> None:
                         shutdown = True
                         break
             kc.stop_channels()
-            kc.cleanup_connection_file()
-            kc.cleanup_ipc_files()
-            kc.cleanup_random_ports()
             km = _kernel_managers[language][key]
             if not shutdown and km.is_alive():
                 # force shutdown if we didn't get a reply
