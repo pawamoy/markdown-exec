@@ -89,6 +89,7 @@ def _get_kernel_for_language(language: str) -> str:
 def _get_kernel_manager_and_client(
     language: str,
     session: str | None = None,
+    start_kernel_kwargs: dict[str, Any] | None = None,
 ) -> tuple[KernelManager, BlockingKernelClient]:
     """Get or create a kernel manager and client for the given kernel name and session."""
     kernel_name = _get_kernel_for_language(language)
@@ -100,7 +101,10 @@ def _get_kernel_manager_and_client(
         _kernel_clients[language] = {}
     if key not in _kernel_managers[language]:
         km = KernelManager(kernel_name=kernel_name)
-        km.start_kernel()
+        if start_kernel_kwargs:
+            km.start_kernel(**start_kernel_kwargs)
+        else:
+            km.start_kernel()
         _kernel_managers[language][key] = km
     km = _kernel_managers[language][key]
     if key not in _kernel_clients[language]:
@@ -125,6 +129,7 @@ def _shutdown_kernels() -> None:
 # specific runner when needed.
 def _run_jupyter(
     language: str,
+    start_kernel_kwargs: dict[str, Any] | None,
     code: str,
     returncode: int | None = None,
     session: str | None = None,
@@ -135,7 +140,7 @@ def _run_jupyter(
     is_named_session = session is not None and session != ""
 
     # Get kernel manager and client
-    km, kc = _get_kernel_manager_and_client(language, session)
+    km, kc = _get_kernel_manager_and_client(language, session, start_kernel_kwargs)
 
     kc.wait_for_ready()
     # Send code for execution

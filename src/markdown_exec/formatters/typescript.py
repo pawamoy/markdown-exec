@@ -115,7 +115,13 @@ def _run_typescript(
     type_check_errors = _check_types(code_history, session, returncode, **extra)
     if type_check_errors:
         return type_check_errors
-    return _run_jupyter("typescript", code, returncode, session, id, **extra)
+    start_kernel_kwargs = {
+      "env": {**os.environ, "NO_COLOR": "1"},
+      "extra_arguments": ["--quiet"],
+    }
+    return _run_jupyter(
+        "typescript", start_kernel_kwargs, code, returncode, session, id, **extra,
+    )
 
 
 _format_typescript = functools.partial(_jupyter_formatter, "typescript", _run_typescript)

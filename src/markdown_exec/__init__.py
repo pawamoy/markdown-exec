@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import os
 import re
+import traceback
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -133,7 +134,7 @@ def formatter(
     try:
         return fmt(code=source, md=md, **options)  # type: ignore[operator]
     except Exception as e:
-        raise ExecutionError(e) from e
+        raise ExecutionError(traceback.format_exc()) from e
 
 
 falsy_values = {"", "no", "off", "false", "0"}
