@@ -145,8 +145,8 @@ def _shutdown_kernels() -> None:
     _kernel_clients.clear()
     _kernel_managers.clear()
 
-# Because this is a language agnostic runner, it has an extra initial language
-# argument. This makes it easy to use functools.partial to create a language
+# Because this is a language agnostic runner, it has two extra initial language
+# arguments. This makes it easy to use functools.partial to create a language
 # specific runner when needed.
 def _run_jupyter(
     language: str,
@@ -244,7 +244,7 @@ def _jupyter_formatter(language: str, runner: Callable[[str], str] | None = None
     """Format and execute code using Jupyter kernels."""
     return base_format(
         language=language,
-        run=runner or functools.partial(_run_jupyter, language),
+        run=runner or functools.partial(_run_jupyter, language, {}),
         **kwargs,
     )
 
