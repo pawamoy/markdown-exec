@@ -1,5 +1,6 @@
 """Tests for the TypeScript formatter."""
 
+import platform
 from textwrap import dedent
 
 import pytest
@@ -16,6 +17,7 @@ def _expect_error(md: Markdown, error_text: str, actual_html: str) -> None:
     assert expected_html == actual_html
 
 
+@pytest.mark.skipif(platform.python_version_tuple()[:2] >= ("3", "14"), reason="3.14 is still alpha and this doesn't work there yet")
 def test_output_markdown(md: Markdown) -> None:
     """Test that output from code is rendered as Markdown."""
     html = md.convert(
@@ -30,6 +32,7 @@ def test_output_markdown(md: Markdown) -> None:
     assert html == "<p><strong>Bold!</strong></p>"
 
 
+@pytest.mark.skipif(platform.python_version_tuple()[:2] >= ("3", "14"), reason="3.14 is still alpha and this doesn't work there yet")
 def test_session_persistence(md: Markdown) -> None:
     """Test that session data is persisted across code blocks."""
     html = md.convert(
@@ -49,6 +52,7 @@ def test_session_persistence(md: Markdown) -> None:
     assert "Count: 1" in html
 
 
+@pytest.mark.skipif(platform.python_version_tuple()[:2] >= ("3", "14"), reason="3.14 is still alpha and this doesn't work there yet")
 def test_runtime_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
     """Test that runtime errors are formatted correctly."""
     html = md.convert(
@@ -75,6 +79,7 @@ def test_runtime_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
     assert "Execution of typescript code block exited with errors" in caplog.text
 
 
+@pytest.mark.skipif(platform.python_version_tuple()[:2] >= ("3", "14"), reason="3.14 is still alpha and this doesn't work there yet")
 def test_type_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
     """Test that type errors are formatted correctly."""
     html = md.convert(
@@ -105,6 +110,7 @@ def test_type_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
     assert "Execution of typescript code block exited with errors" in caplog.text
 
 
+@pytest.mark.skipif(platform.python_version_tuple()[:2] >= ("3", "14"), reason="3.14 is still alpha and this doesn't work there yet")
 def test_console_output(md: Markdown) -> None:
     """Test that console output is rendered correctly."""
     html = md.convert(
@@ -121,6 +127,7 @@ def test_console_output(md: Markdown) -> None:
     assert "World" in html
 
 
+@pytest.mark.skipif(platform.python_version_tuple()[:2] >= ("3", "14"), reason="3.14 is still alpha and this doesn't work there yet")
 def test_session_isolation(md: Markdown) -> None:
     """Test that sessions are isolated from each other."""
     html = md.convert(
@@ -147,6 +154,7 @@ def test_session_isolation(md: Markdown) -> None:
     assert "A2: 1" in html
 
 
+@pytest.mark.skipif(platform.python_version_tuple()[:2] >= ("3", "14"), reason="3.14 is still alpha and this doesn't work there yet")
 def test_partial_execution(md: Markdown) -> None:
     """Test that partial execution works."""
     html = md.convert(
@@ -169,6 +177,7 @@ def test_partial_execution(md: Markdown) -> None:
     assert "THE NUMBER IS 2" not in html
 
 
+@pytest.mark.skipif(platform.python_version_tuple()[:2] >= ("3", "14"), reason="3.14 is still alpha and this doesn't work there yet")
 def test_tscon_multiple_blocks(md: Markdown) -> None:
     """Test that multiple blocks of instructions are concatenated, as well as their output."""
     html = md.convert(
