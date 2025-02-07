@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import functools
 import os
+import pathlib
 import re
 import shutil
 import subprocess
@@ -20,7 +21,8 @@ def _clean_typecheck_error(filename: str, stderr: str, session: str | None) -> s
     cleaned_filename = (
         f"<session {session}>" if session else "<anonymous session>"
     ) + ".ts"
-    stderr = stderr.replace(f"at file://{filename}", f"at {cleaned_filename}")
+    file_url = pathlib.Path(filename).as_uri()
+    stderr = stderr.replace(f"at {file_url}", f"at {cleaned_filename}")
 
     # given an error line like: "at <anonymous session>.ts:1:5", subtract the number of lines of old code from the line number
     # so the line number aligns with the one in the code block

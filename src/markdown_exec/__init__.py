@@ -71,7 +71,6 @@ def validator(
     Returns:
         Success or not.
     """
-    # print(f"language: {language}")
     exec_value = language in MARKDOWN_EXEC_AUTO or _to_bool(inputs.pop("exec", "no"))
     if language not in {"tree", "pyodide"} and not exec_value:
         return False
