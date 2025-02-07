@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import atexit
 import functools
 import os
 import platform
@@ -227,3 +228,6 @@ def _jupyter_formatter(language: str, runner: Callable[[str], str] | None = None
         **kwargs,
     )
 
+# if _shutdown_kernels isn't called before the process exits, the windows build
+# of deno panics see https://github.com/denoland/deno/issues/28004 for more info
+atexit.register(_shutdown_kernels)
