@@ -7,6 +7,7 @@ import functools
 import os
 import platform
 import queue
+import time
 from typing import TYPE_CHECKING, Any, Callable
 
 from jupyter_client import KernelManager
@@ -17,6 +18,8 @@ from markdown_exec.rendering import code_block
 
 if TYPE_CHECKING:
     from jupyter_client.blocking.client import BlockingKernelClient
+
+_SHUTDOWN_TIMEOUT = 10
 
 # Store kernel managers by session and kernel name
 _kernel_managers: dict[str, dict[tuple[str | None, str], KernelManager]] = {}
@@ -116,13 +119,33 @@ def _get_kernel_manager_and_client(
     return km, kc
 
 def _shutdown_kernels() -> None:
-    for clients in _kernel_clients.values():
-        for kc in clients.values():
+    for language, clients in _kernel_clients.items():
+        for key,kc in clients.items():
+            msg_id = kc.shutdown()
+            shutdown = False
+            start_time = time.time()
+            while not shutdown:
+                try:
+                    msg = kc.get_control_msg(timeout=0.1)
+                    if msg["parent_header"].get("msg_id") == msg_id:
+                        shutdown = True
+                        break
+                except queue.Empty:
+                    if not kc.is_alive():
+                        break
+                    if time.time() - start_time > _SHUTDOWN_TIMEOUT:
+                        shutdown = True
+                        break
             kc.stop_channels()
+            kc.cleanup_connection_file()
+            kc.cleanup_ipc_files()
+            kc.cleanup_random_ports()
+            km = _kernel_managers[language][key]
+            if not shutdown and km.is_alive():
+                # force shutdown if we didn't get a reply
+                km.shutdown_kernel()
+            km.cleanup_resources()
     _kernel_clients.clear()
-    for managers in _kernel_managers.values():
-        for km in managers.values():
-            km.shutdown_kernel()
     _kernel_managers.clear()
 
 # Because this is a language agnostic runner, it has an extra initial language
