@@ -80,7 +80,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
-        .\.venv\bin\activate.ps1
+        .\.venv\Scripts\Activate.ps1
         $env:JUPYTER_PLATFORM_DIRS = "0"
 
         # ensure jupyter can find the kernel config using the old path structure
@@ -220,7 +220,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
-        .\.venv\bin\activate.ps1
+        .\.venv\Scripts\Activate.ps1
         $env:JUPYTER_PLATFORM_DIRS = "0"
 
         # ensure jupyter can find the kernel config using the old path structure
