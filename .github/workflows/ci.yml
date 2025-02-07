@@ -183,7 +183,7 @@ jobs:
       with:
         enable-cache: true
         cache-dependency-glob: pyproject.toml
-        cache-suffix: py${{ matrix.python-version }}
+        cache-suffix: "py${{ matrix.python-version }}-${{ matrix.resolution }}"
 
     - name: Install dependencies
       env:
