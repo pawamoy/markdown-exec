@@ -13,7 +13,7 @@ and this HTML is injected in place of the code block.
 ## Installation
 
 ```bash
-pip install markdown-exec[ansi]
+pip install "markdown-exec[ansi]"
 ```
 
 The `ansi` extra provides the necessary bits (`pygments-ansi-color` and a CSS file)
