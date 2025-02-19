@@ -46,7 +46,8 @@ Markdown(
                     "format": formatter,
                 }
                 # ...one fence for each language we support:
-                # bash, console, md, markdown, py, python, pycon, sh, tree
+                # bash, console, md, markdown, py, python, pycon, sh, tree,
+                # typescript, ts, tscon
             ]
         }
     }
@@ -65,7 +66,8 @@ markdown_extensions:
       validator: !!python/name:markdown_exec.validator
       format: !!python/name:markdown_exec.formatter
     # ...one fence for each language we support:
-    # bash, console, md, markdown, py, python, pycon, sh, tree
+    # bash, console, md, markdown, py, python, pycon, sh, tree, typescript, ts,
+    # tscon
 ```
 
 ...or in MkDocs configuration file, as a plugin:

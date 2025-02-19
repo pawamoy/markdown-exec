@@ -1,0 +1,6 @@
+> const name: string = "Baron";
+> console.log(name);
+Baron
+> const age: string | number = "???";
+> console.log(age);
+???

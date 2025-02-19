@@ -1,5 +1,6 @@
 """Configuration for the pytest test suite."""
 
+
 import pytest
 from markdown import Markdown
 
@@ -26,3 +27,4 @@ def md() -> Markdown:
         extensions=["pymdownx.superfences", "pymdownx.tabbed"],
         extension_configs={"pymdownx.superfences": {"custom_fences": fences}},
     )
+
