@@ -72,7 +72,7 @@ def validator(
     id_prefix_value = inputs.pop("idprefix", None)
     html_value = _to_bool(inputs.pop("html", "no"))
     source_value = inputs.pop("source", "")
-    result_value = inputs.pop("result", "")
+    result_value = inputs.pop("result", None)
     returncode_value = int(inputs.pop("returncode", "0"))
     session_value = inputs.pop("session", "")
     update_toc_value = _to_bool(inputs.pop("updatetoc", "yes"))

@@ -127,3 +127,19 @@ def test_console_width(md: Markdown) -> None:
             width=width,
         )
         assert f"width: {width}" in markup
+
+
+def test_render_as_code_for_empty_string(md: Markdown) -> None:
+    """Assert backticks are added for empty string
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    markup = base_format(
+        language="python",
+        run=lambda code, **_: code,
+        code="print('hello')",
+        result="",
+        md=md,
+    )
+    assert "<code>" in markup
