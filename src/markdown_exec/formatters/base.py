@@ -92,7 +92,7 @@ def base_format(
     md: Markdown,
     html: bool = False,
     source: str = "",
-    result: str = "",
+    result: str = None,
     tabs: tuple[str, str] = default_tabs,
     id: str = "",  # noqa: A002
     id_prefix: str | None = None,
@@ -172,7 +172,7 @@ def base_format(
         return Markup(output)
 
     wrapped_output = output
-    if result and source != "console":
+    if result is not None and source != "console":
         wrapped_output = code_block(result, output)
     if source:
         wrapped_output = add_source(
