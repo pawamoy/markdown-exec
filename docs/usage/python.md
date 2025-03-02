@@ -37,3 +37,30 @@ as well as their output:
 --8<-- "usage/multiple.pycon"
 ```
 ````
+
+## Expecting an `Exception`
+
+You will sometimes want to run Python code that you
+expect to raise an `Exception`. 
+For example to show how errors look to your users.
+
+You can tell Markdown Exec to expect
+a particular `Exception` code with the `exception` option:
+
+````md
+```python exec="true" exception="ValueError"
+print("This will run")
+raise ValueError("This is a value error")
+print("This will not run")
+```
+````
+
+In that case, the executed code won't be considered
+to have failed, its output will be rendered normally,
+and no warning will be logged in the MkDocs output,
+allowing your strict builds to pass.
+
+If the `exception` code is different than the one specified
+with `exception=`, it will be considered a failure,
+only the traceback will be renderer
+and a warning will be logged in the MkDocs output.

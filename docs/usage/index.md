@@ -33,6 +33,7 @@ linking to their related documentation:
 - [`idprefix`](#html-ids): Change or remove the prefix in front of HTML ids/hrefs.
 - [`result`](#wrap-result-in-a-code-block): Choose the syntax highlight of your code block output.
 - [`returncode`](shell.md#expecting-a-non-zero-exit-code): Tell what return code is expected (shell code).
+- [`exception`](python.md#expecting-an-exception): Tell what exception code is expected (python code).
 - [`session`](#sessions): Execute code blocks within a named session, reusing previously defined variables, etc..
 - [`source`](#render-the-source-code-as-well): Render the source as well as the output.
 - [`tabs`](#change-the-titles-of-tabs): When rendering the source using tabs, choose the tabs titles.
@@ -335,8 +336,11 @@ Example:
 Code blocks execution can fail.
 For example, your Python code may raise exceptions,
 or your shell code may return a non-zero exit code
-(for shell commands that are expected to return non-zero,
-see [Expecting a non-zero exit code](shell.md#expecting-a-non-zero-exit-code)).
+For shell commands that are expected to return non-zero,
+see [Expecting a non-zero exit code](shell.md#expecting-a-non-zero-exit-code).
+
+For python blocks that are expected to raise an exception
+see [Expecting an Exception](python.md#expecting-an-exception).
 
 In these cases, the exception and traceback (Python),
 or the current output (shell) will be rendered

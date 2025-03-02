@@ -106,5 +106,13 @@ grep extra_css README.md && exit 2
 ```
 ````
 
+You can also expect a type of Exception in Python:
+
+````md
+```python exec="1" source="tabbed-left" exception="ValueError"
+raise ValueError
+```
+````
+
 See [usage](https://pawamoy.github.io/markdown-exec/usage/) for more details,
 and the [gallery](https://pawamoy.github.io/markdown-exec/gallery/) for more examples!

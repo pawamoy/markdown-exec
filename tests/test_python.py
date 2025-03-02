@@ -66,7 +66,7 @@ def test_error_raised(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
     assert "Traceback" in html
     assert "ValueError" in html
     assert "oh no!" in html
-    assert "Execution of python code block exited with errors" in caplog.text
+    assert "Execution of python code block exited with <class 'ValueError'>" in caplog.text
 
 
 def test_can_print_non_string_objects(md: Markdown) -> None:
@@ -229,3 +229,38 @@ def test_future_annotations_do_not_leak_into_user_code(md: Markdown) -> None:
     )
     assert "<code>Int</code>" not in html
     assert re.search(r"class '_code_block_n\d+_\.Int'", html)
+
+
+def test_exception_code(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
+    """Assert return code is used correctly.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```python exec="yes" exception="ValueError"
+            print("blah blah blah")
+            raise ValueError
+            ```
+            """,
+        ),
+    )
+    assert "blah blah blah" in html
+    assert "ValueError" in html
+    assert "exited with" not in caplog.text
+
+    html = md.convert(
+        dedent(
+            """
+            ```python exec="yes" exception="TypeError"
+            print("blah blah blah")
+            raise ValueError
+            ```
+            """,
+        ),
+    )
+    assert "blah blah blah" not in html
+    assert "ValueError" in html
+    assert "<class 'ValueError'> expected TypeError" in caplog.text

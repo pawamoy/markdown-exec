@@ -74,6 +74,7 @@ def validator(
     source_value = inputs.pop("source", "")
     result_value = inputs.pop("result", "")
     returncode_value = int(inputs.pop("returncode", "0"))
+    exception_value = inputs.pop("exception", None)
     session_value = inputs.pop("session", "")
     update_toc_value = _to_bool(inputs.pop("updatetoc", "yes"))
     tabs_value = inputs.pop("tabs", "|".join(default_tabs))
@@ -86,6 +87,7 @@ def validator(
     options["source"] = source_value
     options["result"] = result_value
     options["returncode"] = returncode_value
+    options["exception"] = exception_value
     options["session"] = session_value
     options["update_toc"] = update_toc_value
     options["tabs"] = tabs

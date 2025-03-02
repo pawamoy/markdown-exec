@@ -63,7 +63,7 @@ def test_error_raised(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
         ),
     )
     assert "error" in html
-    assert "Execution of sh code block exited with unexpected code 2" in caplog.text
+    assert "Execution of sh code block exited with returncode 2 expected 0" in caplog.text
 
 
 def test_return_code(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
