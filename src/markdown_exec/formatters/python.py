@@ -45,7 +45,7 @@ def _code_block_id(
 
 def _run_python(
     code: str,
-    returncode: int | None = None,
+    exception: str | None = None,
     session: str | None = None,
     id: str | None = None,  # noqa: A002
     **extra: str,
@@ -77,7 +77,7 @@ def _run_python(
                     frame._lines = _code_blocks[frame.filename][frame.lineno - 1]  # type: ignore[attr-defined,operator]
                 else:
                     frame._line = _code_blocks[frame.filename][frame.lineno - 1]  # type: ignore[attr-defined,operator]
-        if returncode not in [None, 0]:
+        if exception is not None and exception in str(error.__class__):
             _buffer_print(buffer, "".join(trace.format()))
         else:
             raise ExecutionError(code_block("python", "".join(trace.format()), **extra)) from error

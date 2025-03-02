@@ -71,9 +71,10 @@ class ExecutionError(Exception):
         returncode: The code returned by the execution of the code block.
     """
 
-    def __init__(self, message: str, returncode: int | None = None) -> None:  # noqa: D107
+    def __init__(self, message: str, returncode: int | None = None, exception: str |None=None) -> None:  # noqa: D107
         super().__init__(message)
         self.returncode = returncode
+        self.exception = exception
 
 
 def _format_log_details(details: str, *, strip_fences: bool = False) -> str:
@@ -97,6 +98,7 @@ def base_format(
     id: str = "",  # noqa: A002
     id_prefix: str | None = None,
     returncode: int = 0,
+    exception: str | None = None,
     transform_source: Callable[[str], tuple[str, str]] | None = None,
     session: str | None = None,
     update_toc: bool = True,
@@ -118,6 +120,7 @@ def base_format(
         id: An optional ID for the code block (useful when warning about errors).
         id_prefix: A string used to prefix HTML ids in the generated HTML.
         returncode: The expected exit code.
+        exception: The expected Exception raised. Python only 
         transform_source: An optional callable that returns transformed versions of the source.
             The input source is the one that is ran, the output source is the one that is
             rendered (when the source option is enabled).
@@ -141,11 +144,20 @@ def base_format(
 
     try:
         with working_directory(workdir), console_width(width):
-            output = run(source_input, returncode=returncode, session=session, id=id, **extra)
+            if language in ("python", "pycon"):
+                output = run(source_input, exception=exception, session=session, id=id, **extra)
+            else:
+                output = run(source_input, returncode=returncode, session=session, id=id, **extra)
     except ExecutionError as error:
         identifier = id or extra.get("title", "")
         identifier = identifier and f"'{identifier}' "
-        exit_message = "errors" if error.returncode is None else f"unexpected code {error.returncode}"
+        if error.returncode is not None:
+            exit_message = f"returncode {error.returncode} expected {returncode}"
+        elif error.exception is not None:
+            exit_message = f"{error.exception} expected {exception} "
+        else:
+            exit_message = "errors"
+
         log_message = (
             f"Execution of {language} code block {identifier}exited with {exit_message}\n\n"
             f"Code block is:\n\n{_format_log_details(source_input)}\n\n"
