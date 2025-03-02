@@ -119,8 +119,8 @@ def base_format(
         tabs: Titles of tabs (if used).
         id: An optional ID for the code block (useful when warning about errors).
         id_prefix: A string used to prefix HTML ids in the generated HTML.
-        returncode: The expected exit code.
-        exception: The expected Exception raised. Python only 
+        returncode: The expected exit code. shell only
+        exception: The expected Exception raised. python or pycon only
         transform_source: An optional callable that returns transformed versions of the source.
             The input source is the one that is ran, the output source is the one that is
             rendered (when the source option is enabled).
