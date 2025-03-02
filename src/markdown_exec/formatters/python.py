@@ -80,7 +80,7 @@ def _run_python(
         if exception is not None and exception in str(error.__class__):
             _buffer_print(buffer, "".join(trace.format()))
         else:
-            raise ExecutionError(code_block("python", "".join(trace.format()), **extra)) from error
+            raise ExecutionError(code_block("python", "".join(trace.format())), exception=str(type(error),  **extra)) from error
     return buffer.getvalue()
 
 

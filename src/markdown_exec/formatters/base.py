@@ -154,7 +154,9 @@ def base_format(
         if error.returncode is not None:
             exit_message = f"returncode {error.returncode} expected {returncode}"
         elif error.exception is not None:
-            exit_message = f"{error.exception} expected {exception} "
+            exit_message = f"{error.exception}"
+            if exception is not None:
+                exit_message += f" expected {exception}"
         else:
             exit_message = "errors"
 

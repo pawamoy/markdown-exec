@@ -66,7 +66,7 @@ def test_error_raised(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
     assert "Traceback" in html
     assert "ValueError" in html
     assert "oh no!" in html
-    assert "Execution of python code block exited with errors" in caplog.text
+    assert "Execution of python code block exited with <class 'ValueError'>" in caplog.text
 
 
 def test_can_print_non_string_objects(md: Markdown) -> None:
@@ -263,4 +263,4 @@ def test_exception_code(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
     )
     assert "blah blah blah" not in html
     assert "ValueError" in html
-    assert "ValueError expected TypeErorr" not in caplog.text
+    assert "<class 'ValueError'> expected TypeError" in caplog.text
