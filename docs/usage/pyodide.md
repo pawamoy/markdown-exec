@@ -41,7 +41,7 @@ You can select a specific Pyodide version with the `version` option:
 ```pyodide version="0.26.4"
 print("Hello.")
 ```
-````md
+````
 
 NOTE: **All Pyodide blocks on the same page should use the same version!**
 
