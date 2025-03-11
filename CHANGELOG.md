@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.10.1](https://github.com/pawamoy/markdown-exec/releases/tag/1.10.1) - 2025-03-11
+
+<small>[Compare with 1.10.0](https://github.com/pawamoy/markdown-exec/compare/1.10.0...1.10.1)</small>
+
+### Build
+
+- Add lower bound to pygments-ansi-color extra ([a8e17c9](https://github.com/pawamoy/markdown-exec/commit/a8e17c9cd1bf9ba8ab5008a83c77a0b1208a1b25) by Timothée Mazzucotelli).
+
+### Bug Fixes
+
+- Fix emoji display in pyodide fence for themes other than Material ([e09e9b2](https://github.com/pawamoy/markdown-exec/commit/e09e9b2005f9fe0599db7bc9f053e7227b824a6a) by Timothée Mazzucotelli). [Issue-83](https://github.com/pawamoy/markdown-exec/issues/83), [PR-84](https://github.com/pawamoy/markdown-exec/pull/84)
+
 ## [1.10.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.10.0) - 2024-12-06
 
 <small>[Compare with 1.9.3](https://github.com/pawamoy/markdown-exec/compare/1.9.3...1.10.0)</small>
