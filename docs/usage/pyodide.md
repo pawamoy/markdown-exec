@@ -135,6 +135,20 @@ print("hello")
 ```
 ````
 
+## Editor height
+
+By default, the editor has a fixed minimum height. You can specify the initial number of lines to display using the `lines` option:
+
+````md
+```pyodide lines="3"
+print("hello")
+print("world")
+print("!")
+```
+````
+
+This is useful when you want to save vertical space for small code examples or need more space for larger ones.
+
 See all previews below.
 
 ```python exec="1"
