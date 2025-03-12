@@ -26,7 +26,7 @@ template = """
 <div class="pyodide-editor-bar">
 <span class="pyodide-bar-item">Editor (session: %(session)s)</span><span id="%(id_prefix)srun" title="Run: press Ctrl-Enter" class="pyodide-bar-item pyodide-clickable"><span class="twemoji">%(play_emoji)s</span> Run</span>
 </div>
-<div><pre id="%(id_prefix)seditor" class="pyodide-editor">%(initial_code)s</pre></div>
+<div><pre id="%(id_prefix)seditor" class="pyodide-editor" %(lines_attr)s style="%(lines_style)s">%(initial_code)s</pre></div>
 <div class="pyodide-editor-bar">
 <span class="pyodide-bar-item">Output</span><span id="%(id_prefix)sclear" class="pyodide-bar-item pyodide-clickable"><span class="twemoji">%(clear_emoji)s</span> Clear</span>
 </div>
@@ -54,6 +54,18 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     if "," not in theme:
         theme = f"{theme},{theme}"
     theme_light, theme_dark = theme.split(",")
+    
+    # Handle lines option
+    lines = extra.pop("lines", "")
+    lines_attr = ""
+    lines_style = ""
+    if lines and lines.isdigit():
+        line_count = int(lines)
+        # Calculate approximate height based on line count (assuming ~20px per line)
+        height = max(line_count * 20, 200)  # Minimum 200px as in CSS
+        lines_attr = f'data-lines="{line_count}"'
+        lines_style = f'--pyodide-editor-height: {height}px;'
+    
     data = {
         "id_prefix": f"exec-{_counter}--",
         "initial_code": code,
@@ -63,6 +75,8 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
         "session": session or "default",
         "play_emoji": play_emoji,
         "clear_emoji": clear_emoji,
+        "lines_attr": lines_attr,
+        "lines_style": lines_style,
     }
     rendered = template % data
     if exclude_assets:

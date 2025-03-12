@@ -18,6 +18,10 @@ html[data-theme="dark"] {
     font-size: .85em;
 }
 
+.pyodide-editor[data-lines] {
+    min-height: var(--pyodide-editor-height);
+}
+
 .pyodide-editor-bar {
     color: var(--md-primary-bg-color);
     background-color: var(--md-primary-fg-color);
