@@ -114,7 +114,6 @@ ci = [
     "matplotlib>=3.9; python_version == '3.12'",
     "numpy>=2.1; python_version == '3.12'",
     "textual>=1.0; python_version == '3.12'",
-    "pytermgui>=7.7; python_version == '3.12'",
     "pipdeptree>=2.25; python_version == '3.12'",
     "pip>=25; python_version == '3.12'",
     "pygments>=2.19; python_version == '3.12'",

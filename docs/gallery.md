@@ -97,18 +97,6 @@ pydeps uses [Graphviz](https://graphviz.org/) under the hood to generate graphs.
 ```
 ````
 
-### with [PyTermGUI](https://github.com/bczsalba/pytermgui)
-
-> Python TUI framework with mouse support, modular widget system, customizable and rapid terminal markup language and more!
-
-````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
---8<-- "gallery/pytermgui.py"
-```
-````
-
-TIP: There's a PyTermGUI-dedicated MkDocs plugin that allows to generate SVGs on-the-fly: [Termage](https://github.com/bczsalba/Termage). It is implemented using regular expressions in the `on_markdown` event of MkDocs, so is probably less robust than our actual SuperFence implementation here, but also allows for less verbose source to generate the SVG snippets.
-
 ## Console output
 
 If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec[ansi]`), the ANSI colors in the output of shell commands will be translated to HTML/CSS, allowing to render them naturally in your documentation pages. For this to happen, use the [`result="ansi"` option](http://localhost:8000/markdown-exec/usage/#wrap-result-in-a-code-block).
