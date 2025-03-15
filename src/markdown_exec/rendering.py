@@ -267,7 +267,7 @@ class MarkdownConverter:
         for placeholder, stashed in (stash or {}).items():
             converted = converted.replace(placeholder, stashed)
 
-        markup = Markup(converted)
+        markup = Markup(converted)  # noqa: S704
 
         # pass headings to upstream conversion layer
         if self._update_toc:

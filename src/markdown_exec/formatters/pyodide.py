@@ -54,6 +54,7 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     if "," not in theme:
         theme = f"{theme},{theme}"
     theme_light, theme_dark = theme.split(",")
+
     data = {
         "id_prefix": f"exec-{_counter}--",
         "initial_code": code,

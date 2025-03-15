@@ -169,7 +169,7 @@ def base_format(
                 **extra,
             )
             return markdown.convert(wrapped_output, stash={placeholder: output})
-        return Markup(output)
+        return Markup(output)  # noqa: S704
 
     wrapped_output = output
     if result and source != "console":
