@@ -1,4 +1,4 @@
-"""Markdown extensions and helpers."""
+# Markdown extensions and helpers.
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Any
 from markdown import Markdown
 from markupsafe import Markup
 
-from markdown_exec.processors import (
+from markdown_exec._internal.processors import (
     HeadingReportingTreeprocessor,
     IdPrependingTreeprocessor,
     InsertHeadings,
@@ -118,12 +118,12 @@ class MarkdownConfig:
 
     _singleton: MarkdownConfig | None = None
 
-    def __new__(cls) -> MarkdownConfig:  # noqa: D102,PYI034
+    def __new__(cls) -> MarkdownConfig:  # noqa: PYI034
         if cls._singleton is None:
             cls._singleton = super().__new__(cls)
         return cls._singleton
 
-    def __init__(self) -> None:  # noqa: D107
+    def __init__(self) -> None:
         self.exts: list[str] | None = None
         self.exts_config: dict[str, dict[str, Any]] | None = None
 
@@ -234,7 +234,7 @@ class MarkdownConverter:
 
     counter: int = 0
 
-    def __init__(self, md: Markdown, *, update_toc: bool = True) -> None:  # noqa: D107
+    def __init__(self, md: Markdown, *, update_toc: bool = True) -> None:
         self._md_ref: Markdown = md
         self._headings: list[Element] = []
         self._update_toc = update_toc

@@ -1,4 +1,4 @@
-"""This module contains an optional plugin for MkDocs."""
+# This module contains an optional plugin for MkDocs.
 
 from __future__ import annotations
 
@@ -14,8 +14,8 @@ from mkdocs.plugins import BasePlugin
 from mkdocs.utils import write_file
 
 from markdown_exec import formatter, formatters, validator
-from markdown_exec.logger import patch_loggers
-from markdown_exec.rendering import MarkdownConverter, markdown_config
+from markdown_exec._internal.logger import patch_loggers
+from markdown_exec._internal.rendering import MarkdownConverter, markdown_config
 
 if TYPE_CHECKING:
     from collections.abc import MutableMapping
@@ -106,7 +106,7 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
         markdown_config.save(config.markdown_extensions, config.mdx_configs)
         return config
 
-    def on_env(  # noqa: D102
+    def on_env(
         self,
         env: Environment,
         *,
@@ -120,7 +120,7 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
             self._add_js(config, "pyodide.js")
         return env
 
-    def on_post_build(self, *, config: MkDocsConfig) -> None:  # noqa: ARG002,D102
+    def on_post_build(self, *, config: MkDocsConfig) -> None:  # noqa: ARG002
         MarkdownConverter.counter = 0
         markdown_config.reset()
         if self.mkdocs_config_dir is None:
@@ -130,7 +130,7 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
 
     def _add_asset(self, config: MkDocsConfig, asset_file: str, asset_type: str) -> None:
         asset_filename = f"assets/_markdown_exec_{asset_file}"
-        asset_content = Path(__file__).parent.joinpath(asset_file).read_text()
+        asset_content = Path(__file__).parent.joinpath("assets", asset_file).read_text()
         write_file(asset_content.encode("utf-8"), os.path.join(config.site_dir, asset_filename))
         config[f"extra_{asset_type}"].insert(0, asset_filename)
 

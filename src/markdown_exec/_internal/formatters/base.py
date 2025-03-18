@@ -1,4 +1,4 @@
-"""Generic formatter for executing code."""
+# Generic formatter for executing code.
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ from uuid import uuid4
 
 from markupsafe import Markup
 
-from markdown_exec.logger import get_logger
-from markdown_exec.rendering import MarkdownConverter, add_source, code_block
+from markdown_exec._internal.logger import get_logger
+from markdown_exec._internal.rendering import MarkdownConverter, add_source, code_block
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -71,7 +71,7 @@ class ExecutionError(Exception):
         returncode: The code returned by the execution of the code block.
     """
 
-    def __init__(self, message: str, returncode: int | None = None) -> None:  # noqa: D107
+    def __init__(self, message: str, returncode: int | None = None) -> None:
         super().__init__(message)
         self.returncode = returncode
 

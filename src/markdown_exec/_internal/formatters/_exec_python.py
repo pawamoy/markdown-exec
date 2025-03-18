@@ -1,4 +1,4 @@
-"""Special module without future annotations for executing Python code."""
+# Special module without future annotations for executing Python code.
 
 from typing import Any, Optional
 

@@ -1,4 +1,4 @@
-"""Formatter for creating a Pyodide interactive editor."""
+# Formatter for creating a Pyodide interactive editor.
 
 from __future__ import annotations
 

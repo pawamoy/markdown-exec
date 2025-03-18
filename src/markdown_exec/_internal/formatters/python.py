@@ -1,4 +1,4 @@
-"""Formatter for executing Python code."""
+# Formatter for executing Python code.
 
 from __future__ import annotations
 
@@ -11,9 +11,9 @@ from io import StringIO
 from types import ModuleType
 from typing import Any
 
-from markdown_exec.formatters._exec_python import exec_python
-from markdown_exec.formatters.base import ExecutionError, base_format
-from markdown_exec.rendering import code_block
+from markdown_exec._internal.formatters._exec_python import exec_python
+from markdown_exec._internal.formatters.base import ExecutionError, base_format
+from markdown_exec._internal.rendering import code_block
 
 _sessions_globals: dict[str, dict] = defaultdict(dict)
 _sessions_counter: dict[str | None, int] = defaultdict(int)

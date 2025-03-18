@@ -1,11 +1,11 @@
-"""Formatter for file-system trees."""
+# Formatter for file-system trees.
 
 from __future__ import annotations
 
 from textwrap import dedent
 from typing import TYPE_CHECKING, Any
 
-from markdown_exec.rendering import MarkdownConverter, code_block
+from markdown_exec._internal.rendering import MarkdownConverter, code_block
 
 if TYPE_CHECKING:
     from markdown import Markdown

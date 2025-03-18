@@ -1,12 +1,12 @@
-"""Formatter for executing shell code."""
+# Formatter for executing shell code.
 
 from __future__ import annotations
 
 import subprocess
 from typing import Any
 
-from markdown_exec.formatters.base import ExecutionError, base_format
-from markdown_exec.rendering import code_block
+from markdown_exec._internal.formatters.base import ExecutionError, base_format
+from markdown_exec._internal.rendering import code_block
 
 
 def _run_bash(

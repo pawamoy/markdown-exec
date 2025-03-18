@@ -1,4 +1,5 @@
-"""This module contains a Markdown extension allowing to integrate generated headings into the ToC."""
+# This module contains a Markdown extension
+# allowing to integrate generated headings into the ToC.
 
 from __future__ import annotations
 
@@ -21,11 +22,11 @@ class IdPrependingTreeprocessor(Treeprocessor):
 
     name = "markdown_exec_ids"
 
-    def __init__(self, md: Markdown, id_prefix: str) -> None:  # noqa: D107
+    def __init__(self, md: Markdown, id_prefix: str) -> None:
         super().__init__(md)
         self.id_prefix = id_prefix
 
-    def run(self, root: Element) -> None:  # noqa: D102
+    def run(self, root: Element) -> None:
         if not self.id_prefix:
             return
         for el in root.iter():
@@ -54,11 +55,11 @@ class HeadingReportingTreeprocessor(Treeprocessor):
     name = "markdown_exec_record_headings"
     regex = re.compile("[Hh][1-6]")
 
-    def __init__(self, md: Markdown, headings: list[Element]):  # noqa: D107
+    def __init__(self, md: Markdown, headings: list[Element]):
         super().__init__(md)
         self.headings = headings
 
-    def run(self, root: Element) -> None:  # noqa: D102
+    def run(self, root: Element) -> None:
         for el in root.iter():
             if self.regex.fullmatch(el.tag):
                 el = copy.copy(el)  # noqa: PLW2901
@@ -83,7 +84,7 @@ class InsertHeadings(Treeprocessor):
         super().__init__(md)
         self.headings: dict[Markup, list[Element]] = {}
 
-    def run(self, root: Element) -> None:  # noqa: D102 (ignore missing docstring)
+    def run(self, root: Element) -> None:
         if not self.headings:
             return
 
@@ -103,7 +104,7 @@ class RemoveHeadings(Treeprocessor):
 
     name = "markdown_exec_remove_headings"
 
-    def run(self, root: Element) -> None:  # noqa: D102
+    def run(self, root: Element) -> None:
         self._remove_duplicated_headings(root)
 
     def _remove_duplicated_headings(self, parent: Element) -> None:

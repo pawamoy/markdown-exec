@@ -1,12 +1,12 @@
-"""Formatter for executing `pycon` code."""
+# Formatter for executing `pycon` code.
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from markdown_exec.formatters.base import base_format
-from markdown_exec.formatters.python import _run_python
-from markdown_exec.logger import get_logger
+from markdown_exec._internal.formatters.base import base_format
+from markdown_exec._internal.formatters.python import _run_python
+from markdown_exec._internal.logger import get_logger
 
 if TYPE_CHECKING:
     from markupsafe import Markup

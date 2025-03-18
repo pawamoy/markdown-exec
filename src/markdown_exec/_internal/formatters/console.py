@@ -1,13 +1,13 @@
-"""Formatter for executing shell console code."""
+# Formatter for executing shell console code.
 
 from __future__ import annotations
 
 import textwrap
 from typing import TYPE_CHECKING, Any
 
-from markdown_exec.formatters.base import base_format
-from markdown_exec.formatters.sh import _run_sh
-from markdown_exec.logger import get_logger
+from markdown_exec._internal.formatters.base import base_format
+from markdown_exec._internal.formatters.sh import _run_sh
+from markdown_exec._internal.logger import get_logger
 
 if TYPE_CHECKING:
     from markupsafe import Markup
