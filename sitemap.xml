@@ -2,167 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/changelog/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/code_of_conduct/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/contributing/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/credits/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/gallery/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/license/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/insiders/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/insiders/changelog/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/insiders/installation/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/SUMMARY/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/debug/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/logger/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/mkdocs_plugin/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/processors/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/rendering/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/formatters/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/formatters/base/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/formatters/bash/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/formatters/console/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/formatters/markdown/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/formatters/pycon/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/formatters/pyodide/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/formatters/python/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/formatters/sh/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pawamoy.github.io/markdown-exec/reference/markdown_exec/formatters/tree/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://pawamoy.github.io/markdown-exec/reference/api/</loc>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/usage/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/usage/pyodide/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/usage/python/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/usage/shell/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/usage/tree/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
     <url>
          <loc>https://pawamoy.github.io/markdown-exec/coverage/</loc>
-         <lastmod>2024-07-08</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2025-03-18</lastmod>
     </url>
 </urlset>
