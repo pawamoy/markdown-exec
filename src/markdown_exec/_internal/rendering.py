@@ -113,19 +113,22 @@ class MarkdownConfig:
     """This class returns a singleton used to store Markdown extensions configuration.
 
     You don't have to instantiate the singleton yourself:
-    we provide it as [`markdown_config`][markdown_exec.rendering.markdown_config].
+    we provide it as [`markdown_config`][markdown_exec.markdown_config].
     """
 
     _singleton: MarkdownConfig | None = None
 
     def __new__(cls) -> MarkdownConfig:  # noqa: PYI034
+        """Return the singleton instance."""
         if cls._singleton is None:
             cls._singleton = super().__new__(cls)
         return cls._singleton
 
     def __init__(self) -> None:
         self.exts: list[str] | None = None
+        """The Markdown extensions."""
         self.exts_config: dict[str, dict[str, Any]] | None = None
+        """The extensions configuration."""
 
     def save(self, exts: list[str], exts_config: dict[str, dict[str, Any]]) -> None:
         """Save Markdown extensions and their configuration.
@@ -156,9 +159,9 @@ from markdown_exec.rendering import markdown_config
 markdown_config.save(extensions, extensions_config)
 ```
 
-See the actual event hook: [`on_config`][markdown_exec.mkdocs_plugin.MarkdownExecPlugin.on_config].
-See the [`save`][markdown_exec.rendering.MarkdownConfig.save]
-and [`reset`][markdown_exec.rendering.MarkdownConfig.reset] methods.
+See the actual event hook: [`on_config`][markdown_exec.MarkdownExecPlugin.on_config].
+See the [`save`][markdown_exec.MarkdownConfig.save]
+and [`reset`][markdown_exec.MarkdownConfig.reset] methods.
 
 Without it, Markdown Exec will rely on the `registeredExtensions` attribute
 of the original Markdown instance, which does not forward everything
@@ -233,6 +236,7 @@ class MarkdownConverter:
     """Helper class to avoid breaking the original Markdown instance state."""
 
     counter: int = 0
+    """A counter to generate unique IDs for code blocks."""
 
     def __init__(self, md: Markdown, *, update_toc: bool = True) -> None:
         self._md_ref: Markdown = md

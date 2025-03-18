@@ -152,7 +152,29 @@ def test_inventory_matches_api(
     not_in_api = []
     public_api_paths = {obj.path for obj in public_objects}
     public_api_paths.add("markdown_exec")
+    # YORE: Bump 2: Remove block.
+    ignore_modules = {
+        "markdown_exec.formatters",
+        "markdown_exec.formatters.base",
+        "markdown_exec.formatters.bash",
+        "markdown_exec.formatters.console",
+        "markdown_exec.formatters.markdown",
+        "markdown_exec.formatters.pycon",
+        "markdown_exec.formatters.pyodide",
+        "markdown_exec.formatters.python",
+        "markdown_exec.formatters.sh",
+        "markdown_exec.formatters.tree",
+        "markdown_exec.logger",
+        "markdown_exec.mkdocs_plugin",
+        "markdown_exec.processors",
+        "markdown_exec.rendering",
+    }
+
     for item in inventory.values():
+        # YORE: Bump 2: Remove block.
+        if item.name in ignore_modules:
+            continue
+
         if (
             item.domain == "py"
             and "(" not in item.name

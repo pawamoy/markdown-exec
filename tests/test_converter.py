@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 import pytest
 from markdown.extensions.toc import TocExtension
 
-from markdown_exec._internal.rendering import MarkdownConfig, markdown_config
+from markdown_exec import MarkdownConfig, markdown_config
 
 if TYPE_CHECKING:
     from markdown import Markdown

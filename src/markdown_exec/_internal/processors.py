@@ -21,12 +21,15 @@ class IdPrependingTreeprocessor(Treeprocessor):
     """Prepend the configured prefix to IDs of all HTML elements."""
 
     name = "markdown_exec_ids"
+    """The name of the treeprocessor."""
 
     def __init__(self, md: Markdown, id_prefix: str) -> None:
         super().__init__(md)
         self.id_prefix = id_prefix
+        """The prefix to prepend to IDs."""
 
     def run(self, root: Element) -> None:
+        """Run the treeprocessor."""
         if not self.id_prefix:
             return
         for el in root.iter():
@@ -53,13 +56,17 @@ class HeadingReportingTreeprocessor(Treeprocessor):
     """Records the heading elements encountered in the document."""
 
     name = "markdown_exec_record_headings"
+    """The name of the treeprocessor."""
     regex = re.compile("[Hh][1-6]")
+    """The regex to match heading tags."""
 
     def __init__(self, md: Markdown, headings: list[Element]):
         super().__init__(md)
         self.headings = headings
+        """The list of heading elements."""
 
     def run(self, root: Element) -> None:
+        """Run the treeprocessor."""
         for el in root.iter():
             if self.regex.fullmatch(el.tag):
                 el = copy.copy(el)  # noqa: PLW2901
@@ -74,6 +81,7 @@ class InsertHeadings(Treeprocessor):
     """Our headings insertor."""
 
     name = "markdown_exec_insert_headings"
+    """The name of the treeprocessor."""
 
     def __init__(self, md: Markdown):
         """Initialize the object.
@@ -83,8 +91,10 @@ class InsertHeadings(Treeprocessor):
         """
         super().__init__(md)
         self.headings: dict[Markup, list[Element]] = {}
+        """The dictionary of headings."""
 
     def run(self, root: Element) -> None:
+        """Run the treeprocessor."""
         if not self.headings:
             return
 
@@ -103,8 +113,10 @@ class RemoveHeadings(Treeprocessor):
     """Our headings remover."""
 
     name = "markdown_exec_remove_headings"
+    """The name of the treeprocessor."""
 
     def run(self, root: Element) -> None:
+        """Run the treeprocessor."""
         self._remove_duplicated_headings(root)
 
     def _remove_duplicated_headings(self, parent: Element) -> None:

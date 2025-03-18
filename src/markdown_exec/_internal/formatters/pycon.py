@@ -6,12 +6,9 @@ from typing import TYPE_CHECKING, Any
 
 from markdown_exec._internal.formatters.base import base_format
 from markdown_exec._internal.formatters.python import _run_python
-from markdown_exec._internal.logger import get_logger
 
 if TYPE_CHECKING:
     from markupsafe import Markup
-
-logger = get_logger(__name__)
 
 
 def _transform_source(code: str) -> tuple[str, str]:

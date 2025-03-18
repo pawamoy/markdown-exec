@@ -12,7 +12,7 @@ from markdown_exec._internal.logger import get_logger
 if TYPE_CHECKING:
     from markupsafe import Markup
 
-logger = get_logger(__name__)
+_logger = get_logger(__name__)
 
 
 def _transform_source(code: str) -> tuple[str, str]:

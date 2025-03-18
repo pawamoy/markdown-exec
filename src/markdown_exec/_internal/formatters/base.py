@@ -18,8 +18,10 @@ if TYPE_CHECKING:
 
     from markdown.core import Markdown
 
-logger = get_logger(__name__)
+_logger = get_logger(__name__)
+
 default_tabs = ("Source", "Result")
+"""Default tab titles."""
 
 
 @contextmanager
@@ -74,6 +76,7 @@ class ExecutionError(Exception):
     def __init__(self, message: str, returncode: int | None = None) -> None:
         super().__init__(message)
         self.returncode = returncode
+        """The code returned by the execution of the code block."""
 
 
 def _format_log_details(details: str, *, strip_fences: bool = False) -> str:
@@ -151,7 +154,7 @@ def base_format(
             f"Code block is:\n\n{_format_log_details(source_input)}\n\n"
             f"Output is:\n\n{_format_log_details(str(error), strip_fences=True)}\n"
         )
-        logger.warning(log_message)
+        _logger.warning(log_message)
         return markdown.convert(str(error))
 
     if not output and not source:

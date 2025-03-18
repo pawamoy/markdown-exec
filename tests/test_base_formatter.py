@@ -6,7 +6,7 @@ import subprocess
 import pytest
 from markdown import Markdown
 
-from markdown_exec.formatters.base import base_format
+from markdown_exec import base_format
 
 
 def test_no_p_around_html(md: Markdown) -> None:

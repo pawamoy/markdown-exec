@@ -13,8 +13,8 @@ from mkdocs.exceptions import PluginError
 from mkdocs.plugins import BasePlugin
 from mkdocs.utils import write_file
 
-from markdown_exec import formatter, formatters, validator
 from markdown_exec._internal.logger import patch_loggers
+from markdown_exec._internal.main import formatter, formatters, validator
 from markdown_exec._internal.rendering import MarkdownConverter, markdown_config
 
 if TYPE_CHECKING:
@@ -27,9 +27,9 @@ if TYPE_CHECKING:
 try:
     __import__("pygments_ansi_color")
 except ImportError:
-    ansi_ok = False
+    _ansi_ok = False
 else:
-    ansi_ok = True
+    _ansi_ok = True
 
 
 class _LoggerAdapter(logging.LoggerAdapter):
@@ -71,7 +71,7 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
         In this hook, we add custom fences for all the supported languages.
 
         We also save the Markdown extensions configuration
-        into [`markdown_config`][markdown_exec.rendering.markdown_config].
+        into [`markdown_config`][markdown_exec.markdown_config].
 
         Arguments:
             config: The MkDocs config object.
@@ -82,7 +82,7 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
         if "pymdownx.superfences" not in config["markdown_extensions"]:
             message = "The 'markdown-exec' plugin requires the 'pymdownx.superfences' Markdown extension to work."
             raise PluginError(message)
-        if self.config.ansi in ("required", True) and not ansi_ok:
+        if self.config.ansi in ("required", True) and not _ansi_ok:
             raise PluginError(
                 "The configuration for the 'markdown-exec' plugin requires "
                 "that it is installed with the 'ansi' extra. "
@@ -113,7 +113,8 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
         config: MkDocsConfig,
         files: Files,  # noqa: ARG002
     ) -> Environment | None:
-        if self.config.ansi in ("required", True) or (self.config.ansi == "auto" and ansi_ok):
+        """Add assets to the environment."""
+        if self.config.ansi in ("required", True) or (self.config.ansi == "auto" and _ansi_ok):
             self._add_css(config, "ansi.css")
         if "pyodide" in self.languages:
             self._add_css(config, "pyodide.css")
@@ -121,6 +122,7 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
         return env
 
     def on_post_build(self, *, config: MkDocsConfig) -> None:  # noqa: ARG002
+        """Reset the plugin state."""
         MarkdownConverter.counter = 0
         markdown_config.reset()
         if self.mkdocs_config_dir is None:
@@ -130,7 +132,7 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
 
     def _add_asset(self, config: MkDocsConfig, asset_file: str, asset_type: str) -> None:
         asset_filename = f"assets/_markdown_exec_{asset_file}"
-        asset_content = Path(__file__).parent.joinpath("assets", asset_file).read_text()
+        asset_content = Path(__file__).parent.parent.joinpath("assets", asset_file).read_text()
         write_file(asset_content.encode("utf-8"), os.path.join(config.site_dir, asset_filename))
         config[f"extra_{asset_type}"].insert(0, asset_filename)
 
