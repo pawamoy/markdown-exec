@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <small>[Compare with 1.10.1](https://github.com/pawamoy/markdown-exec/compare/1.10.1...1.10.2)</small>
 
+### Deprecations
+
+Expose public API under top-level module `markdown_exec`. Importing from submodules is now deprecated.
+
 ### Bug Fixes
 
 - Escape Pyodide output, improve error handling ([ec83f48](https://github.com/pawamoy/markdown-exec/commit/ec83f48db29708b03e8d2487ccb0d5ee0889a464) by Timothée Mazzucotelli). [Issue-87](https://github.com/pawamoy/markdown-exec/issues/87)
