@@ -16,7 +16,7 @@ function clearOutput(element) {
 }
 
 async function evaluatePython(pyodide, editor, output, session) {
-    pyodide.setStdout({ batched: (string) => { writeOutput(output, string); } });
+    pyodide.setStdout({ batched: (string) => { writeOutput(output, new Option(string).innerHTML); } });
     let result, code = editor.getValue();
     clearOutput(output);
     try {
