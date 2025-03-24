@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.10.3](https://github.com/pawamoy/markdown-exec/releases/tag/1.10.3) - 2025-03-24
+
+<small>[Compare with 1.10.2](https://github.com/pawamoy/markdown-exec/compare/1.10.2...1.10.3)</small>
+
+### Bug Fixes
+
+- Also escape strings printed directly to the output ([a668aeb](https://github.com/pawamoy/markdown-exec/commit/a668aeb9106ed3861553acd50fd38e716eaacd75) by Timothée Mazzucotelli). [Issue-87](https://github.com/pawamoy/markdown-exec/issues/87)
+- Don't forget to clear "Initializing" in Pyodide output ([e0b52b4](https://github.com/pawamoy/markdown-exec/commit/e0b52b44e0355d8f524cbd4c47d32e8a9d51e4c5) by Timothée Mazzucotelli).
+
 ## [1.10.2](https://github.com/pawamoy/markdown-exec/releases/tag/1.10.2) - 2025-03-18
 
 <small>[Compare with 1.10.1](https://github.com/pawamoy/markdown-exec/compare/1.10.1...1.10.2)</small>
