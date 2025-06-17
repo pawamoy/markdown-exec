@@ -168,3 +168,15 @@ for theme in themes:
         )
     )
 ```
+
+## Editor Height Configuration
+
+You can customize the height of the Pyodide editor using several options:
+
+### Lines
+
+The simplest way to control the editor height is with the `lines` parameter, which sets the approximate number of lines visible in the editor:
+
+```pyodide lines=5 assets="no"
+print("This editor shows approximately 5 lines")
+```

@@ -154,6 +154,7 @@ plugins:
           signature_crossrefs: true
           summary: true
 - llmstxt:
+    sections: []  # Empty list if you don't need specific sections
     files:
     - output: llms-full.txt
       inputs:
