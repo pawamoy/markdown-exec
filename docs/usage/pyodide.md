@@ -173,10 +173,18 @@ for theme in themes:
 
 You can customize the height of the Pyodide editor using several options:
 
-### Lines
+### Lines (Recommended)
 
-The simplest way to control the editor height is with the `lines` parameter, which sets the approximate number of lines visible in the editor:
+The simplest way to control the editor height is with the `lines` parameter, which sets the number of visible lines in the editor. The editor will automatically adjust its height to fit the specified number of lines:
 
-```pyodide lines=5 assets="no"
-print("This editor shows approximately 5 lines")
+```pyodide lines=3 assets="no"
+# This editor shows 10 lines by default
+def fibonacci(n):
+    """Generate Fibonacci sequence up to n"""
+    a, b = 0, 1
+    while a < n:
+        yield a
+        a, b = b, a + b
+
+print(list(fibonacci(100)))
 ```

@@ -28,7 +28,7 @@ _template = """
 <div class="pyodide-editor-bar">
 <span class="pyodide-bar-item">Editor (session: %(session)s)</span><span id="%(id_prefix)srun" title="Run: press Ctrl-Enter" class="pyodide-bar-item pyodide-clickable"><span class="twemoji">%(play_emoji)s</span> Run</span>
 </div>
-<div><pre id="%(id_prefix)seditor" class="pyodide-editor" style="height: %(height)spx; min-height: %(min_height)spx; max-height: %(max_height)spx; resize: %(resize)s;">%(initial_code)s</pre></div>
+<div><pre id="%(id_prefix)seditor" class="pyodide-editor">%(initial_code)s</pre></div>
 <div class="pyodide-editor-bar">
 <span class="pyodide-bar-item">Output</span><span id="%(id_prefix)sclear" class="pyodide-bar-item pyodide-clickable"><span class="twemoji">%(clear_emoji)s</span> Clear</span>
 </div>
@@ -37,7 +37,15 @@ _template = """
 
 <script>
 document.addEventListener('DOMContentLoaded', (event) => {
-    setupPyodide('%(id_prefix)s', install=%(install)s, themeLight='%(theme_light)s', themeDark='%(theme_dark)s', session='%(session)s');
+    setupPyodide(
+        '%(id_prefix)s', 
+        install=%(install)s, 
+        themeLight='%(theme_light)s', 
+        themeDark='%(theme_dark)s', 
+        session='%(session)s',
+        minLines=%(min_lines)s,
+        maxLines=%(max_lines)s
+    );
 });
 </script>
 """
@@ -57,42 +65,10 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
         theme = f"{theme},{theme}"
     theme_light, theme_dark = theme.split(",")
     
-    # Get height configuration parameters with defaults
-    # Get the number of lines from extra parameters, default to 10 lines
-    lines = int(extra.pop("lines", "10"))
-    # Calculate editor height based on line count with a more accurate line height
-    # Adding a small buffer to account for editor chrome
-    line_height = 22  # Increase from 20px to 22px per line
-    padding = 10      # Add some padding to account for editor UI elements
-    editor_height = (lines * line_height) + padding
+    # Get line-based configuration
+    min_lines = int(extra.pop("min_lines", "3"))
+    max_lines = int(extra.pop("max_lines", "20"))
     
-    # Calculate default height based on line count
-    default_height = lines * line_height
-    
-    # Get explicit height configurations if provided
-    height = extra.pop("height", str(default_height))
-    min_height = extra.pop("min_height", str(default_height))
-    max_height = extra.pop("max_height", "400")
-    
-    # Get resize option (none, both, vertical, horizontal)
-    resize = extra.pop("resize", "none")
-    
-    # Convert to integers if they're numeric
-    try:
-        height = int(height)
-    except ValueError:
-        pass
-    
-    try:
-        min_height = int(min_height)
-    except ValueError:
-        pass
-    
-    try:
-        max_height = int(max_height)
-    except ValueError:
-        pass
-
     data = {
         "id_prefix": f"exec-{_counter}--",
         "initial_code": code,
@@ -102,10 +78,8 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
         "session": session or "default",
         "play_emoji": _play_emoji,
         "clear_emoji": _clear_emoji,
-        "height": height,
-        "min_height": min_height,
-        "max_height": max_height,
-        "resize": resize,
+        "min_lines": min_lines,
+        "max_lines": max_lines,
     }
     rendered = _template % data
     if exclude_assets:
