@@ -37,7 +37,15 @@ _template = """
 
 <script>
 document.addEventListener('DOMContentLoaded', (event) => {
-    setupPyodide('%(id_prefix)s', install=%(install)s, themeLight='%(theme_light)s', themeDark='%(theme_dark)s', session='%(session)s');
+    setupPyodide(
+        '%(id_prefix)s', 
+        install=%(install)s, 
+        themeLight='%(theme_light)s', 
+        themeDark='%(theme_dark)s', 
+        session='%(session)s',
+        minLines=%(min_lines)s,
+        maxLines=%(max_lines)s
+    );
 });
 </script>
 """
@@ -56,7 +64,11 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     if "," not in theme:
         theme = f"{theme},{theme}"
     theme_light, theme_dark = theme.split(",")
-
+    
+    # Get line-based configuration
+    min_lines = int(extra.pop("min_lines", "3"))
+    max_lines = int(extra.pop("max_lines", "20"))
+    
     data = {
         "id_prefix": f"exec-{_counter}--",
         "initial_code": code,
@@ -66,6 +78,8 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
         "session": session or "default",
         "play_emoji": _play_emoji,
         "clear_emoji": _clear_emoji,
+        "min_lines": min_lines,
+        "max_lines": max_lines,
     }
     rendered = _template % data
     if exclude_assets:
