@@ -77,7 +77,7 @@ function updateTheme(editor, light, dark) {
     });
 }
 
-async function setupPyodide(idPrefix, install = null, themeLight = 'tomorrow', themeDark = 'tomorrow_night', session = null) {
+async function setupPyodide(idPrefix, install = null, themeLight = 'tomorrow', themeDark = 'tomorrow_night', session = null, heightConfig = null) {
     const editor = ace.edit(idPrefix + "editor");
     const run = document.getElementById(idPrefix + "run");
     const clear = document.getElementById(idPrefix + "clear");
@@ -87,6 +87,44 @@ async function setupPyodide(idPrefix, install = null, themeLight = 'tomorrow', t
 
     editor.session.setMode("ace/mode/python");
     setTheme(editor, getTheme(), themeLight, themeDark);
+
+    // Apply height configuration using Ace editor options
+    if (heightConfig) {
+        // Set initial height/lines
+        if (heightConfig.height && typeof heightConfig.height === 'number') {
+            editor.setOption("minLines", heightConfig.height);
+            if (!heightConfig.resize) {
+                editor.setOption("maxLines", heightConfig.height);
+            }
+        }
+        
+        // Set min/max lines
+        if (heightConfig.minLines) {
+            editor.setOption("minLines", Math.max(editor.getOption("minLines") || 1, heightConfig.minLines));
+        }
+        if (heightConfig.maxLines) {
+            editor.setOption("maxLines", heightConfig.maxLines);
+        }
+        
+        // Configure resize behavior
+        if (heightConfig.resize === false) {
+            // Fixed height - set both min and max to the same value
+            const fixedLines = heightConfig.height || heightConfig.minLines || 5;
+            editor.setOption("minLines", fixedLines);
+            editor.setOption("maxLines", fixedLines);
+        } else {
+            // Allow resizing within bounds
+            editor.setOption("minLines", heightConfig.minLines || 5);
+            editor.setOption("maxLines", heightConfig.maxLines || 30);
+        }
+    } else {
+        // Default behavior - keep existing fallback
+        editor.setOption("minLines", 5);
+        editor.setOption("maxLines", 30);
+    }
+
+    // Force editor to resize after setting options
+    editor.resize();
 
     writeOutput(output, "Initializing...");
     let pyodide = await pyodidePromise;
