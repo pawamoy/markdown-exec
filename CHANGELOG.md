@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.10.4](https://github.com/pawamoy/markdown-exec/releases/tag/1.10.4) - 2025-06-27
+
+<small>[Compare with 1.10.3](https://github.com/pawamoy/markdown-exec/compare/1.10.3...1.10.4)</small>
+
+### Bug Fixes
+
+- Don't fail when used as Markdown extension and MkDocs is not installed ([7722250](https://github.com/pawamoy/markdown-exec/commit/7722250931f44d2328af69cd20143035d3ba404e) by Timothée Mazzucotelli). [Issue-91](https://github.com/pawamoy/markdown-exec/discussions/91)
+
 ## [1.10.3](https://github.com/pawamoy/markdown-exec/releases/tag/1.10.3) - 2025-03-24
 
 <small>[Compare with 1.10.2](https://github.com/pawamoy/markdown-exec/compare/1.10.2...1.10.3)</small>
