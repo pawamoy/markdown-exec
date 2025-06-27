@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -38,7 +37,15 @@ _template = """
 
 <script>
 document.addEventListener('DOMContentLoaded', (event) => {
-    setupPyodide('%(id_prefix)s', install=%(install)s, themeLight='%(theme_light)s', themeDark='%(theme_dark)s', session='%(session)s', heightConfig=%(height_config)s);
+    setupPyodide(
+        '%(id_prefix)s',
+        install=%(install)s,
+        themeLight='%(theme_light)s',
+        themeDark='%(theme_dark)s',
+        session='%(session)s',
+        minLines=%(min_lines)s,
+        maxLines=%(max_lines)s,
+    );
 });
 </script>
 """
@@ -46,55 +53,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
 _counter = 0
 
 
-def _calculate_height_config(code: str, extra: dict) -> dict:
+def _calculate_height(code: str, extra: dict) -> tuple[int, int]:
     """Calculate height configuration for the Pyodide editor."""
-    # Get per-block options with defaults
     height = extra.pop("height", "auto")
-    min_height = extra.pop("min_height", 5)
-    max_height = extra.pop("max_height", 30)
-    resize = extra.pop("resize", True)
 
-    # Validate and convert types
-    if isinstance(height, str) and height != "auto":
-        try:
-            height = int(height)
-        except ValueError:
-            height = "auto"
+    if height in ("auto", "0"):
+        min_lines = max_lines = len(code.strip().splitlines()) if code.strip() else 5
+    elif "-" in height:
+        min_lines, max_lines = height.split("-")
+        min_lines = max(1, int(min_lines or "5"))
+        max_lines = max(min_lines, int(max_lines or "30"))
+    else:
+        min_lines = max_lines = int(height)
 
-    if height != "auto" and isinstance(height, int) and height <= 0:
-        height = "auto"
-
-    try:
-        min_height = max(1, int(min_height))
-        max_height = max(min_height, int(max_height))
-    except ValueError:
-        min_height, max_height = 5, 30
-
-    try:
-        resize = str(resize).lower() in ("true", "1", "yes", "on")
-    except (ValueError, AttributeError):
-        resize = True
-
-    # Calculate actual height if "auto"
-    if height == "auto":
-        # Count lines in the code, with a reasonable default
-        lines = len(code.strip().split("\n")) if code.strip() else 5
-        height = max(min_height, min(lines, max_height))
-
-    return {
-        "height": height,
-        "minLines": min_height,
-        "maxLines": max_height,
-        "resize": resize,
-    }
+    return min_lines, max_lines
 
 
 def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **options: Any) -> str:  # noqa: ARG001
     global _counter  # noqa: PLW0603
     _counter += 1
-
-    # Calculate height configuration for this specific code block
-    height_config = _calculate_height_config(code, extra)
 
     version = extra.pop("version", "0.26.4").lstrip("v")
     install = extra.pop("install", "")
@@ -104,9 +81,7 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     if "," not in theme:
         theme = f"{theme},{theme}"
     theme_light, theme_dark = theme.split(",")
-
-    # Convert height_config to JSON string for JavaScript
-    height_config_json = json.dumps(height_config)
+    min_lines, max_lines = _calculate_height(code, extra)
 
     data = {
         "id_prefix": f"exec-{_counter}--",
@@ -117,7 +92,8 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
         "session": session or "default",
         "play_emoji": _play_emoji,
         "clear_emoji": _clear_emoji,
-        "height_config": height_config_json,
+        "min_lines": min_lines,
+        "max_lines": max_lines,
     }
     rendered = _template % data
     if exclude_assets:
