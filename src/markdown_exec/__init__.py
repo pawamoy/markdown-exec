@@ -12,7 +12,6 @@ from markdown_exec._internal.formatters.base import (
 )
 from markdown_exec._internal.logger import get_logger, patch_loggers
 from markdown_exec._internal.main import MARKDOWN_EXEC_AUTO, formatter, formatters, validator
-from markdown_exec._internal.mkdocs_plugin import MarkdownExecPlugin, MarkdownExecPluginConfig
 from markdown_exec._internal.processors import (
     HeadingReportingTreeprocessor,
     IdPrependingTreeprocessor,
@@ -36,8 +35,6 @@ __all__ = [
     "InsertHeadings",
     "MarkdownConfig",
     "MarkdownConverter",
-    "MarkdownExecPlugin",
-    "MarkdownExecPluginConfig",
     "RemoveHeadings",
     "add_source",
     "base_format",
@@ -53,3 +50,14 @@ __all__ = [
     "validator",
     "working_directory",
 ]
+
+
+try:
+    from markdown_exec._internal.mkdocs_plugin import MarkdownExecPlugin, MarkdownExecPluginConfig
+except ImportError:
+    pass
+else:
+    __all__ += [
+        "MarkdownExecPlugin",
+        "MarkdownExecPluginConfig",
+    ]
