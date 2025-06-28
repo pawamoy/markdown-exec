@@ -37,7 +37,15 @@ _template = """
 
 <script>
 document.addEventListener('DOMContentLoaded', (event) => {
-    setupPyodide('%(id_prefix)s', install=%(install)s, themeLight='%(theme_light)s', themeDark='%(theme_dark)s', session='%(session)s');
+    setupPyodide(
+        '%(id_prefix)s',
+        install=%(install)s,
+        themeLight='%(theme_light)s',
+        themeDark='%(theme_dark)s',
+        session='%(session)s',
+        minLines=%(min_lines)s,
+        maxLines=%(max_lines)s,
+    );
 });
 </script>
 """
@@ -45,9 +53,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
 _counter = 0
 
 
+def _calculate_height(code: str, extra: dict) -> tuple[int, int]:
+    """Calculate height configuration for the Pyodide editor."""
+    height = extra.pop("height", "auto")
+
+    if height in ("auto", "0"):
+        min_lines = max_lines = len(code.strip().splitlines()) if code.strip() else 5
+    elif "-" in height:
+        min_lines, max_lines = height.split("-")
+        min_lines = max(1, int(min_lines or "5"))
+        max_lines = max(min_lines, int(max_lines or "30"))
+    else:
+        min_lines = max_lines = int(height)
+
+    return min_lines, max_lines
+
+
 def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **options: Any) -> str:  # noqa: ARG001
     global _counter  # noqa: PLW0603
     _counter += 1
+
     version = extra.pop("version", "0.26.4").lstrip("v")
     install = extra.pop("install", "")
     install = install.split(",") if install else []
@@ -56,6 +81,7 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     if "," not in theme:
         theme = f"{theme},{theme}"
     theme_light, theme_dark = theme.split(",")
+    min_lines, max_lines = _calculate_height(code, extra)
 
     data = {
         "id_prefix": f"exec-{_counter}--",
@@ -66,6 +92,8 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
         "session": session or "default",
         "play_emoji": _play_emoji,
         "clear_emoji": _clear_emoji,
+        "min_lines": min_lines,
+        "max_lines": max_lines,
     }
     rendered = _template % data
     if exclude_assets:

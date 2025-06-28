@@ -45,6 +45,56 @@ print("Hello.")
 
 NOTE: **All Pyodide blocks on the same page should use the same version!**
 
+## Editor height
+
+The height of the editor can be configured with the `height` option. It accepts the following values:
+
+- `0` or `auto`: A fixed number of lines, based on initial code.
+- a positive number, like `10`: A fixed number of lines.
+- a positive range, like `5-30`: The minimum and maximum number of lines. The editor will shring/grow as you type.
+
+The default is `auto`.
+
+A few examples:
+
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered" title="Fixed height (10 lines)"
+```pyodide height="10"
+from typing import Iterator
+
+# This is an example
+class Math:
+    @staticmethod
+    def fib(n: int) -> Iterator[int]:
+        """Fibonacci series up to n."""
+        a, b = 0, 1
+        while a < n:
+            yield a
+            a, b = b, a + b
+
+result = sum(Math.fib(42))
+print(f"The answer is {result}")
+```
+````
+
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered" title="Between 1 and 40 lines"
+```pyodide height="1-40"
+from typing import Iterator
+
+# This is an example
+class Math:
+    @staticmethod
+    def fib(n: int) -> Iterator[int]:
+        """Fibonacci series up to n."""
+        a, b = 0, 1
+        while a < n:
+            yield a
+            a, b = b, a + b
+
+result = sum(Math.fib(42))
+print(f"The answer is {result}")
+```
+````
+
 ## Sessions
 
 Editors with the same session share the same `globals()` dictionary,
