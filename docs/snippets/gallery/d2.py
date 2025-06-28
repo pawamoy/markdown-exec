@@ -1,7 +1,3 @@
-import os  # markdown-exec: hide
-if "CI" in os.environ:  # markdown-exec: hide
-    print("D2 is not installed in CI, skipping this gallery example.")  # markdown-exec: hide
-    raise SystemExit(0)  # markdown-exec: hide
 import subprocess
 
 diagram = """

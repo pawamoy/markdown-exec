@@ -4,9 +4,6 @@ import os
 import re
 from typing import TYPE_CHECKING, Any
 
-if TYPE_CHECKING:
-    from markdown import Markdown
-
 from markdown_exec._internal.formatters.base import default_tabs
 from markdown_exec._internal.formatters.bash import _format_bash
 from markdown_exec._internal.formatters.console import _format_console
@@ -16,9 +13,16 @@ from markdown_exec._internal.formatters.pyodide import _format_pyodide
 from markdown_exec._internal.formatters.python import _format_python
 from markdown_exec._internal.formatters.sh import _format_sh
 from markdown_exec._internal.formatters.tree import _format_tree
+from markdown_exec._internal.logger import get_logger
+
+if TYPE_CHECKING:
+    from markdown import Markdown
 
 MARKDOWN_EXEC_AUTO = [lang.strip() for lang in os.getenv("MARKDOWN_EXEC_AUTO", "").split(",")]
 """Languages to automatically execute."""
+
+
+_logger = get_logger("markdown-exec")
 
 formatters = {
     "bash": _format_bash,
@@ -116,6 +120,7 @@ def formatter(
         HTML contents.
     """
     fmt = formatters.get(language, lambda source, **kwargs: source)
+    _logger.debug("Executing %s code block with options: %s", language, options)
     return fmt(code=source, md=md, **options)  # type: ignore[operator]
 
 

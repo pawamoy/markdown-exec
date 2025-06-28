@@ -32,6 +32,9 @@ jobs:
     - name: Set up Graphviz
       uses: ts-graphviz/setup-graphviz@v1
 
+    - name: Setup D2
+      run: curl -fsSL https://d2lang.com/install.sh | sh -s --
+
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
@@ -47,6 +50,8 @@ jobs:
       run: make setup
 
     - name: Check if the documentation builds correctly
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: make check-docs
 
     - name: Check the code quality
