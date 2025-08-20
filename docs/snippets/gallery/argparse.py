@@ -1,6 +1,6 @@
 import argparse
 
-from duty.cli import get_parser
+from duty import get_parser
 
 parser = get_parser()
 lines = []
