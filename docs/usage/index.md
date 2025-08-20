@@ -271,6 +271,14 @@ $ cat .git/config
 ```
 ````
 
+If you just want a basic code block without any syntax highlighting, use the `text` language:
+
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```console exec="1" result="text"
+$ echo 'print("some python code that is not highlighted")'
+```
+````
+
 WARNING: **Limitation:**
 Wrapping the result is not possible when HTML output is enabled.
 
