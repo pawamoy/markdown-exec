@@ -47,7 +47,7 @@ Markdown(
                     "format": formatter,
                 }
                 # ...one fence for each language we support:
-                # bash, console, md, markdown, py, python, pycon, sh, tree
+                # bash, console, md, markdown, py, python, pycon, pyodide, sh, tree, etc.
             ]
         }
     }
@@ -82,9 +82,13 @@ markdown_extensions:
 - pymdownx.superfences
 ```
 
-We do recommend enabling Markdown Exec with the MkDocs plugin
+TIP: We recommend enabling Markdown Exec with the MkDocs plugin
 if you are using MkDocs: it will take care of adding relevant
-assets (CSS/JS) to the final site when needed. 
+assets (CSS/JS) to the final site when needed.
+
+WARNING: **Limitation of configuration through Markdown/PyMDown.**
+Configuration through `pymdownx.superfences` directly is not well supported for fences that require assets inclusion, like `pyodide`.
+For these you will have to include the assets manually. In the future we will provide ways to include them automatically.
 
 ## Usage
 
