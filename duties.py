@@ -79,7 +79,11 @@ def check_quality(ctx: Context) -> None:
     )
 
 
-@duty(skip_if=sys.version_info[:2] != (3, 12), skip_reason=pyprefix("Docs build only on Python 3.12"), nofail=PY_VERSION == PY_DEV)
+@duty(
+    skip_if=sys.version_info[:2] != (3, 12),
+    skip_reason=pyprefix("Docs build only on Python 3.12"),
+    nofail=PY_VERSION == PY_DEV,
+)
 def check_docs(ctx: Context) -> None:
     """Check if the documentation builds correctly."""
     Path("htmlcov").mkdir(parents=True, exist_ok=True)
