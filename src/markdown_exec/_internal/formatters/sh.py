@@ -22,6 +22,7 @@ def _run_sh(
         stderr=subprocess.STDOUT,
         text=True,
         check=False,
+        encoding="utf8",
     )
     if process.returncode != returncode:
         raise ExecutionError(code_block("sh", process.stdout, **extra), process.returncode)

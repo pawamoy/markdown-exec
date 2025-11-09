@@ -78,7 +78,7 @@ if material is not None:
     _icon_ids[None] = f"__ICON_{uuid4().hex}"
 
     def _icon_to_svg(icon: str) -> str:
-        return _icons_path.joinpath(*f"{icon.strip(':')}.svg".split("-", 1)).read_text()
+        return _icons_path.joinpath(*f"{icon.strip(':')}.svg".split("-", 1)).read_text(encoding="utf8")
 
     _svg_icons: dict[str | None, str] = {_icon_ids[value]: _icon_to_svg(value) for value in _icons.values()}
     _svg_icons[_icon_ids[None]] = _icon_to_svg(":material-file:")

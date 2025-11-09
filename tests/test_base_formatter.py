@@ -103,7 +103,7 @@ def test_changing_working_directory(md: Markdown) -> None:
     """
     markup = base_format(
         language="python",
-        run=lambda code, **_: subprocess.check_output(code, shell=True, text=True),  # noqa: S602
+        run=lambda code, **_: subprocess.check_output(code, shell=True, text=True, encoding="utf8"),  # noqa: S602
         code="pwd",
         md=md,
         workdir="/",
@@ -121,7 +121,7 @@ def test_console_width(md: Markdown) -> None:
     for width in (10, 1000):
         markup = base_format(
             language="bash",
-            run=lambda code, **_: subprocess.check_output(code, shell=True, text=True),  # noqa: S602,
+            run=lambda code, **_: subprocess.check_output(code, shell=True, text=True, encoding="utf8"),  # noqa: S602,
             code="echo width: $COLUMNS",
             md=md,
             width=width,
