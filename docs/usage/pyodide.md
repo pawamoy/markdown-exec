@@ -1,7 +1,5 @@
 # Pyodide
 
-[:octicons-tag-24: Insiders 1.0.0](../insiders/changelog.md#1.0.0)
-
 This special `pyodide` fence uses [Pyodide](https://pyodide.org), [Ace](https://ace.c9.io/)
 and [Highlight.js](https://highlightjs.org/) to render an interactive Python editor.
 Everything runs on the client side. The first time Pyodide is loaded by the browser

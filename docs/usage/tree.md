@@ -79,9 +79,6 @@ Spaces in file names are not supported when searching for a trailing slash.
 
 ## Custom icons
 
-[:octicons-heart-fill-24:{ .pulse } Sponsors only](../insiders/index.md){ .insiders } &mdash;
-[:octicons-tag-24: Insiders 1.1.0](../insiders/changelog.md#1.1.0)
-
 Custom icons based on the file name and extension can be used in tree fences.
 This feature requires that the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme is used.
 By default, if Material for MkDocs is used, custom icons will be rendered.
