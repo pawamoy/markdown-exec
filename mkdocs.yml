@@ -31,11 +31,6 @@ nav:
   - Contributing: contributing.md
   - Code of Conduct: code_of_conduct.md
   - Coverage report: coverage.md
-- Insiders:
-  - insiders/index.md
-  - Getting started:
-    - Installation: insiders/installation.md
-    - Changelog: insiders/changelog.md
 - Author's website: https://pawamoy.github.io/
 
 theme:
@@ -83,7 +78,6 @@ theme:
 extra_css:
 - css/material.css
 - css/mkdocstrings.css
-- css/insiders.css
 
 extra_javascript:
 - js/feedback.js
@@ -148,7 +142,7 @@ plugins:
           show_root_heading: true
           show_root_full_path: false
           show_signature_annotations: true
-          show_source: false
+          show_source: true
           show_symbol_type_heading: true
           show_symbol_type_toc: true
           signature_crossrefs: true
