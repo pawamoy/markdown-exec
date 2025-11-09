@@ -19,6 +19,8 @@ root2
 ```
 ````
 
+## Syntax highlight
+
 By default, the language used for syntax highlight is `bash`.
 It means you can add comments with `#`:
 
@@ -56,6 +58,8 @@ root2
 ```
 ````
 
+## Leaf directories
+
 You can force an entry to be displayed as a directory instead of a regular file
 by appending a trailing slash to the name:
 
@@ -68,7 +72,58 @@ root1
 ```
 ````
 
-It is recommended to always append trailing slashes to directory anyway.
+It is recommended to always append trailing slashes to directories anyway.
 
 WARNING: **Limitation:**
 Spaces in file names are not supported when searching for a trailing slash.
+
+## Custom icons
+
+[:octicons-heart-fill-24:{ .pulse } Sponsors only](../insiders/index.md){ .insiders } &mdash;
+[:octicons-tag-24: Insiders 1.1.0](../insiders/changelog.md#1.1.0)
+
+Custom icons based on the file name and extension can be used in tree fences.
+This feature requires that the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme is used.
+By default, if Material for MkDocs is used, custom icons will be rendered.
+You can opt-out with `icons="basic"` to use the basic folder and file emojis,
+or even remove all icons/emojis with `icons="none"`.
+
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```tree icons="none"
+folder/
+    file
+    file.py
+    file.rb
+    file.js
+```
+````
+
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```tree icons="basic"
+folder/
+    file
+    file.py
+    file.rb
+    file.rs
+```
+````
+
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```tree icons="material"
+folder/
+    file
+    file.py
+    file.rb
+    file.rs
+```
+````
+
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```tree icons="auto"
+folder/
+    file
+    file.py
+    file.rb
+    file.rs
+```
+````

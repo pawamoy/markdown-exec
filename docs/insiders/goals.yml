@@ -10,7 +10,10 @@ goals:
     features: []
   1500:
     name: HyperLamp Navigation Tips
-    features: []
+    features:
+    - name: Custom icons in tree fences
+      ref: /usage/tree/#custom-icons
+      since: 2024/07/08
   2000:
     name: FusionDrive Ejection Configuration
     features: []
