@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.12.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.0) - 2025-11-10
+
+<small>[Compare with 1.11.0](https://github.com/pawamoy/markdown-exec/compare/1.11.0...1.12.0)</small>
+
+### Features
+
+- Support per-file-extension icons ([e6e0d59](https://github.com/pawamoy/markdown-exec/commit/e6e0d59904dff70920e72290ce19adacb720b0c6) by Timothée Mazzucotelli).
+
 ## [1.11.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.11.0) - 2025-06-28
 
 <small>[Compare with 1.10.4](https://github.com/pawamoy/markdown-exec/compare/1.10.4...1.11.0)</small>
