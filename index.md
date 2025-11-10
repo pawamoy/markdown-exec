@@ -8,7 +8,6 @@ For example, you write a Python code block that computes some HTML, and this HTM
 
 ```
 pip install "markdown-exec[ansi]"
-
 ```
 
 The `ansi` extra provides the necessary bits (`pygments-ansi-color` and a CSS file) to render ANSI colors in HTML code blocks. The CSS file is automatically added to MkDocs' `extra_css` when Markdown Exec is activated via `plugins` (see below).
@@ -35,12 +34,11 @@ Markdown(
                     "format": formatter,
                 }
                 # ...one fence for each language we support:
-                # bash, console, md, markdown, py, python, pycon, sh, tree
+                # bash, console, md, markdown, py, python, pycon, pyodide, sh, tree, etc.
             ]
         }
     }
 )
-
 ```
 
 ...or in MkDocs configuration file, as a Markdown extension:
@@ -56,7 +54,6 @@ markdown_extensions:
       format: !!python/name:markdown_exec.formatter
     # ...one fence for each language we support:
     # bash, console, md, markdown, py, python, pycon, sh, tree
-
 ```
 
 ...or in MkDocs configuration file, as a plugin:
@@ -70,10 +67,15 @@ plugins:
 # SuperFences must still be enabled!
 markdown_extensions:
 - pymdownx.superfences
-
 ```
 
-We do recommend enabling Markdown Exec with the MkDocs plugin if you are using MkDocs: it will take care of adding relevant assets (CSS/JS) to the final site when needed.
+Tip
+
+We recommend enabling Markdown Exec with the MkDocs plugin if you are using MkDocs: it will take care of adding relevant assets (CSS/JS) to the final site when needed.
+
+Limitation of configuration through Markdown/PyMDown.
+
+Configuration through `pymdownx.superfences` directly is not well supported for fences that require assets inclusion, like `pyodide`. For these you will have to include the assets manually. In the future we will provide ways to include them automatically.
 
 ## Usage
 
@@ -100,5 +102,7 @@ grep extra_css README.md && exit 2
 ````
 
 See [usage](https://pawamoy.github.io/markdown-exec/usage/) for more details,
-and the [gallery](https://pawamoy.github.io/markdown-exec/gallery/) for more examples!```
+and the [gallery](https://pawamoy.github.io/markdown-exec/gallery/) for more examples!
+
+## Sponsors```
 ````

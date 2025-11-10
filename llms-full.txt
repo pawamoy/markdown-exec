@@ -14,7 +14,6 @@ For example, you write a Python code block that computes some HTML, and this HTM
 
 ```
 pip install "markdown-exec[ansi]"
-
 ```
 
 The `ansi` extra provides the necessary bits (`pygments-ansi-color` and a CSS file) to render ANSI colors in HTML code blocks. The CSS file is automatically added to MkDocs' `extra_css` when Markdown Exec is activated via `plugins` (see below).
@@ -41,12 +40,11 @@ Markdown(
                     "format": formatter,
                 }
                 # ...one fence for each language we support:
-                # bash, console, md, markdown, py, python, pycon, sh, tree
+                # bash, console, md, markdown, py, python, pycon, pyodide, sh, tree, etc.
             ]
         }
     }
 )
-
 ```
 
 ...or in MkDocs configuration file, as a Markdown extension:
@@ -62,7 +60,6 @@ markdown_extensions:
       format: !!python/name:markdown_exec.formatter
     # ...one fence for each language we support:
     # bash, console, md, markdown, py, python, pycon, sh, tree
-
 ```
 
 ...or in MkDocs configuration file, as a plugin:
@@ -76,10 +73,15 @@ plugins:
 # SuperFences must still be enabled!
 markdown_extensions:
 - pymdownx.superfences
-
 ```
 
-We do recommend enabling Markdown Exec with the MkDocs plugin if you are using MkDocs: it will take care of adding relevant assets (CSS/JS) to the final site when needed.
+Tip
+
+We recommend enabling Markdown Exec with the MkDocs plugin if you are using MkDocs: it will take care of adding relevant assets (CSS/JS) to the final site when needed.
+
+Limitation of configuration through Markdown/PyMDown.
+
+Configuration through `pymdownx.superfences` directly is not well supported for fences that require assets inclusion, like `pyodide`. For these you will have to include the assets manually. In the future we will provide ways to include them automatically.
 
 ## Usage
 
@@ -106,7 +108,9 @@ grep extra_css README.md && exit 2
 ````
 
 See [usage](https://pawamoy.github.io/markdown-exec/usage/) for more details,
-and the [gallery](https://pawamoy.github.io/markdown-exec/gallery/) for more examples!```
+and the [gallery](https://pawamoy.github.io/markdown-exec/gallery/) for more examples!
+
+## Sponsors```
 ````
 # API
 
@@ -158,8 +162,7 @@ Attributes:
 ## MARKDOWN_EXEC_AUTO
 
 ```
-MARKDOWN_EXEC_AUTO = [strip() for lang in split(',')]
-
+MARKDOWN_EXEC_AUTO = [(strip()) for lang in (split(','))]
 ```
 
 Languages to automatically execute.
@@ -168,7 +171,6 @@ Languages to automatically execute.
 
 ```
 default_tabs = ('Source', 'Result')
-
 ```
 
 Default tab titles.
@@ -177,7 +179,6 @@ Default tab titles.
 
 ```
 markdown_config = MarkdownConfig()
-
 ```
 
 This object can be used to save the configuration of your Markdown extensions.
@@ -189,7 +190,6 @@ from markdown_exec.rendering import markdown_config
 
 # ...in relevant events/hooks, access and modify extensions and their configs, then:
 markdown_config.save(extensions, extensions_config)
-
 ```
 
 See the actual event hook: on_config. See the save and reset methods.
@@ -200,7 +200,6 @@ Without it, Markdown Exec will rely on the `registeredExtensions` attribute of t
 
 ```
 ExecutionError(message: str, returncode: int | None = None)
-
 ```
 
 Bases: `Exception`
@@ -212,11 +211,19 @@ Attributes:
 - **`message`** – The exception message.
 - **`returncode`** – The code returned by the execution of the code block.
 
+Source code in `src/markdown_exec/_internal/formatters/base.py`
+
+```
+def __init__(self, message: str, returncode: int | None = None) -> None:
+    super().__init__(message)
+    self.returncode = returncode
+    """The code returned by the execution of the code block."""
+```
+
 ### returncode
 
 ```
 returncode = returncode
-
 ```
 
 The code returned by the execution of the code block.
@@ -227,7 +234,6 @@ The code returned by the execution of the code block.
 HeadingReportingTreeprocessor(
     md: Markdown, headings: list[Element]
 )
-
 ```
 
 Bases: `Treeprocessor`
@@ -244,11 +250,19 @@ Attributes:
 - **`name`** – The name of the treeprocessor.
 - **`regex`** – The regex to match heading tags.
 
+Source code in `src/markdown_exec/_internal/processors.py`
+
+```
+def __init__(self, md: Markdown, headings: list[Element]):
+    super().__init__(md)
+    self.headings = headings
+    """The list of heading elements."""
+```
+
 ### headings
 
 ```
 headings = headings
-
 ```
 
 The list of heading elements.
@@ -257,7 +271,6 @@ The list of heading elements.
 
 ```
 name = 'markdown_exec_record_headings'
-
 ```
 
 The name of the treeprocessor.
@@ -266,7 +279,6 @@ The name of the treeprocessor.
 
 ```
 regex = compile('[Hh][1-6]')
-
 ```
 
 The regex to match heading tags.
@@ -275,16 +287,29 @@ The regex to match heading tags.
 
 ```
 run(root: Element) -> None
-
 ```
 
 Run the treeprocessor.
+
+Source code in `src/markdown_exec/_internal/processors.py`
+
+```
+def run(self, root: Element) -> None:
+    """Run the treeprocessor."""
+    for el in root.iter():
+        if self.regex.fullmatch(el.tag):
+            el = copy.copy(el)  # noqa: PLW2901
+            # 'toc' extension's first pass (which we require to build heading stubs/ids) also edits the HTML.
+            # Undo the permalink edit so we can pass this heading to the outer pass of the 'toc' extension.
+            if len(el) > 0 and el[-1].get("class") == self.md.treeprocessors["toc"].permalink_class:  # type: ignore[attr-defined]
+                del el[-1]
+            self.headings.append(el)
+```
 
 ## IdPrependingTreeprocessor
 
 ```
 IdPrependingTreeprocessor(md: Markdown, id_prefix: str)
-
 ```
 
 Bases: `Treeprocessor`
@@ -300,11 +325,19 @@ Attributes:
 - **`id_prefix`** – The prefix to prepend to IDs.
 - **`name`** – The name of the treeprocessor.
 
+Source code in `src/markdown_exec/_internal/processors.py`
+
+```
+def __init__(self, md: Markdown, id_prefix: str) -> None:
+    super().__init__(md)
+    self.id_prefix = id_prefix
+    """The prefix to prepend to IDs."""
+```
+
 ### id_prefix
 
 ```
 id_prefix = id_prefix
-
 ```
 
 The prefix to prepend to IDs.
@@ -313,7 +346,6 @@ The prefix to prepend to IDs.
 
 ```
 name = 'markdown_exec_ids'
-
 ```
 
 The name of the treeprocessor.
@@ -322,16 +354,40 @@ The name of the treeprocessor.
 
 ```
 run(root: Element) -> None
-
 ```
 
 Run the treeprocessor.
+
+Source code in `src/markdown_exec/_internal/processors.py`
+
+```
+def run(self, root: Element) -> None:
+    """Run the treeprocessor."""
+    if not self.id_prefix:
+        return
+    for el in root.iter():
+        id_attr = el.get("id")
+        if id_attr:
+            el.set("id", self.id_prefix + id_attr)
+
+        href_attr = el.get("href")
+        if href_attr and href_attr.startswith("#"):
+            el.set("href", "#" + self.id_prefix + href_attr[1:])
+
+        name_attr = el.get("name")
+        if name_attr:
+            el.set("name", self.id_prefix + name_attr)
+
+        if el.tag == "label":
+            for_attr = el.get("for")
+            if for_attr:
+                el.set("for", self.id_prefix + for_attr)
+```
 
 ## InsertHeadings
 
 ```
 InsertHeadings(md: Markdown)
-
 ```
 
 Bases: `Treeprocessor`
@@ -351,11 +407,24 @@ Attributes:
 - **`headings`** (`dict[Markup, list[Element]]`) – The dictionary of headings.
 - **`name`** – The name of the treeprocessor.
 
+Source code in `src/markdown_exec/_internal/processors.py`
+
+```
+def __init__(self, md: Markdown):
+    """Initialize the object.
+
+    Arguments:
+        md: A `markdown.Markdown` instance.
+    """
+    super().__init__(md)
+    self.headings: dict[Markup, list[Element]] = {}
+    """The dictionary of headings."""
+```
+
 ### headings
 
 ```
 headings: dict[Markup, list[Element]] = {}
-
 ```
 
 The dictionary of headings.
@@ -364,7 +433,6 @@ The dictionary of headings.
 
 ```
 name = 'markdown_exec_insert_headings'
-
 ```
 
 The name of the treeprocessor.
@@ -373,16 +441,33 @@ The name of the treeprocessor.
 
 ```
 run(root: Element) -> None
-
 ```
 
 Run the treeprocessor.
+
+Source code in `src/markdown_exec/_internal/processors.py`
+
+```
+def run(self, root: Element) -> None:
+    """Run the treeprocessor."""
+    if not self.headings:
+        return
+
+    for el in root.iter():
+        match = HTML_PLACEHOLDER_RE.match(el.text or "")
+        if match:
+            counter = int(match.group(1))
+            markup: Markup = self.md.htmlStash.rawHtmlBlocks[counter]  # type: ignore[assignment]
+            if headings := self.headings.get(markup):
+                div = Element("div", {"class": "markdown-exec"})
+                div.extend(headings)
+                el.append(div)
+```
 
 ## MarkdownConfig
 
 ```
 MarkdownConfig()
-
 ```
 
 This class returns a singleton used to store Markdown extensions configuration.
@@ -400,11 +485,20 @@ Attributes:
 - **`exts`** (`list[str] | None`) – The Markdown extensions.
 - **`exts_config`** (`dict[str, dict[str, Any]] | None`) – The extensions configuration.
 
+Source code in `src/markdown_exec/_internal/rendering.py`
+
+```
+def __init__(self) -> None:
+    self.exts: list[str] | None = None
+    """The Markdown extensions."""
+    self.exts_config: dict[str, dict[str, Any]] | None = None
+    """The extensions configuration."""
+```
+
 ### exts
 
 ```
 exts: list[str] | None = None
-
 ```
 
 The Markdown extensions.
@@ -413,7 +507,6 @@ The Markdown extensions.
 
 ```
 exts_config: dict[str, dict[str, Any]] | None = None
-
 ```
 
 The extensions configuration.
@@ -422,19 +515,36 @@ The extensions configuration.
 
 ```
 __new__() -> MarkdownConfig
-
 ```
 
 Return the singleton instance.
+
+Source code in `src/markdown_exec/_internal/rendering.py`
+
+```
+def __new__(cls) -> MarkdownConfig:  # noqa: PYI034
+    """Return the singleton instance."""
+    if cls._singleton is None:
+        cls._singleton = super().__new__(cls)
+    return cls._singleton
+```
 
 ### reset
 
 ```
 reset() -> None
-
 ```
 
 Reset Markdown extensions and their configuration.
+
+Source code in `src/markdown_exec/_internal/rendering.py`
+
+```
+def reset(self) -> None:
+    """Reset Markdown extensions and their configuration."""
+    self.exts = None
+    self.exts_config = None
+```
 
 ### save
 
@@ -442,7 +552,6 @@ Reset Markdown extensions and their configuration.
 save(
     exts: list[str], exts_config: dict[str, dict[str, Any]]
 ) -> None
-
 ```
 
 Save Markdown extensions and their configuration.
@@ -452,11 +561,24 @@ Parameters:
 - **`exts`** (`list[str]`) – The Markdown extensions.
 - **`exts_config`** (`dict[str, dict[str, Any]]`) – The extensions configuration.
 
+Source code in `src/markdown_exec/_internal/rendering.py`
+
+```
+def save(self, exts: list[str], exts_config: dict[str, dict[str, Any]]) -> None:
+    """Save Markdown extensions and their configuration.
+
+    Parameters:
+        exts: The Markdown extensions.
+        exts_config: The extensions configuration.
+    """
+    self.exts = exts
+    self.exts_config = exts_config
+```
+
 ## MarkdownConverter
 
 ```
 MarkdownConverter(md: Markdown, *, update_toc: bool = True)
-
 ```
 
 Helper class to avoid breaking the original Markdown instance state.
@@ -469,11 +591,19 @@ Attributes:
 
 - **`counter`** (`int`) – A counter to generate unique IDs for code blocks.
 
+Source code in `src/markdown_exec/_internal/rendering.py`
+
+```
+def __init__(self, md: Markdown, *, update_toc: bool = True) -> None:
+    self._md_ref: Markdown = md
+    self._headings: list[Element] = []
+    self._update_toc = update_toc
+```
+
 ### counter
 
 ```
 counter: int = 0
-
 ```
 
 A counter to generate unique IDs for code blocks.
@@ -486,7 +616,6 @@ convert(
     stash: dict[str, str] | None = None,
     id_prefix: str | None = None,
 ) -> Markup
-
 ```
 
 Convert Markdown text to safe HTML.
@@ -499,6 +628,38 @@ Parameters:
 Returns:
 
 - `Markup` – Safe HTML.
+
+Source code in `src/markdown_exec/_internal/rendering.py`
+
+```
+def convert(self, text: str, stash: dict[str, str] | None = None, id_prefix: str | None = None) -> Markup:
+    """Convert Markdown text to safe HTML.
+
+    Parameters:
+        text: Markdown text.
+        stash: An HTML stash.
+
+    Returns:
+        Safe HTML.
+    """
+    md = _mimic(self._original_md, self._headings, update_toc=self._update_toc)
+
+    # convert markdown to html
+    with _id_prefix(md, id_prefix):
+        converted = md.convert(text)
+
+    # restore html from stash
+    for placeholder, stashed in (stash or {}).items():
+        converted = converted.replace(placeholder, stashed)
+
+    markup = Markup(converted)  # noqa: S704
+
+    # pass headings to upstream conversion layer
+    if self._update_toc:
+        self._report_headings(markup)
+
+    return markup
+```
 
 ## MarkdownExecPlugin
 
@@ -516,7 +677,6 @@ Methods:
 
 ```
 on_config(config: MkDocsConfig) -> MkDocsConfig | None
-
 ```
 
 Configure the plugin.
@@ -533,25 +693,101 @@ Returns:
 
 - `MkDocsConfig | None` – The modified config.
 
+Source code in `src/markdown_exec/_internal/mkdocs_plugin.py`
+
+```
+def on_config(self, config: MkDocsConfig) -> MkDocsConfig | None:
+    """Configure the plugin.
+
+    Hook for the [`on_config` event](https://www.mkdocs.org/user-guide/plugins/#on_config).
+    In this hook, we add custom fences for all the supported languages.
+
+    We also save the Markdown extensions configuration
+    into [`markdown_config`][markdown_exec.markdown_config].
+
+    Arguments:
+        config: The MkDocs config object.
+
+    Returns:
+        The modified config.
+    """
+    if "pymdownx.superfences" not in config["markdown_extensions"]:
+        message = "The 'markdown-exec' plugin requires the 'pymdownx.superfences' Markdown extension to work."
+        raise PluginError(message)
+    if self.config.ansi in ("required", True) and not _ansi_ok:
+        raise PluginError(
+            "The configuration for the 'markdown-exec' plugin requires "
+            "that it is installed with the 'ansi' extra. "
+            "Install it with 'pip install markdown-exec[ansi]'.",
+        )
+    self.mkdocs_config_dir = os.getenv("MKDOCS_CONFIG_DIR")
+    os.environ["MKDOCS_CONFIG_DIR"] = os.path.dirname(config["config_file_path"])
+    self.languages = self.config.languages
+    mdx_configs = config.setdefault("mdx_configs", {})
+    superfences = mdx_configs.setdefault("pymdownx.superfences", {})
+    custom_fences = superfences.setdefault("custom_fences", [])
+    for language in self.languages:
+        custom_fences.append(
+            {
+                "name": language,
+                "class": language,
+                "validator": validator,
+                "format": formatter,
+            },
+        )
+    markdown_config.save(config.markdown_extensions, config.mdx_configs)
+    return config
+```
+
 ### on_env
 
 ```
 on_env(
     env: Environment, *, config: MkDocsConfig, files: Files
 ) -> Environment | None
-
 ```
 
 Add assets to the environment.
+
+Source code in `src/markdown_exec/_internal/mkdocs_plugin.py`
+
+```
+def on_env(
+    self,
+    env: Environment,
+    *,
+    config: MkDocsConfig,
+    files: Files,  # noqa: ARG002
+) -> Environment | None:
+    """Add assets to the environment."""
+    if self.config.ansi in ("required", True) or (self.config.ansi == "auto" and _ansi_ok):
+        self._add_css(config, "ansi.css")
+    if "pyodide" in self.languages:
+        self._add_css(config, "pyodide.css")
+        self._add_js(config, "pyodide.js")
+    return env
+```
 
 ### on_post_build
 
 ```
 on_post_build(*, config: MkDocsConfig) -> None
-
 ```
 
 Reset the plugin state.
+
+Source code in `src/markdown_exec/_internal/mkdocs_plugin.py`
+
+```
+def on_post_build(self, *, config: MkDocsConfig) -> None:  # noqa: ARG002
+    """Reset the plugin state."""
+    MarkdownConverter.counter = 0
+    markdown_config.reset()
+    if self.mkdocs_config_dir is None:
+        os.environ.pop("MKDOCS_CONFIG_DIR", None)
+    else:
+        os.environ["MKDOCS_CONFIG_DIR"] = self.mkdocs_config_dir
+```
 
 ## MarkdownExecPluginConfig
 
@@ -570,7 +806,6 @@ Attributes:
 ansi = Choice(
     ("auto", "off", "required", True, False), default="auto"
 )
-
 ```
 
 Whether the `ansi` extra is required when installing the package.
@@ -581,7 +816,6 @@ Whether the `ansi` extra is required when installing the package.
 languages = ListOfItems(
     Choice(keys()), default=list(keys())
 )
-
 ```
 
 Which languages to enabled the extension for.
@@ -604,7 +838,6 @@ Attributes:
 
 ```
 name = 'markdown_exec_remove_headings'
-
 ```
 
 The name of the treeprocessor.
@@ -613,10 +846,17 @@ The name of the treeprocessor.
 
 ```
 run(root: Element) -> None
-
 ```
 
 Run the treeprocessor.
+
+Source code in `src/markdown_exec/_internal/processors.py`
+
+```
+def run(self, root: Element) -> None:
+    """Run the treeprocessor."""
+    self._remove_duplicated_headings(root)
+```
 
 ## add_source
 
@@ -631,7 +871,6 @@ add_source(
     result: str = "",
     **extra: str,
 ) -> str
-
 ```
 
 Add source code block to the output.
@@ -653,6 +892,57 @@ Raises:
 Returns:
 
 - `str` – The updated output.
+
+Source code in `src/markdown_exec/_internal/rendering.py`
+
+```
+def add_source(
+    *,
+    source: str,
+    location: str,
+    output: str,
+    language: str,
+    tabs: tuple[str, str],
+    result: str = "",
+    **extra: str,
+) -> str:
+    """Add source code block to the output.
+
+    Parameters:
+        source: The source code block.
+        location: Where to add the source (above, below, tabbed-left, tabbed-right, console).
+        output: The current output.
+        language: The code language.
+        tabs: Tabs titles (if used).
+        result: Syntax to use when concatenating source and result with "console" location.
+        **extra: Extra options added back to source code block.
+
+    Raises:
+        ValueError: When the given location is not supported.
+
+    Returns:
+        The updated output.
+    """
+    source = _hide_lines(source)
+    if location == "console":
+        return code_block(result or language, source + "\n" + output, **extra)
+
+    source_block = code_block(language, source, **extra)
+    if location == "above":
+        return source_block + "\n\n" + output
+    if location == "below":
+        return output + "\n\n" + source_block
+    if location == "material-block":
+        return source_block + f'\n\n<div class="result" markdown="1" >\n\n{output}\n\n</div>'
+
+    source_tab_title, result_tab_title = tabs
+    if location == "tabbed-left":
+        return tabbed((source_tab_title, source_block), (result_tab_title, output))
+    if location == "tabbed-right":
+        return tabbed((result_tab_title, output), (source_tab_title, source_block))
+
+    raise ValueError(f"unsupported location for sources: {location}")
+```
 
 ## base_format
 
@@ -678,7 +968,6 @@ base_format(
     width: int | None = None,
     **options: Any,
 ) -> Markup
-
 ```
 
 Execute code and return HTML.
@@ -706,11 +995,117 @@ Returns:
 
 - `Markup` – HTML contents.
 
+Source code in `src/markdown_exec/_internal/formatters/base.py`
+
+```
+def base_format(
+    *,
+    language: str,
+    run: Callable,
+    code: str,
+    md: Markdown,
+    html: bool = False,
+    source: str = "",
+    result: str = "",
+    tabs: tuple[str, str] = default_tabs,
+    id: str = "",  # noqa: A002
+    id_prefix: str | None = None,
+    returncode: int = 0,
+    transform_source: Callable[[str], tuple[str, str]] | None = None,
+    session: str | None = None,
+    update_toc: bool = True,
+    workdir: str | None = None,
+    width: int | None = None,
+    **options: Any,
+) -> Markup:
+    """Execute code and return HTML.
+
+    Parameters:
+        language: The code language.
+        run: Function that runs code and returns output.
+        code: The code to execute.
+        md: The Markdown instance.
+        html: Whether to inject output as HTML directly, without rendering.
+        source: Whether to show source as well, and where.
+        result: If provided, use as language to format result in a code block.
+        tabs: Titles of tabs (if used).
+        id: An optional ID for the code block (useful when warning about errors).
+        id_prefix: A string used to prefix HTML ids in the generated HTML.
+        returncode: The expected exit code.
+        transform_source: An optional callable that returns transformed versions of the source.
+            The input source is the one that is ran, the output source is the one that is
+            rendered (when the source option is enabled).
+        session: A session name, to persist state between executed code blocks.
+        update_toc: Whether to include generated headings
+            into the Markdown table of contents (toc extension).
+        workdir: The working directory to use for the execution.
+        **options: Additional options passed from the formatter.
+
+    Returns:
+        HTML contents.
+    """
+    markdown = MarkdownConverter(md, update_toc=update_toc)
+    extra = options.get("extra", {})
+
+    if transform_source:
+        source_input, source_output = transform_source(code)
+    else:
+        source_input = code
+        source_output = code
+
+    try:
+        with working_directory(workdir), console_width(width):
+            output = run(source_input, returncode=returncode, session=session, id=id, **extra)
+    except ExecutionError as error:
+        identifier = id or extra.get("title", "")
+        identifier = identifier and f"'{identifier}' "
+        exit_message = "errors" if error.returncode is None else f"unexpected code {error.returncode}"
+        log_message = (
+            f"Execution of {language} code block {identifier}exited with {exit_message}\n\n"
+            f"Code block is:\n\n{_format_log_details(source_input)}\n\n"
+            f"Output is:\n\n{_format_log_details(str(error), strip_fences=True)}\n"
+        )
+        _logger.warning(log_message)
+        return markdown.convert(str(error))
+
+    if not output and not source:
+        return Markup()
+
+    if html:
+        if source:
+            placeholder = f'<div class="{uuid4()}"></div>'
+            wrapped_output = add_source(
+                source=source_output,
+                location=source,
+                output=placeholder,
+                language=language,
+                tabs=tabs,
+                **extra,
+            )
+            return markdown.convert(wrapped_output, stash={placeholder: output})
+        return Markup(output)  # noqa: S704
+
+    wrapped_output = output
+    if result and source != "console":
+        wrapped_output = code_block(result, output)
+    if source:
+        wrapped_output = add_source(
+            source=source_output,
+            location=source,
+            output=wrapped_output,
+            language=language,
+            tabs=tabs,
+            result=result,
+            **extra,
+        )
+    prefix = id_prefix if id_prefix is not None else (f"{id}-" if id else None)
+    return markdown.convert(wrapped_output, id_prefix=prefix)
+```
+
 ## code_block
 
 ```
 code_block(language: str, code: str, **options: str) -> str
-
 ```
 
 Format code as a code block.
@@ -725,11 +1120,28 @@ Returns:
 
 - `str` – The formatted code block.
 
+Source code in `src/markdown_exec/_internal/rendering.py`
+
+`````````
+def code_block(language: str, code: str, **options: str) -> str:
+    """Format code as a code block.
+
+    Parameters:
+        language: The code block language.
+        code: The source code to format.
+        **options: Additional options passed from the source, to add back to the generated code block.
+
+    Returns:
+        The formatted code block.
+    """
+    opts = " ".join(f'{opt_name}="{opt_value}"' for opt_name, opt_value in options.items())
+    return f"````````{language} {opts}\n{code}\n````````"
+`````````
+
 ## console_width
 
 ```
 console_width(width: int | None = None) -> Iterator[None]
-
 ```
 
 Set the console width for the duration of the context.
@@ -739,6 +1151,32 @@ The console width is set using the `COLUMNS` environment variable.
 Parameters:
 
 - **`width`** (`int | None`, default: `None` ) – The width to set the console to.
+
+Source code in `src/markdown_exec/_internal/formatters/base.py`
+
+```
+@contextmanager
+def console_width(width: int | None = None) -> Iterator[None]:
+    """Set the console width for the duration of the context.
+
+    The console width is set using the `COLUMNS` environment variable.
+
+    Parameters:
+        width: The width to set the console to.
+    """
+    if width:
+        old_width = os.environ.get("COLUMNS", None)
+        os.environ["COLUMNS"] = str(width)
+        try:
+            yield
+        finally:
+            if old_width is None:
+                del os.environ["COLUMNS"]
+            else:
+                os.environ["COLUMNS"] = old_width
+    else:
+        yield
+```
 
 ## formatter
 
@@ -754,7 +1192,6 @@ formatter(
     attrs: dict[str, Any] | None = None,
     **kwargs: Any,
 ) -> str
-
 ```
 
 Execute code and return HTML.
@@ -776,11 +1213,46 @@ Returns:
 
 - `str` – HTML contents.
 
+Source code in `src/markdown_exec/_internal/main.py`
+
+```
+def formatter(
+    source: str,
+    language: str,
+    css_class: str,  # noqa: ARG001
+    options: dict[str, Any],
+    md: Markdown,
+    classes: list[str] | None = None,  # noqa: ARG001
+    id_value: str = "",  # noqa: ARG001
+    attrs: dict[str, Any] | None = None,  # noqa: ARG001
+    **kwargs: Any,  # noqa: ARG001
+) -> str:
+    """Execute code and return HTML.
+
+    Parameters:
+        source: The code to execute.
+        language: The code language, like python or bash.
+        css_class: The CSS class to add to the HTML element.
+        options: The container for options.
+        attrs: The container for attrs:
+        md: The Markdown instance.
+        classes: Additional CSS classes.
+        id_value: An optional HTML id.
+        attrs: Additional attributes
+        **kwargs: Additional arguments passed to SuperFences default formatters.
+
+    Returns:
+        HTML contents.
+    """
+    fmt = formatters.get(language, lambda source, **kwargs: source)
+    _logger.debug("Executing %s code block with options: %s", language, options)
+    return fmt(code=source, md=md, **options)  # type: ignore[operator]
+```
+
 ## get_logger
 
 ```
 get_logger(name: str) -> _Logger
-
 ```
 
 Create and return a new logger instance.
@@ -793,13 +1265,27 @@ Returns:
 
 - `_Logger` – The logger.
 
+Source code in `src/markdown_exec/_internal/logger.py`
+
+```
+def get_logger(name: str) -> _Logger:
+    """Create and return a new logger instance.
+
+    Parameters:
+        name: The logger name.
+
+    Returns:
+        The logger.
+    """
+    return _Logger.get(name)
+```
+
 ## patch_loggers
 
 ```
 patch_loggers(
     get_logger_func: Callable[[str], Any],
 ) -> None
-
 ```
 
 Patch loggers.
@@ -828,18 +1314,56 @@ def get_logger(name):
 
 
 patch_loggers(get_logger)
-
 ```
 
 Parameters:
 
 - **`get_logger_func`** (`Callable[[str], Any]`) – A function accepting a name as parameter and returning a logger.
 
+Source code in `src/markdown_exec/_internal/logger.py`
+
+````
+def patch_loggers(get_logger_func: Callable[[str], Any]) -> None:
+    """Patch loggers.
+
+    We provide the `patch_loggers`function so dependant libraries
+    can patch loggers as they see fit.
+
+    For example, to fit in the MkDocs logging configuration
+    and prefix each log message with the module name:
+
+    ```python
+    import logging
+    from markdown_exec.logger import patch_loggers
+
+
+    class LoggerAdapter(logging.LoggerAdapter):
+        def __init__(self, prefix, logger):
+            super().__init__(logger, {})
+            self.prefix = prefix
+
+        def process(self, msg, kwargs):
+            return f"{self.prefix}: {msg}", kwargs
+
+
+    def get_logger(name):
+        logger = logging.getLogger(f"mkdocs.plugins.{name}")
+        return LoggerAdapter(name.split(".", 1)[0], logger)
+
+
+    patch_loggers(get_logger)
+    ```
+
+    Parameters:
+        get_logger_func: A function accepting a name as parameter and returning a logger.
+    """
+    _Logger._patch_loggers(get_logger_func)
+````
+
 ## tabbed
 
 ```
 tabbed(*tabs: tuple[str, str]) -> str
-
 ```
 
 Format tabs using `pymdownx.tabbed` extension.
@@ -852,6 +1376,27 @@ Returns:
 
 - `str` – The formatted tabs.
 
+Source code in `src/markdown_exec/_internal/rendering.py`
+
+```
+def tabbed(*tabs: tuple[str, str]) -> str:
+    """Format tabs using `pymdownx.tabbed` extension.
+
+    Parameters:
+        *tabs: Tuples of strings: title and text.
+
+    Returns:
+        The formatted tabs.
+    """
+    parts = []
+    for title, text in tabs:
+        title = title.replace(r"\|", "|").strip()  # noqa: PLW2901
+        parts.append(f'=== "{title}"')
+        parts.append(indent(text, prefix=" " * 4))
+        parts.append("")
+    return "\n".join(parts)
+```
+
 ## validator
 
 ```
@@ -862,7 +1407,6 @@ validator(
     attrs: dict[str, Any],
     md: Markdown,
 ) -> bool
-
 ```
 
 Validate code blocks inputs.
@@ -879,13 +1423,64 @@ Returns:
 
 - `bool` – Success or not.
 
+Source code in `src/markdown_exec/_internal/main.py`
+
+```
+def validator(
+    language: str,
+    inputs: dict[str, str],
+    options: dict[str, Any],
+    attrs: dict[str, Any],  # noqa: ARG001
+    md: Markdown,  # noqa: ARG001
+) -> bool:
+    """Validate code blocks inputs.
+
+    Parameters:
+        language: The code language, like python or bash.
+        inputs: The code block inputs, to be sorted into options and attrs.
+        options: The container for options.
+        attrs: The container for attrs:
+        md: The Markdown instance.
+
+    Returns:
+        Success or not.
+    """
+    exec_value = language in MARKDOWN_EXEC_AUTO or _to_bool(inputs.pop("exec", "no"))
+    if language not in {"tree", "pyodide"} and not exec_value:
+        return False
+    id_value = inputs.pop("id", "")
+    id_prefix_value = inputs.pop("idprefix", None)
+    html_value = _to_bool(inputs.pop("html", "no"))
+    source_value = inputs.pop("source", "")
+    result_value = inputs.pop("result", "")
+    returncode_value = int(inputs.pop("returncode", "0"))
+    session_value = inputs.pop("session", "")
+    update_toc_value = _to_bool(inputs.pop("updatetoc", "yes"))
+    tabs_value = inputs.pop("tabs", "|".join(default_tabs))
+    tabs = tuple(_tabs_re.split(tabs_value, maxsplit=1))
+    workdir_value = inputs.pop("workdir", None)
+    width_value = int(inputs.pop("width", "0"))
+    options["id"] = id_value
+    options["id_prefix"] = id_prefix_value
+    options["html"] = html_value
+    options["source"] = source_value
+    options["result"] = result_value
+    options["returncode"] = returncode_value
+    options["session"] = session_value
+    options["update_toc"] = update_toc_value
+    options["tabs"] = tabs
+    options["workdir"] = workdir_value
+    options["width"] = width_value
+    options["extra"] = inputs
+    return True
+```
+
 ## working_directory
 
 ```
 working_directory(
     path: str | None = None,
 ) -> Iterator[None]
-
 ```
 
 Change the working directory for the duration of the context.
@@ -893,6 +1488,27 @@ Change the working directory for the duration of the context.
 Parameters:
 
 - **`path`** (`str | None`, default: `None` ) – The path to change the working directory to.
+
+Source code in `src/markdown_exec/_internal/formatters/base.py`
+
+```
+@contextmanager
+def working_directory(path: str | None = None) -> Iterator[None]:
+    """Change the working directory for the duration of the context.
+
+    Parameters:
+        path: The path to change the working directory to.
+    """
+    if path:
+        old_cwd = os.getcwd()
+        os.chdir(path)
+        try:
+            yield
+        finally:
+            os.chdir(old_cwd)
+    else:
+        yield
+```
 
 ## formatters
 
