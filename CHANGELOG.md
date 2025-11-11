@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.12.1](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.1) - 2025-11-11
+
+<small>[Compare with 1.12.0](https://github.com/pawamoy/markdown-exec/compare/1.12.0...1.12.1)</small>
+
+### Code Refactoring
+
+- Always register tables extension, needed for Zensical ([1f95bf0](https://github.com/pawamoy/markdown-exec/commit/1f95bf0a8b4a056a14f737b9bada0acc11de5e02) by Timothée Mazzucotelli).
+
 ## [1.12.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.0) - 2025-11-10
 
 <small>[Compare with 1.11.0](https://github.com/pawamoy/markdown-exec/compare/1.11.0...1.12.0)</small>
