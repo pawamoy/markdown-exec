@@ -202,6 +202,11 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
     new_md = Markdown()
     extensions: list[Extension | str] = markdown_config.exts or md.registeredExtensions  # type: ignore[assignment]
     extensions_config: dict[str, dict[str, Any]] = markdown_config.exts_config or {}
+
+    # Needed for Zensical.
+    if "tables" not in extensions:
+        extensions.append("tables")
+
     new_md.registerExtensions(extensions, extensions_config)
     new_md.treeprocessors.register(
         IdPrependingTreeprocessor(md, ""),
