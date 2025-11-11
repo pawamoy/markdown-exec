@@ -104,5 +104,13 @@ grep extra_css README.md && exit 2
 See [usage](https://pawamoy.github.io/markdown-exec/usage/) for more details,
 and the [gallery](https://pawamoy.github.io/markdown-exec/gallery/) for more examples!
 
-## Sponsors```
+## Sponsors
+
+**Silver sponsors**
+
+**Bronze sponsors**
+
+---
+
+*And 8 more private sponsor(s).*```
 ````
