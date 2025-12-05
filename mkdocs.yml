@@ -25,6 +25,7 @@ nav:
   - Pyodide: usage/pyodide.md
   - Shell: usage/shell.md
   - Tree: usage/tree.md
+  - Caching: usage/caching.md
 - Gallery: gallery.md
 - API reference: reference/api.md
 - Development:

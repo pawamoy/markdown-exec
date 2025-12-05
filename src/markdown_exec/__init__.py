@@ -3,6 +3,7 @@
 Utilities to execute code blocks in Markdown files.
 """
 
+from markdown_exec._internal.cache import CacheManager, get_cache_manager
 from markdown_exec._internal.formatters.base import (
     ExecutionError,
     base_format,
@@ -29,6 +30,7 @@ from markdown_exec._internal.rendering import (
 
 __all__ = [
     "MARKDOWN_EXEC_AUTO",
+    "CacheManager",
     "ExecutionError",
     "HeadingReportingTreeprocessor",
     "IdPrependingTreeprocessor",
@@ -43,6 +45,7 @@ __all__ = [
     "default_tabs",
     "formatter",
     "formatters",
+    "get_cache_manager",
     "get_logger",
     "markdown_config",
     "patch_loggers",
