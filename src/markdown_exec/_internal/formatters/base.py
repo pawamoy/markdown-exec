@@ -192,17 +192,6 @@ def base_format(
 
         # Cache the output if caching is enabled
         if cache:
-            cache_manager = get_cache_manager()
-            cache_id = cache if isinstance(cache, str) else None
-            cache_options = {
-                "language": language,
-                "html": html,
-                "result": result,
-                "returncode": returncode,
-                "workdir": workdir,
-                "width": width,
-                "extra": extra,
-            }
             cache_manager.set(cache_id, source_input, output, **cache_options)
 
     if not output and not source:
