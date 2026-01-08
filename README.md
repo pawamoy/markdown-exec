@@ -111,6 +111,41 @@ grep extra_css README.md && exit 2
 ```
 ````
 
+### Caching
+
+Speed up your builds by caching execution results:
+
+````md
+```python exec="yes" cache="yes"
+# Expensive computation
+import time
+time.sleep(5)
+print("Done!")
+```
+````
+
+Use custom cache IDs for persistence across builds:
+
+````md
+```python exec="yes" cache="my-plot"
+# Generate plot - will be cached
+import matplotlib.pyplot as plt
+# ...
+```
+````
+
+Force cache refresh with `refresh="yes"`:
+
+````md
+```python exec="yes" cache="my-plot" refresh="yes"
+# This will always re-execute
+```
+````
+
+See [caching documentation](https://pawamoy.github.io/markdown-exec/usage/caching/) for more details.
+
+---
+
 See [usage](https://pawamoy.github.io/markdown-exec/usage/) for more details,
 and the [gallery](https://pawamoy.github.io/markdown-exec/gallery/) for more examples!
 

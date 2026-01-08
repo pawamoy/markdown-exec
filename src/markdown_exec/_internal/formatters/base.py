@@ -10,6 +10,7 @@ from uuid import uuid4
 
 from markupsafe import Markup
 
+from markdown_exec._internal.cache import get_cache_manager
 from markdown_exec._internal.logger import get_logger
 from markdown_exec._internal.rendering import MarkdownConverter, add_source, code_block
 
@@ -105,6 +106,8 @@ def base_format(
     update_toc: bool = True,
     workdir: str | None = None,
     width: int | None = None,
+    cache: bool | str = False,
+    refresh: bool = False,
     **options: Any,
 ) -> Markup:
     """Execute code and return HTML.
@@ -128,6 +131,9 @@ def base_format(
         update_toc: Whether to include generated headings
             into the Markdown table of contents (toc extension).
         workdir: The working directory to use for the execution.
+        cache: Whether to enable caching. If True, uses hash-based caching.
+            If a string, uses that string as a custom cache ID for cross-build persistence.
+        refresh: If True, forces re-execution even if cached result exists.
         **options: Additional options passed from the formatter.
 
     Returns:
@@ -142,20 +148,51 @@ def base_format(
         source_input = code
         source_output = code
 
-    try:
-        with working_directory(workdir), console_width(width):
-            output = run(source_input, returncode=returncode, session=session, id=id, **extra)
-    except ExecutionError as error:
-        identifier = id or extra.get("title", "")
-        identifier = identifier and f"'{identifier}' "
-        exit_message = "errors" if error.returncode is None else f"unexpected code {error.returncode}"
-        log_message = (
-            f"Execution of {language} code block {identifier}exited with {exit_message}\n\n"
-            f"Code block is:\n\n{_format_log_details(source_input)}\n\n"
-            f"Output is:\n\n{_format_log_details(str(error), strip_fences=True)}\n"
-        )
-        _logger.warning(log_message)
-        return markdown.convert(str(error))
+    # Check cache if enabled
+    output = None
+    if cache:
+        cache_manager = get_cache_manager()
+        cache_id = cache if isinstance(cache, str) else None
+
+        # Check for global refresh trigger via environment variable
+        global_refresh = os.getenv("MARKDOWN_EXEC_CACHE_REFRESH", "").lower() in {"1", "true", "yes", "on"}
+        effective_refresh = refresh or global_refresh
+
+        # Build cache options (exclude cache itself and other non-execution options)
+        cache_options = {
+            "language": language,
+            "html": html,
+            "result": result,
+            "returncode": returncode,
+            "workdir": workdir,
+            "width": width,
+            "extra": extra,
+        }
+
+        output = cache_manager.get(cache_id, source_input, refresh=effective_refresh, **cache_options)
+        if output is not None:
+            _logger.debug("Using cached output for code block")
+
+    # Execute if not cached
+    if output is None:
+        try:
+            with working_directory(workdir), console_width(width):
+                output = run(source_input, returncode=returncode, session=session, id=id, **extra)
+        except ExecutionError as error:
+            identifier = id or extra.get("title", "")
+            identifier = identifier and f"'{identifier}' "
+            exit_message = "errors" if error.returncode is None else f"unexpected code {error.returncode}"
+            log_message = (
+                f"Execution of {language} code block {identifier}exited with {exit_message}\n\n"
+                f"Code block is:\n\n{_format_log_details(source_input)}\n\n"
+                f"Output is:\n\n{_format_log_details(str(error), strip_fences=True)}\n"
+            )
+            _logger.warning(log_message)
+            return markdown.convert(str(error))
+
+        # Cache the output if caching is enabled
+        if cache:
+            cache_manager.set(cache_id, source_input, output, **cache_options)
 
     if not output and not source:
         return Markup()
