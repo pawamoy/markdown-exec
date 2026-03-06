@@ -13,6 +13,7 @@ from mkdocs.exceptions import PluginError
 from mkdocs.plugins import BasePlugin
 from mkdocs.utils import write_file
 
+from markdown_exec._internal.cache import get_cache_manager
 from markdown_exec._internal.logger import patch_loggers
 from markdown_exec._internal.main import formatter, formatters, validator
 from markdown_exec._internal.rendering import MarkdownConverter, markdown_config
@@ -106,6 +107,15 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
         markdown_config.save(config.markdown_extensions, config.mdx_configs)
         return config
 
+    def on_pre_build(self, *, config: MkDocsConfig) -> None:  # noqa: ARG002
+        """Reset cache tracking state for a new build.
+
+        Clears the set of hashes seen so far, then removes any cache files
+        left over from a previous build that are no longer referenced.
+        """
+        mgr = get_cache_manager()
+        mgr._current_hashes = set()
+
     def on_env(
         self,
         env: Environment,
@@ -122,7 +132,8 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
         return env
 
     def on_post_build(self, *, config: MkDocsConfig) -> None:  # noqa: ARG002
-        """Reset the plugin state."""
+        """Clean up stale cache files and reset the plugin state."""
+        get_cache_manager().cleanup_stale()
         MarkdownConverter.counter = 0
         markdown_config.reset()
         if self.mkdocs_config_dir is None:

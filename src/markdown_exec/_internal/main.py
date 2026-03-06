@@ -85,9 +85,6 @@ def validator(
         else cache_value
     )
 
-    # Handle refresh option to force cache invalidation
-    refresh_value = _to_bool(inputs.pop("refresh", "no"))
-
     options["id"] = id_value
     options["id_prefix"] = id_prefix_value
     options["html"] = html_value
@@ -100,7 +97,6 @@ def validator(
     options["workdir"] = workdir_value
     options["width"] = width_value
     options["cache"] = cache_enabled
-    options["refresh"] = refresh_value
     options["extra"] = inputs
     return True
 

@@ -107,7 +107,6 @@ def base_format(
     workdir: str | None = None,
     width: int | None = None,
     cache: bool | str = False,
-    refresh: bool = False,
     **options: Any,
 ) -> Markup:
     """Execute code and return HTML.
@@ -133,7 +132,6 @@ def base_format(
         workdir: The working directory to use for the execution.
         cache: Whether to enable caching. If True, uses hash-based caching.
             If a string, uses that string as a custom cache ID for cross-build persistence.
-        refresh: If True, forces re-execution even if cached result exists.
         **options: Additional options passed from the formatter.
 
     Returns:
@@ -154,10 +152,6 @@ def base_format(
         cache_manager = get_cache_manager()
         cache_id = cache if isinstance(cache, str) else None
 
-        # Check for global refresh trigger via environment variable
-        global_refresh = os.getenv("MARKDOWN_EXEC_CACHE_REFRESH", "").lower() in {"1", "true", "yes", "on"}
-        effective_refresh = refresh or global_refresh
-
         # Build cache options (exclude cache itself and other non-execution options)
         cache_options = {
             "language": language,
@@ -169,7 +163,7 @@ def base_format(
             "extra": extra,
         }
 
-        output = cache_manager.get(cache_id, source_input, refresh=effective_refresh, **cache_options)
+        output = cache_manager.get(cache_id, source_input, **cache_options)
         if output is not None:
             _logger.debug("Using cached output for code block")
 

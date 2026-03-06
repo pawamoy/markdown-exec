@@ -60,27 +60,12 @@ The cache file will be stored as `.markdown-exec-cache/my-plot.cache`.
 
 ### Cache Invalidation
 
-To force re-execution and update the cache for a specific code block, use `refresh="yes"`:
+The cache is automatically invalidated when the code content or execution options change (a new hash is computed). **Stale cache files** — from code blocks that have been removed or changed — are cleaned up automatically:
 
-````markdown
-```python exec="yes" cache="my-plot" refresh="yes"
-# This will always re-execute and update the cache
-print("Fresh execution!")
-```
-````
+- **MkDocs builds**: at the end of each build (`on_post_build`), any `.cache` file not used during that build is deleted.
+- **Standalone usage**: stale files are cleaned up when the Python process exits.
 
-!!! note "refresh vs removing cache"
-**`refresh="yes"`** forces re-execution but **keeps the cache enabled** - it updates the cached result for future builds.
-
-```bash
-**Removing `cache` option** completely disables caching - the code executes every time with no caching at all.
-
-Use `refresh="yes"` when you want to update stale cache but keep caching benefits for subsequent builds.
-```
-
-### Global Cache Refresh
-
-To refresh **all** cached results at once, set the `MARKDOWN_EXEC_CACHE_REFRESH` environment variable:
+To force re-execution of **all** cached blocks (e.g. when an external dependency changes), use the `MARKDOWN_EXEC_CACHE_REFRESH` environment variable instead of touching the code:
 
 ```bash
 # Force refresh all caches during build

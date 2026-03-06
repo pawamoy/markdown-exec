@@ -9,7 +9,11 @@ from textwrap import dedent
 from typing import TYPE_CHECKING
 
 import markdown_exec._internal.cache as cache_module
-from markdown_exec._internal.cache import CacheManager, _get_project_root, get_cache_manager
+from markdown_exec._internal.cache import (
+    CacheManager,
+    _get_project_root,
+    get_cache_manager,
+)
 
 if TYPE_CHECKING:
     from markdown import Markdown
@@ -308,73 +312,73 @@ def test_cache_sanitizes_ids() -> None:
         assert "\\" not in cache_path.name
 
 
-def test_cache_refresh_forces_reexecution() -> None:
-    """Test that refresh parameter forces cache invalidation."""
+def test_cleanup_stale_removes_unreferenced_files() -> None:
+    """Test that cleanup_stale removes cache files not used in the current session."""
     with tempfile.TemporaryDirectory() as tmpdir:
         cache_manager = CacheManager(cache_dir=Path(tmpdir))
-        cache_manager.clear()
 
-        code = "print('hello')"
-        output = "hello\n"
+        # Create two cache entries
+        cache_manager.set(None, "print('a')", "a\n", language="python")
+        cache_manager.set(None, "print('b')", "b\n", language="python")
+        assert len(list(Path(tmpdir).glob("*.cache"))) == 2
 
-        # Cache some output
-        cache_manager.set(None, code, output)
+        # Start a fresh session: only reference the first entry
+        cache_manager._current_hashes = set()
+        cache_manager.get(None, "print('a')", language="python")
 
-        # Normal get should return cached value
-        cached = cache_manager.get(None, code, refresh=False)
-        assert cached == output
-
-        # Get with refresh=True should return None (cache miss)
-        cached = cache_manager.get(None, code, refresh=True)
-        assert cached is None
+        # cleanup_stale should remove the second file
+        cache_manager.cleanup_stale()
+        remaining = list(Path(tmpdir).glob("*.cache"))
+        assert len(remaining) == 1
 
 
-def test_cache_refresh_integration(md: Markdown) -> None:
-    """Test refresh option in actual markdown execution.
+def test_cleanup_stale_removes_custom_id_files() -> None:
+    """Test that cleanup_stale works with custom-ID cache entries."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        cache_manager = CacheManager(cache_dir=Path(tmpdir))
 
-    Parameters:
-        md: A Markdown instance (fixture).
-    """
-    cache_manager = get_cache_manager()
-    cache_manager.clear()
+        cache_manager.set("keep-me", "print('keep')", "keep\n")
+        cache_manager.set("drop-me", "print('drop')", "drop\n")
+        assert len(list(Path(tmpdir).glob("*.cache"))) == 2
 
-    # First execution with cache
-    html1 = md.convert(
-        dedent(
-            """
-            ```python exec="yes" cache="yes"
-            print("**First!**")
-            ```
-            """,
-        ),
-    )
-    assert html1 == "<p><strong>First!</strong></p>"
+        # New session: only the first ID is used
+        cache_manager._current_hashes = set()
+        cache_manager.get("keep-me", "print('keep')")
 
-    # Second execution with cache should use cached result
-    html2 = md.convert(
-        dedent(
-            """
-            ```python exec="yes" cache="yes"
-            print("**First!**")
-            ```
-            """,
-        ),
-    )
-    assert html2 == "<p><strong>First!</strong></p>"
+        cache_manager.cleanup_stale()
+        remaining = list(Path(tmpdir).glob("*.cache"))
+        assert len(remaining) == 1
+        assert remaining[0].stem == "keep-me"
 
-    # Execution with refresh=yes should re-execute even with cache
-    # (Note: The actual output would be the same since the code is the same,
-    # but we verify the refresh parameter is accepted)
-    html3 = md.convert(
-        dedent(
-            """
-            ```python exec="yes" cache="yes" refresh="yes"
-            print("**First!**")
-            ```
-            """,
-        ),
-    )
-    assert html3 == "<p><strong>First!</strong></p>"
+
+def test_current_hashes_tracked_on_set() -> None:
+    """Test that set() registers the hash in _current_hashes."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        cache_manager = CacheManager(cache_dir=Path(tmpdir))
+        assert len(cache_manager._current_hashes) == 0
+
+        cache_manager.set(None, "print('x')", "x\n", language="python")
+        assert len(cache_manager._current_hashes) == 1
+
+
+def test_current_hashes_tracked_on_get_hit() -> None:
+    """Test that get() registers the hash in _current_hashes on a cache hit."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        cache_manager = CacheManager(cache_dir=Path(tmpdir))
+        cache_manager.set(None, "print('x')", "x\n", language="python")
+
+        cache_manager._current_hashes = set()
+        result = cache_manager.get(None, "print('x')", language="python")
+        assert result == "x\n"
+        assert len(cache_manager._current_hashes) == 1
+
+
+def test_cleanup_stale_noop_on_missing_dir() -> None:
+    """Test that cleanup_stale does not raise when cache dir has been removed."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        cache_manager = CacheManager(cache_dir=Path(tmpdir))
+    # tmpdir is now deleted; cleanup_stale should be a no-op
+    cache_manager.cleanup_stale()  # must not raise
 
 
 def test_cache_global_refresh_env_var(md: Markdown) -> None:

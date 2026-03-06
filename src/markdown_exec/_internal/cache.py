@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import atexit
 import hashlib
 import json
 import os
@@ -43,6 +44,7 @@ class CacheManager:
             cache_dir = _get_project_root() / ".markdown-exec-cache"
         self.cache_dir = cache_dir
         self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self._current_hashes: set[str] = set()
 
     def _compute_hash(self, code: str, **options: Any) -> str:
         """Compute a hash for the given code and options.
@@ -88,7 +90,6 @@ class CacheManager:
         self,
         cache_id: str | None,
         code: str,
-        refresh: bool = False,  # noqa: FBT001, FBT002
         **options: Any,
     ) -> str | None:
         """Retrieve cached output for the given code.
@@ -96,15 +97,14 @@ class CacheManager:
         Parameters:
             cache_id: Custom cache identifier, or None to use hash-based caching.
             code: The source code.
-            refresh: If True, ignore cache and force re-execution.
             **options: Execution options used for hash computation.
 
         Returns:
-            Cached output string, or None if not found or refresh is True.
+            Cached output string, or None if not found.
         """
-        # Force cache miss if refresh is requested
-        if refresh:
-            _logger.debug("Cache refresh requested, forcing re-execution")
+        # Check for global refresh trigger via environment variable
+        if os.getenv("MARKDOWN_EXEC_CACHE_REFRESH", "").lower() in {"1", "true", "yes", "on"}:
+            _logger.debug("Global cache refresh active, forcing re-execution")
             return None
 
         # Determine the cache key
@@ -119,6 +119,7 @@ class CacheManager:
                 _logger.warning("Failed to read cache file %s: %s", cache_path, error)
             else:
                 _logger.debug("Cache hit: %s", cache_key)
+                self._current_hashes.add(cache_key)
                 return output
 
         _logger.debug("Cache miss: %s", cache_key)
@@ -149,6 +150,24 @@ class CacheManager:
             _logger.debug("Cached to filesystem: %s (%s)", cache_key, cache_path)
         except OSError as error:
             _logger.warning("Failed to write cache file %s: %s", cache_path, error)
+        self._current_hashes.add(cache_key)
+
+    def cleanup_stale(self) -> None:
+        """Delete cache files that were not used in the current build session.
+
+        Compares all `.cache` files in the cache directory against
+        the hashes collected during this session and removes any that
+        are no longer referenced.
+        """
+        if not self.cache_dir.exists():
+            return
+        for cache_file in self.cache_dir.glob("*.cache"):
+            if cache_file.stem not in self._current_hashes:
+                try:
+                    cache_file.unlink()
+                    _logger.debug("Deleted stale cache file: %s", cache_file)
+                except OSError as error:
+                    _logger.warning("Failed to delete stale cache file %s: %s", cache_file, error)
 
     def clear(self, cache_id: str | None = None) -> None:
         """Clear the filesystem cache.
@@ -188,4 +207,9 @@ def get_cache_manager() -> CacheManager:
     global _cache_manager  # noqa: PLW0603
     if _cache_manager is None:
         _cache_manager = CacheManager()
+        # For standalone (non-MkDocs) usage, automatically clean up stale
+        # cache files when the process exits. In MkDocs context the plugin
+        # hook handles this, so we skip registration there.
+        if not os.getenv("MKDOCS_CONFIG_DIR"):
+            atexit.register(_cache_manager.cleanup_stale)
     return _cache_manager
