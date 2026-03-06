@@ -106,7 +106,7 @@ def base_format(
     update_toc: bool = True,
     workdir: str | None = None,
     width: int | None = None,
-    cache: bool | str = False,
+    cache: bool = False,
     **options: Any,
 ) -> Markup:
     """Execute code and return HTML.
@@ -130,8 +130,7 @@ def base_format(
         update_toc: Whether to include generated headings
             into the Markdown table of contents (toc extension).
         workdir: The working directory to use for the execution.
-        cache: Whether to enable caching. If True, uses hash-based caching.
-            If a string, uses that string as a custom cache ID for cross-build persistence.
+        cache: Whether to enable caching.
         **options: Additional options passed from the formatter.
 
     Returns:
@@ -150,8 +149,6 @@ def base_format(
     output = None
     if cache:
         cache_manager = get_cache_manager()
-        cache_id = cache if isinstance(cache, str) else None
-
         # Build cache options (exclude cache itself and other non-execution options)
         cache_options = {
             "language": language,
@@ -163,7 +160,7 @@ def base_format(
             "extra": extra,
         }
 
-        output = cache_manager.get(cache_id, source_input, **cache_options)
+        output = cache_manager.get(source_input, **cache_options)
         if output is not None:
             _logger.debug("Using cached output for code block")
 
@@ -186,7 +183,7 @@ def base_format(
 
         # Cache the output if caching is enabled
         if cache:
-            cache_manager.set(cache_id, source_input, output, **cache_options)
+            cache_manager.set(source_input, output, **cache_options)
 
     if not output and not source:
         return Markup()

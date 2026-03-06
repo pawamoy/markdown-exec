@@ -73,29 +73,25 @@ class CacheManager:
         )
         return hashlib.sha256(cache_key.encode()).hexdigest()
 
-    def _get_cache_path(self, cache_id: str) -> Path:
+    def _get_cache_path(self, cache_key: str) -> Path:
         """Get the filesystem path for a cache entry.
 
         Parameters:
-            cache_id: The cache identifier (hash or custom ID).
+            cache_key: The cache key (hash).
 
         Returns:
             Path to the cache file.
         """
-        # Sanitize the cache_id to prevent path traversal
-        safe_id = "".join(c if c.isalnum() or c in "-_" else "_" for c in cache_id)
-        return self.cache_dir / f"{safe_id}.cache"
+        return self.cache_dir / f"{cache_key}.cache"
 
     def get(
         self,
-        cache_id: str | None,
         code: str,
         **options: Any,
     ) -> str | None:
         """Retrieve cached output for the given code.
 
         Parameters:
-            cache_id: Custom cache identifier, or None to use hash-based caching.
             code: The source code.
             **options: Execution options used for hash computation.
 
@@ -107,8 +103,7 @@ class CacheManager:
             _logger.debug("Global cache refresh active, forcing re-execution")
             return None
 
-        # Determine the cache key
-        cache_key = self._compute_hash(code, **options) if cache_id is None else cache_id
+        cache_key = self._compute_hash(code, **options)
 
         # Check filesystem cache
         cache_path = self._get_cache_path(cache_key)
@@ -127,7 +122,6 @@ class CacheManager:
 
     def set(
         self,
-        cache_id: str | None,
         code: str,
         output: str,
         **options: Any,
@@ -135,13 +129,11 @@ class CacheManager:
         """Store output in cache for the given code.
 
         Parameters:
-            cache_id: Custom cache identifier, or None to use hash-based caching.
             code: The source code.
             output: The execution output to cache.
             **options: Execution options used for hash computation.
         """
-        # Determine the cache key
-        cache_key = self._compute_hash(code, **options) if cache_id is None else cache_id
+        cache_key = self._compute_hash(code, **options)
 
         # Write to filesystem cache
         cache_path = self._get_cache_path(cache_key)
@@ -169,29 +161,14 @@ class CacheManager:
                 except OSError as error:
                     _logger.warning("Failed to delete stale cache file %s: %s", cache_file, error)
 
-    def clear(self, cache_id: str | None = None) -> None:
-        """Clear the filesystem cache.
-
-        Parameters:
-            cache_id: Specific cache ID to clear, or None to clear all.
-        """
-        if cache_id is None:
-            # Clear all cache files
-            for cache_file in self.cache_dir.glob("*.cache"):
-                try:
-                    cache_file.unlink()
-                    _logger.debug("Deleted cache file: %s", cache_file)
-                except OSError as error:
-                    _logger.warning("Failed to delete cache file %s: %s", cache_file, error)
-        else:
-            # Clear specific cache file
-            cache_path = self._get_cache_path(cache_id)
-            if cache_path.exists():
-                try:
-                    cache_path.unlink()
-                    _logger.debug("Deleted cache file: %s", cache_path)
-                except OSError as error:
-                    _logger.warning("Failed to delete cache file %s: %s", cache_path, error)
+    def clear(self) -> None:
+        """Clear all cached files."""
+        for cache_file in self.cache_dir.glob("*.cache"):
+            try:
+                cache_file.unlink()
+                _logger.debug("Deleted cache file: %s", cache_file)
+            except OSError as error:
+                _logger.warning("Failed to delete cache file %s: %s", cache_file, error)
 
 
 # Global cache manager instance

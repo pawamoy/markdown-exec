@@ -77,13 +77,8 @@ def validator(
     workdir_value = inputs.pop("workdir", None)
     width_value = int(inputs.pop("width", "0"))
 
-    # Handle cache option: can be boolean or custom string ID
     cache_value = inputs.pop("cache", "")
-    cache_enabled = (
-        _to_bool(cache_value)
-        if cache_value.lower() in {"yes", "on", "true", "1", "no", "off", "false", "0", ""}
-        else cache_value
-    )
+    cache_enabled = _to_bool(cache_value)
 
     options["id"] = id_value
     options["id_prefix"] = id_prefix_value

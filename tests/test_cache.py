@@ -8,7 +8,6 @@ from pathlib import Path
 from textwrap import dedent
 from typing import TYPE_CHECKING
 
-import markdown_exec._internal.cache as cache_module
 from markdown_exec._internal.cache import (
     CacheManager,
     _get_project_root,
@@ -71,45 +70,19 @@ def test_cache_manager_hash_based_filesystem() -> None:
         output = "hello\n"
 
         # First get should return None
-        cached = cache_manager.get(None, code)
+        cached = cache_manager.get(code)
         assert cached is None
 
         # Set cache
-        cache_manager.set(None, code, output)
+        cache_manager.set(code, output)
 
         # Second get should return cached value
-        cached = cache_manager.get(None, code)
+        cached = cache_manager.get(code)
         assert cached == output
 
         # Verify cache file exists
         cache_files = list(Path(tmpdir).glob("*.cache"))
         assert len(cache_files) == 1
-
-
-def test_cache_manager_custom_id_filesystem() -> None:
-    """Test custom ID caching on filesystem."""
-    with tempfile.TemporaryDirectory() as tmpdir:
-        cache_manager = CacheManager(cache_dir=Path(tmpdir))
-
-        code = "print('hello')"
-        output = "hello\n"
-        cache_id = "my-custom-id"
-
-        # First get should return None
-        cached = cache_manager.get(cache_id, code)
-        assert cached is None
-
-        # Set cache
-        cache_manager.set(cache_id, code, output)
-
-        # Second get should return cached value
-        cached = cache_manager.get(cache_id, code)
-        assert cached == output
-
-        # Verify cache file with custom ID exists
-        cache_path = cache_manager._get_cache_path(cache_id)
-        assert cache_path.exists()
-        assert cache_path.name == "my-custom-id.cache"
 
 
 def test_cache_different_options_different_cache() -> None:
@@ -123,12 +96,12 @@ def test_cache_different_options_different_cache() -> None:
         output2 = "HELLO\n"
 
         # Cache with different options
-        cache_manager.set(None, code, output1, language="python")
-        cache_manager.set(None, code, output2, language="bash")
+        cache_manager.set(code, output1, language="python")
+        cache_manager.set(code, output2, language="bash")
 
         # Should retrieve different outputs based on options
-        cached1 = cache_manager.get(None, code, language="python")
-        cached2 = cache_manager.get(None, code, language="bash")
+        cached1 = cache_manager.get(code, language="python")
+        cached2 = cache_manager.get(code, language="bash")
 
         assert cached1 == output1
         assert cached2 == output2
@@ -141,13 +114,12 @@ def test_cache_clear_filesystem() -> None:
 
         code = "print('hello')"
         output = "hello\n"
-        cache_id = "test-id"
 
-        cache_manager.set(cache_id, code, output)
-        assert cache_manager.get(cache_id, code) == output
+        cache_manager.set(code, output)
+        assert cache_manager.get(code) == output
 
-        cache_manager.clear(cache_id)
-        assert cache_manager.get(cache_id, code) is None
+        cache_manager.clear()
+        assert cache_manager.get(code) is None
 
 
 def test_cache_clear_all_filesystem() -> None:
@@ -158,11 +130,11 @@ def test_cache_clear_all_filesystem() -> None:
         code = "print('hello')"
         output = "hello\n"
 
-        cache_manager.set(None, code, output)
-        assert cache_manager.get(None, code) == output
+        cache_manager.set(code, output)
+        assert cache_manager.get(code) == output
 
         cache_manager.clear()
-        assert cache_manager.get(None, code) is None
+        assert cache_manager.get(code) is None
 
 
 def test_get_cache_manager_singleton() -> None:
@@ -219,51 +191,6 @@ def test_cache_integration_with_markdown(md: Markdown) -> None:
     assert html3 == "<p><strong>Different!</strong></p>"
 
 
-def test_cache_integration_custom_id(md: Markdown) -> None:
-    """Test caching with custom ID.
-
-    Parameters:
-        md: A Markdown instance (fixture).
-    """
-    with tempfile.TemporaryDirectory() as tmpdir:
-        cache_manager = CacheManager(cache_dir=Path(tmpdir))
-        # Replace global instance temporarily
-        old_manager = cache_module._cache_manager
-        cache_module._cache_manager = cache_manager
-
-        try:
-            # First execution with custom ID
-            html1 = md.convert(
-                dedent(
-                    """
-                    ```python exec="yes" cache="my-plot"
-                    print("**Plot!**")
-                    ```
-                    """,
-                ),
-            )
-            assert html1 == "<p><strong>Plot!</strong></p>"
-
-            # Verify cache file exists with custom ID
-            cache_path = Path(tmpdir) / "my-plot.cache"
-            assert cache_path.exists()
-
-            # Second execution should use cache
-            html2 = md.convert(
-                dedent(
-                    """
-                    ```python exec="yes" cache="my-plot"
-                    print("**Plot!**")
-                    ```
-                    """,
-                ),
-            )
-            assert html2 == "<p><strong>Plot!</strong></p>"
-        finally:
-            # Restore original manager
-            cache_module._cache_manager = old_manager
-
-
 def test_cache_disabled_by_default(md: Markdown) -> None:
     """Test that caching is disabled by default.
 
@@ -290,65 +217,24 @@ def test_cache_disabled_by_default(md: Markdown) -> None:
     # This is implicitly tested by the fact that other tests need to explicitly enable cache
 
 
-def test_cache_sanitizes_ids() -> None:
-    """Test that cache IDs are sanitized to prevent path traversal."""
-    cache_manager = CacheManager()
-
-    # Try various dangerous IDs
-    dangerous_ids = [
-        "../../../etc/passwd",
-        "../../test",
-        "test/../../file",
-        "test/../file",
-        "test\\file",
-    ]
-
-    for dangerous_id in dangerous_ids:
-        cache_path = cache_manager._get_cache_path(dangerous_id)
-        # Ensure the path is within the cache directory
-        assert cache_manager.cache_dir in cache_path.parents or cache_path.parent == cache_manager.cache_dir
-        # Ensure no directory separators in the filename
-        assert "/" not in cache_path.name
-        assert "\\" not in cache_path.name
-
-
 def test_cleanup_stale_removes_unreferenced_files() -> None:
     """Test that cleanup_stale removes cache files not used in the current session."""
     with tempfile.TemporaryDirectory() as tmpdir:
         cache_manager = CacheManager(cache_dir=Path(tmpdir))
 
         # Create two cache entries
-        cache_manager.set(None, "print('a')", "a\n", language="python")
-        cache_manager.set(None, "print('b')", "b\n", language="python")
+        cache_manager.set("print('a')", "a\n", language="python")
+        cache_manager.set("print('b')", "b\n", language="python")
         assert len(list(Path(tmpdir).glob("*.cache"))) == 2
 
         # Start a fresh session: only reference the first entry
         cache_manager._current_hashes = set()
-        cache_manager.get(None, "print('a')", language="python")
+        cache_manager.get("print('a')", language="python")
 
         # cleanup_stale should remove the second file
         cache_manager.cleanup_stale()
         remaining = list(Path(tmpdir).glob("*.cache"))
         assert len(remaining) == 1
-
-
-def test_cleanup_stale_removes_custom_id_files() -> None:
-    """Test that cleanup_stale works with custom-ID cache entries."""
-    with tempfile.TemporaryDirectory() as tmpdir:
-        cache_manager = CacheManager(cache_dir=Path(tmpdir))
-
-        cache_manager.set("keep-me", "print('keep')", "keep\n")
-        cache_manager.set("drop-me", "print('drop')", "drop\n")
-        assert len(list(Path(tmpdir).glob("*.cache"))) == 2
-
-        # New session: only the first ID is used
-        cache_manager._current_hashes = set()
-        cache_manager.get("keep-me", "print('keep')")
-
-        cache_manager.cleanup_stale()
-        remaining = list(Path(tmpdir).glob("*.cache"))
-        assert len(remaining) == 1
-        assert remaining[0].stem == "keep-me"
 
 
 def test_current_hashes_tracked_on_set() -> None:
@@ -357,7 +243,7 @@ def test_current_hashes_tracked_on_set() -> None:
         cache_manager = CacheManager(cache_dir=Path(tmpdir))
         assert len(cache_manager._current_hashes) == 0
 
-        cache_manager.set(None, "print('x')", "x\n", language="python")
+        cache_manager.set("print('x')", "x\n", language="python")
         assert len(cache_manager._current_hashes) == 1
 
 
@@ -365,10 +251,10 @@ def test_current_hashes_tracked_on_get_hit() -> None:
     """Test that get() registers the hash in _current_hashes on a cache hit."""
     with tempfile.TemporaryDirectory() as tmpdir:
         cache_manager = CacheManager(cache_dir=Path(tmpdir))
-        cache_manager.set(None, "print('x')", "x\n", language="python")
+        cache_manager.set("print('x')", "x\n", language="python")
 
         cache_manager._current_hashes = set()
-        result = cache_manager.get(None, "print('x')", language="python")
+        result = cache_manager.get("print('x')", language="python")
         assert result == "x\n"
         assert len(cache_manager._current_hashes) == 1
 

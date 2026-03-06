@@ -19,7 +19,6 @@ your-project/
 ├── docs/
 ├── mkdocs.yml
 └── .markdown-exec-cache/
-    ├── my-plot.cache          # Custom ID cache
     └── abc123def456.cache      # Hash-based cache files
 ```
 
@@ -43,20 +42,6 @@ print(f"Executed at: {time.time()}")
 ````
 
 The cache is automatically invalidated when the code or execution options change.
-
-### Custom Cache IDs
-
-For more control, use a custom cache ID (string value). This is useful for expensive operations where you want explicit control over cache invalidation:
-
-````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
-```python exec="yes" cache="my-plot"
-import matplotlib.pyplot as plt
-# Expensive plot generation...
-print("Generated plot")
-```
-````
-
-The cache file will be stored as `.markdown-exec-cache/my-plot.cache`.
 
 ### Cache Invalidation
 
@@ -84,16 +69,6 @@ This is useful for:
 - Debugging cache-related issues
 
 ## Clearing Cache
-
-### Delete Specific Cache Entry
-
-Remove the cache file for a specific custom ID:
-
-```bash
-rm .markdown-exec-cache/my-custom-id.cache
-```
-
-### Clear All Cache
 
 Remove the entire cache directory:
 
@@ -136,57 +111,24 @@ rm -rf .markdown-exec-cache/
 
 ### Choosing Cache Type
 
-- **`cache="yes"`** (hash-based):
-
-  - Automatically invalidated when code changes
-  - Great for development and production
-  - No manual cache management needed
-
-- **`cache="custom-id"`** (custom ID):
-
-  - Use for expensive operations where you want explicit control
-  - Easier to identify and manage specific cache files
-  - Requires manual invalidation or `refresh="yes"` when code changes
+Use `cache="yes"` for all caching needs. The cache is automatically invalidated when the code or execution options change — no manual cache management needed.
 
 ### Cache Invalidation Strategy
 
-**For hash-based caching (`cache="yes"`):**
+Cache is automatically invalidated when code or options change — no manual intervention needed. To force re-execution of all cached blocks, use:
 
-- Cache is automatically invalidated when code or options change
-- No manual intervention needed
+```bash
+MARKDOWN_EXEC_CACHE_REFRESH=1 mkdocs build
+```
 
-**For custom ID caching (`cache="custom-id"`):**
-
-1. **Change the ID** when you want to force re-execution:
-
-   ```markdown
-   cache="my-plot-v2"  # Changed from my-plot
-   ```
-
-1. **Use refresh temporarily**:
-
-   ```markdown
-   cache="my-plot" refresh="yes"  # Remove refresh="yes" after update
-   ```
-
-1. **Use global refresh** for all caches:
-
-   ```bash
-   MARKDOWN_EXEC_CACHE_REFRESH=1 mkdocs build
-   ```
-
-1. **Clear cache directory** before important builds:
-
-   ```bash
-   rm -rf .markdown-exec-cache/
-   ```
+Or [clear the cache directory](#clearing-cache) before the build.
 
 ## Examples
 
 ### Caching a Matplotlib Plot
 
 ````markdown
-```python exec="yes" html="yes" cache="population-chart"
+```python exec="yes" html="yes" cache="yes"
 import matplotlib.pyplot as plt
 import io
 import base64
@@ -203,17 +145,6 @@ buffer.seek(0)
 img_str = base64.b64encode(buffer.read()).decode()
 print(f'<img src="data:image/png;base64,{img_str}"/>')
 plt.close()
-```
-````
-
-### Caching API Calls
-
-````markdown
-```python exec="yes" cache="github-stars" refresh="no"
-import requests
-response = requests.get("https://api.github.com/repos/pawamoy/markdown-exec")
-stars = response.json()["stargazers_count"]
-print(f"⭐ **{stars}** stars on GitHub!")
 ```
 ````
 
