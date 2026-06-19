@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import copy
 import re
+from html.parser import HTMLParser
 from typing import TYPE_CHECKING
 from xml.etree.ElementTree import Element
 
@@ -14,6 +15,41 @@ from markdown.util import HTML_PLACEHOLDER_RE
 if TYPE_CHECKING:
     from markdown import Markdown
     from markupsafe import Markup
+
+
+class _HeadingLabelsParser(HTMLParser):
+    """Extract visible heading labels from rendered HTML."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.labels: dict[str, str] = {}
+        self._current_id: str | None = None
+        self._current_label: list[str] | None = None
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if HeadingReportingTreeprocessor.regex.fullmatch(tag):
+            self._current_id = dict(attrs).get("id")
+            self._current_label = []
+
+    def handle_data(self, data: str) -> None:
+        if self._current_label is not None:
+            self._current_label.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if (
+            self._current_label is not None
+            and HeadingReportingTreeprocessor.regex.fullmatch(tag)
+        ):
+            if self._current_id is not None:
+                self.labels[self._current_id] = "".join(self._current_label)
+            self._current_id = None
+            self._current_label = None
+
+
+def _heading_labels(markup: str) -> dict[str, str]:
+    parser = _HeadingLabelsParser()
+    parser.feed(markup)
+    return parser.labels
 
 
 # code taken from mkdocstrings, credits to @oprypin
@@ -72,7 +108,11 @@ class HeadingReportingTreeprocessor(Treeprocessor):
                 el = copy.copy(el)  # noqa: PLW2901
                 # 'toc' extension's first pass (which we require to build heading stubs/ids) also edits the HTML.
                 # Undo the permalink edit so we can pass this heading to the outer pass of the 'toc' extension.
-                if len(el) > 0 and el[-1].get("class") == self.md.treeprocessors["toc"].permalink_class:  # type: ignore[attr-defined]
+                if (
+                    len(el) > 0
+                    and el[-1].get("class")
+                    == self.md.treeprocessors["toc"].permalink_class
+                ):  # type: ignore[attr-defined]
                     del el[-1]
                 self.headings.append(el)
 
@@ -98,11 +138,36 @@ class InsertHeadings(Treeprocessor):
         if not self.headings:
             return
 
+        raw_html_blocks = self.md.htmlStash.rawHtmlBlocks
+
         for el in root.iter():
             match = HTML_PLACEHOLDER_RE.match(el.text or "")
             if match:
                 counter = int(match.group(1))
-                markup: Markup = self.md.htmlStash.rawHtmlBlocks[counter]  # type: ignore[assignment]
+                if counter < len(raw_html_blocks):
+                    # Other extensions can duplicate headings next to a stashed
+                    # HTML block so the ToC extension can see them. If their
+                    # labels contain inner stash placeholders, derive labels
+                    # from the actual rendered HTML instead.
+                    heading_labels = _heading_labels(str(raw_html_blocks[counter]))
+                    duplicated_headings = [
+                        child
+                        for child in el
+                        if HeadingReportingTreeprocessor.regex.fullmatch(child.tag)
+                    ]
+                    for heading in duplicated_headings:
+                        if label := heading_labels.get(heading.attrib.get("id", "")):
+                            heading.set("data-toc-label", label)
+
+            if HeadingReportingTreeprocessor.regex.fullmatch(el.tag):
+                continue
+
+            if match:
+                counter = int(match.group(1))
+                if counter >= len(raw_html_blocks):
+                    continue
+
+                markup: Markup = raw_html_blocks[counter]  # type: ignore[assignment]
                 if headings := self.headings.get(markup):
                     div = Element("div", {"class": "markdown-exec"})
                     div.extend(headings)
@@ -121,7 +186,8 @@ class RemoveHeadings(Treeprocessor):
 
     def _remove_duplicated_headings(self, parent: Element) -> None:
         carry_text = ""
-        for el in reversed(parent):  # Reversed mainly for the ability to mutate during iteration.
+        # Reversed mainly for the ability to mutate during iteration.
+        for el in reversed(parent):
             if el.tag == "div" and el.get("class") == "markdown-exec":
                 # Delete the duplicated headings along with their container, but keep the text (i.e. the actual HTML).
                 carry_text = (el.text or "") + carry_text
