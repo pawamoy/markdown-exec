@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -11,21 +12,37 @@ if TYPE_CHECKING:
 # https://github.com/ajaxorg/ace/tree/master/src/theme
 
 _play_emoji = (
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7Z"></path></svg>'
+    '<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7Z"></path></svg></span> '
 )
-_clear_emoji = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.14 3c-.51 0-1.02.2-1.41.59L2.59 14.73c-.78.77-.78 2.04 0 2.83L5.03 20h7.66l8.72-8.73c.79-.77.79-2.04 0-2.83l-4.85-4.85c-.39-.39-.91-.59-1.42-.59M17 18l-2 2h7v-2"></path></svg>'
+_clear_emoji = '<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.14 3c-.51 0-1.02.2-1.41.59L2.59 14.73c-.78.77-.78 2.04 0 2.83L5.03 20h7.66l8.72-8.73c.79-.77.79-2.04 0-2.83l-4.85-4.85c-.39-.39-.91-.59-1.42-.59M17 18l-2 2h7v-2"></path></svg></span> '
 
 _template = """
 <div class="pyodide">
 <div class="pyodide-editor-bar">
-<span class="pyodide-bar-item">Editor (session: %(session)s)</span><span id="%(id_prefix)srun" title="Run: press Ctrl-Enter" class="pyodide-bar-item pyodide-clickable"><span class="twemoji">%(play_emoji)s</span> Run</span>
+<span class="pyodide-bar-item">Editor (session: %(session)s)</span><span id="%(id_prefix)srun" title="Run: press Ctrl-Enter" class="pyodide-bar-item pyodide-clickable">%(play_emoji)sRun</span>
 </div>
 <div><pre id="%(id_prefix)seditor" class="pyodide-editor">%(initial_code)s</pre></div>
 <div class="pyodide-editor-bar">
-<span class="pyodide-bar-item">Output</span><span id="%(id_prefix)sclear" class="pyodide-bar-item pyodide-clickable"><span class="twemoji">%(clear_emoji)s</span> Clear</span>
+<span class="pyodide-bar-item">Output</span><span id="%(id_prefix)sclear" class="pyodide-bar-item pyodide-clickable">%(clear_emoji)sClear</span>
 </div>
 <pre><code id="%(id_prefix)soutput" class="pyodide-output"></code></pre>
 </div>
+"""
+
+_script = """
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    setupPyodide(
+        '%(id_prefix)s',
+        install=%(install)s,
+        themeLight='%(theme_light)s',
+        themeDark='%(theme_dark)s',
+        session='%(session)s',
+        minLines=%(min_lines)s,
+        maxLines=%(max_lines)s,
+    );
+});
+</script>
 """
 
 _counter = 0
@@ -60,6 +77,7 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     theme_light, theme_dark = theme.split(",")
     min_lines, max_lines = _calculate_height(code, extra)
 
+    zensical = os.getenv("ZENSICAL") == "1"
     data = {
         "id_prefix": f"exec-{_counter}--",
         "initial_code": code,
@@ -67,12 +85,15 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
         "theme_light": theme_light.strip(),
         "theme_dark": theme_dark.strip(),
         "session": session or "default",
-        "play_emoji": _play_emoji,
-        "clear_emoji": _clear_emoji,
+        "play_emoji": "" if zensical else _play_emoji,
+        "clear_emoji": "" if zensical else _clear_emoji,
         "min_lines": min_lines,
         "max_lines": max_lines,
     }
-    rendered = _template % data
-    if exclude_assets:
+    rendered = _template
+    if not zensical:
+        rendered += _script
+    rendered %= data
+    if zensical or exclude_assets:
         return rendered
     return rendered
