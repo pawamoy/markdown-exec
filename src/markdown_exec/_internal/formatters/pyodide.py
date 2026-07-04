@@ -16,6 +16,14 @@ _play_emoji = (
 )
 _clear_emoji = '<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.14 3c-.51 0-1.02.2-1.41.59L2.59 14.73c-.78.77-.78 2.04 0 2.83L5.03 20h7.66l8.72-8.73c.79-.77.79-2.04 0-2.83l-4.85-4.85c-.39-.39-.91-.59-1.42-.59M17 18l-2 2h7v-2"></path></svg></span> '
 
+_assets = """
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.16.0/ace.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/pyodide/v{version}/full/pyodide.js"></script>
+<link title="light" rel="alternate stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/tomorrow.min.css" disabled="disabled">
+<link title="dark" rel="alternate stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/tomorrow-night-blue.min.css" disabled="disabled">
+"""
+
 _template = """
 <div class="pyodide">
 <div class="pyodide-editor-bar">
@@ -68,6 +76,7 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     global _counter  # noqa: PLW0603
     _counter += 1
 
+    version = extra.pop("version", "0.26.4").lstrip("v")
     install = extra.pop("install", "")
     install = install.split(",") if install else []
     exclude_assets = extra.pop("assets", "1").lower() in {"0", "false", "no", "off"}
@@ -96,4 +105,4 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     rendered %= data
     if zensical or exclude_assets:
         return rendered
-    return rendered
+    return _assets.format(version=version) + rendered
