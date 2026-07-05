@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.12.2](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.2) - 2026-07-05
+
+<small>[Compare with 1.12.1](https://github.com/pawamoy/markdown-exec/compare/1.12.1...1.12.2)</small>
+
+### Code Refactoring
+
+- Better integrate with Zensical ([e4f60c1](https://github.com/pawamoy/markdown-exec/commit/e4f60c12de3b05fb31486b5823f45258d281d001) by Timothée Mazzucotelli). [PR-99](https://github.com/pawamoy/markdown-exec/pull/99)
+
 ## [1.12.1](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.1) - 2025-11-11
 
 <small>[Compare with 1.12.0](https://github.com/pawamoy/markdown-exec/compare/1.12.0...1.12.1)</small>
