@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-import os
 from typing import TYPE_CHECKING, Any
+
+import markdown_exec
 
 if TYPE_CHECKING:
     from markdown import Markdown
@@ -11,9 +12,7 @@ if TYPE_CHECKING:
 # All Ace.js themes listed here:
 # https://github.com/ajaxorg/ace/tree/master/src/theme
 
-_play_emoji = (
-    '<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7Z"></path></svg></span> '
-)
+_play_emoji = '<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7Z"></path></svg></span> '
 _clear_emoji = '<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.14 3c-.51 0-1.02.2-1.41.59L2.59 14.73c-.78.77-.78 2.04 0 2.83L5.03 20h7.66l8.72-8.73c.79-.77.79-2.04 0-2.83l-4.85-4.85c-.39-.39-.91-.59-1.42-.59M17 18l-2 2h7v-2"></path></svg></span> '
 
 _assets = """
@@ -86,7 +85,7 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     theme_light, theme_dark = theme.split(",")
     min_lines, max_lines = _calculate_height(code, extra)
 
-    zensical = os.getenv("ZENSICAL") == "1"
+    zensical = getattr(markdown_exec, "_caller", "") == "zensical"
     data = {
         "id_prefix": f"exec-{_counter}--",
         "initial_code": code,
