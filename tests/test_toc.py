@@ -28,7 +28,7 @@ def test_updating_toc(md: Markdown) -> None:
         ),
     )
     assert "<h1" in html
-    assert "big-heading" in md.toc  # type: ignore[attr-defined]
+    assert "big-heading" in md.toc  # ty:ignore[unresolved-attribute]
 
 
 def test_not_updating_toc(md: Markdown) -> None:
@@ -48,7 +48,7 @@ def test_not_updating_toc(md: Markdown) -> None:
         ),
     )
     assert "<h1" in html
-    assert "big-heading" not in md.toc  # type: ignore[attr-defined]
+    assert "big-heading" not in md.toc  # ty:ignore[unresolved-attribute]
 
 
 def test_both_updating_and_not_updating_toc(md: Markdown) -> None:
@@ -83,7 +83,7 @@ def test_both_updating_and_not_updating_toc(md: Markdown) -> None:
     assert "<h2" in html
     assert "<h3" in html
     assert "<h4" in html
-    assert "big-heading" not in md.toc  # type: ignore[attr-defined]
-    assert "medium-heading" in md.toc  # type: ignore[attr-defined]
-    assert "small-heading" not in md.toc  # type: ignore[attr-defined]
-    assert "tiny-heading" in md.toc  # type: ignore[attr-defined]
+    assert "big-heading" not in md.toc  # ty:ignore[unresolved-attribute]
+    assert "medium-heading" in md.toc  # ty:ignore[unresolved-attribute]
+    assert "small-heading" not in md.toc  # ty:ignore[unresolved-attribute]
+    assert "tiny-heading" in md.toc  # ty:ignore[unresolved-attribute]

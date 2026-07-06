@@ -172,17 +172,6 @@ from what you expect (tables not rendered, attribute lists not injected,
 emojis not working, etc.).
 """
 
-# FIXME: When a heading contains an XML entity such as &mdash;,
-# the entity is stashed and replaced with a placeholder.
-# The heading therefore contains this placeholder.
-# When reporting the heading to the upper conversion layer (for the ToC),
-# the placeholder gets unstashed using the upper Markdown instance
-# instead of the neste one. If the upper instance doesn't know the placeholder,
-# nothing happens. But if it knows it, we then get a heading with garbabe/previous
-# contents within it, messing up the ToC.
-# We should fix this somehow. In the meantime, the workaround is to avoid
-# XML entities that get stashed in headings.
-
 
 @cache
 def _register_headings_processors(md: Markdown) -> None:
@@ -200,7 +189,7 @@ def _register_headings_processors(md: Markdown) -> None:
 
 def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) -> Markdown:
     new_md = Markdown()
-    extensions: list[Extension | str] = markdown_config.exts or md.registeredExtensions  # type: ignore[assignment]
+    extensions: list[Extension | str] = markdown_config.exts or md.registeredExtensions  # ty:ignore[invalid-assignment]
     extensions_config: dict[str, dict[str, Any]] = markdown_config.exts_config or {}
 
     # Needed for Zensical.
@@ -213,7 +202,7 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
         IdPrependingTreeprocessor.name,
         priority=4,  # right after 'toc' (needed because that extension adds ids to headings)
     )
-    new_md._original_md = md  # type: ignore[attr-defined]
+    new_md._original_md = md  # ty:ignore[unresolved-attribute]
 
     if update_toc:
         _register_headings_processors(md)

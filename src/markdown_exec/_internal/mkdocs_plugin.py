@@ -89,7 +89,7 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
                 "Install it with 'pip install markdown-exec[ansi]'.",
             )
         self.mkdocs_config_dir = os.getenv("MKDOCS_CONFIG_DIR")
-        os.environ["MKDOCS_CONFIG_DIR"] = os.path.dirname(config["config_file_path"])
+        os.environ["MKDOCS_CONFIG_DIR"] = os.path.dirname(config["config_file_path"])  # noqa: PTH120
         self.languages = self.config.languages
         mdx_configs = config.setdefault("mdx_configs", {})
         superfences = mdx_configs.setdefault("pymdownx.superfences", {})
@@ -133,7 +133,7 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
     def _add_asset(self, config: MkDocsConfig, asset_file: str, asset_type: str) -> None:
         asset_filename = f"assets/_markdown_exec_{asset_file}"
         asset_content = Path(__file__).parent.parent.joinpath("assets", asset_file).read_text()
-        write_file(asset_content.encode("utf-8"), os.path.join(config.site_dir, asset_filename))
+        write_file(asset_content.encode("utf-8"), os.path.join(config.site_dir, asset_filename))  # noqa: PTH118
         config[f"extra_{asset_type}"].insert(0, asset_filename)
 
     def _add_css(self, config: MkDocsConfig, css_file: str) -> None:

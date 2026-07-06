@@ -13,16 +13,24 @@ from markupsafe import Markup
 from markdown_exec._internal.rendering import MarkdownConverter, code_block
 
 try:
-    import material
+    import material  # ty:ignore[unresolved-import]
 except ImportError:
     material = None
+
+try:
+    import zensical
+except ImportError:
+    zensical = None  # ty:ignore[invalid-assignment]
 
 if TYPE_CHECKING:
     from markdown import Markdown
 
 
-if material is not None:
-    _icons_path = Path(material.__file__).parent / "templates" / ".icons"
+if material is not None or zensical is not None:
+    if material is not None:
+        _icons_path = Path(material.__file__).parent / "templates" / ".icons"
+    elif zensical is not None:
+        _icons_path = Path(zensical.__file__).parent / "templates" / ".icons"
 
     _icons = {
         "*.cpp": ":simple-cplusplus:",
@@ -158,6 +166,6 @@ def _format_tree(code: str, md: Markdown, result: str, extra: dict, **options: A
     icons = extra.pop("icons", "auto")
     output = "\n".join(_rec_format_tree(_build_tree(code), icons=icons))
     converted = markdown.convert(code_block(result or "bash", output, **extra))
-    if icons != "basic" and material is not None:
+    if icons != "basic" and (material is not None or zensical is not None):
         return Markup(_re_icon_id.sub(_replace_icon, str(converted)))  # noqa: S704
     return converted

@@ -1,27 +1,18 @@
 # Contributing
 
-Contributions are welcome, and they are greatly appreciated! Every little bit helps, and credit will always be given.
+Contributions are welcome, and they are greatly appreciated. Every little bit helps, and credit will always be given.
+
+**Please always create an issue before working on a new feature or a bug fix, so that we can discuss the implementation and make sure that your work will be merged.**
 
 ## Environment setup
 
-Nothing easier!
-
-Fork and clone the repository, then:
+Install [uv](https://github.com/astral-sh/uv) and [direnv](https://direnv.net/), fork and clone the repository, then:
 
 ```bash
 cd markdown-exec
+direnv allow
 make setup
 ```
-
-> NOTE: If it fails for some reason, you'll need to install [uv](https://github.com/astral-sh/uv) manually.
->
-> You can install it with:
->
-> ```bash
-> curl -LsSf https://astral.sh/uv/install.sh | sh
-> ```
->
-> Now you can try running `make setup` again, or simply `uv sync`.
 
 You now have the dependencies installed.
 
@@ -29,8 +20,7 @@ Run `make help` to see all the available actions!
 
 ## Tasks
 
-The entry-point to run commands and tasks is the `make` Python script, located in the `scripts` directory. Try running `make` to show the available commands and tasks. The *commands* do not need the Python dependencies to be installed,
-while the *tasks* do. The cross-platform tasks are written in Python, thanks to [duty](https://github.com/pawamoy/duty).
+The entry-point to run commands and tasks is the `make` Python script, located in the `scripts` directory. Try running `make` to show the available commands and tasks. The *commands* do not need the Python dependencies to be installed, while the *tasks* do. The cross-platform tasks are written in Python, thanks to [duty](https://github.com/pawamoy/duty).
 
 If you work in VSCode, we provide [an action to configure VSCode](https://pawamoy.github.io/copier-uv/work/#vscode-setup) for the project.
 

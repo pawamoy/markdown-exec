@@ -102,7 +102,7 @@ class InsertHeadings(Treeprocessor):
             match = HTML_PLACEHOLDER_RE.match(el.text or "")
             if match:
                 counter = int(match.group(1))
-                markup: Markup = self.md.htmlStash.rawHtmlBlocks[counter]  # type: ignore[assignment]
+                markup: Markup = self.md.htmlStash.rawHtmlBlocks[counter]  # ty:ignore[invalid-assignment]
                 if headings := self.headings.get(markup):
                     div = Element("div", {"class": "markdown-exec"})
                     div.extend(headings)

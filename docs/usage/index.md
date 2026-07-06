@@ -478,17 +478,6 @@ to the MkDocs configuration file directory, instead of relative to the current
 working directory. This will make it possible to use the `-f` option of MkDocs,
 to build the documentation from a different directory than the repository root.
 
-Example:
-
-```python exec="1" source="material-block"
-import os
-
-config_dir = os.environ['MKDOCS_CONFIG_DIR']
-
-# This will show my local path since I deploy docs from my machine:
-print(f"Configuration file directory: `{config_dir}`")
-```
-
 The environment variable will be restored to its previous value, if any,
 at the end of the build.
 

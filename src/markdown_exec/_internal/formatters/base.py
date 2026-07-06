@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import os
 from contextlib import contextmanager
+from pathlib import Path
 from textwrap import indent
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any
 from uuid import uuid4
 
 from markupsafe import Markup
@@ -14,7 +15,7 @@ from markdown_exec._internal.logger import get_logger
 from markdown_exec._internal.rendering import MarkdownConverter, add_source, code_block
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Callable, Iterator
 
     from markdown.core import Markdown
 
@@ -32,7 +33,7 @@ def working_directory(path: str | None = None) -> Iterator[None]:
         path: The path to change the working directory to.
     """
     if path:
-        old_cwd = os.getcwd()
+        old_cwd = Path.cwd()
         os.chdir(path)
         try:
             yield
