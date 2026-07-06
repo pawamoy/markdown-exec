@@ -102,7 +102,11 @@ def add_source(
         return source_block + f'\n\n<div class="result" markdown="1" >\n\n{output}\n\n</div>'
     # YORE: Bump 2: Remove block.
     if location == "material-block":
-        warn("The `material-block` source display option is deprecated and renamed `block`.", DeprecationWarning)
+        warn(
+            "The `material-block` source display option is deprecated and renamed `block`.",
+            DeprecationWarning,
+            stacklevel=0,
+        )
         return source_block + f'\n\n<div class="result" markdown="1" >\n\n{output}\n\n</div>'
 
     source_tab_title, result_tab_title = tabs
