@@ -162,10 +162,22 @@ print("hello")
 
 **Make sure that at least one Pyodide fence per page injects the assets.**
 
+NOTE: **Zensical assets.** Zensical provides these assets natively. You don't need to specify `assets="no"` when building your docs with Zensical, this option is only useful within MkDocs.
+
 ## Editor themes
 
-The editor provided by [Ace](https://ace.c9.io/) supports different color themes.
-The complete list can be found here: https://github.com/ajaxorg/ace/tree/master/src/theme.
+The editor provided by [Ace](https://ace.c9.io/) supports different color themes:
+
+```python exec="1"
+import subprocess
+
+theme_files = subprocess.check_output(["gh", "api", "/repos/ajaxorg/ace/contents/src/theme", "--jq", ".[].name"], text=True)
+themes = [theme_file[:-3] for theme_file in theme_files.splitlines() if not theme_file.endswith("-css.js")]
+for theme in themes:
+    print(f"- `{theme}`")
+```
+
+The up-to-date list can be found here: https://github.com/ajaxorg/ace/tree/master/src/theme.
 
 To use a specific theme for both light and dark schemes, use the `theme` option on the Pyodide code block:
 
@@ -183,36 +195,4 @@ print("hello")
 ```
 ````
 
-See all previews below.
-
-```python exec="1"
-import subprocess
-from textwrap import dedent
-
-theme_files = subprocess.check_output(["gh", "api", "/repos/ajaxorg/ace/contents/src/theme", "--jq", ".[].name"], text=True)
-themes = [theme_file[:-3] for theme_file in theme_files.splitlines() if not theme_file.endswith("-css.js")]
-for theme in themes:
-    print(f"### `{theme}`")
-    print(
-        dedent(
-            f'''
-            ```pyodide theme="{theme}" assets="no"
-            from typing import Iterator
-
-            # This is an example
-            class Math:
-                @staticmethod
-                def fib(n: int) -> Iterator[int]:
-                    """Fibonacci series up to n."""
-                    a, b = 0, 1
-                    while a < n:
-                        yield a
-                        a, b = b, a + b
-
-            result = sum(Math.fib(42))
-            print(f"The answer is {{result}}")
-            ```
-            '''
-        )
-    )
-```
+NOTE: **Zensical theme.** Theme selection does not work in Zensical. In Zensical, the editor theme always matches the style configured for the site.
