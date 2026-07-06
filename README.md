@@ -8,8 +8,7 @@
 
 Utilities to execute code blocks in Markdown files.
 
-For example, you write a Python code block that computes some HTML,
-and this HTML is injected in place of the code block.
+For example, you write a Python code block that computes some HTML, and this HTML is injected in place of the code block.
 
 ## Installation
 
@@ -82,13 +81,19 @@ markdown_extensions:
 - pymdownx.superfences
 ```
 
+...or in Zensical configuration file, as a legacy plugin:
+
+```toml
+[project.plugins.markdown-exec]
+```
+
 TIP: We recommend enabling Markdown Exec with the MkDocs plugin
-if you are using MkDocs: it will take care of adding relevant
+if you are using MkDocs/Zensical: it will take care of adding relevant
 assets (CSS/JS) to the final site when needed.
 
-WARNING: **Limitation of configuration through Markdown/PyMDown.**
-Configuration through `pymdownx.superfences` directly is not well supported for fences that require assets inclusion, like `pyodide`.
-For these you will have to include the assets manually. In the future we will provide ways to include them automatically.
+WARNING: **Limitation of configuration through Markdown/PyMDown for MkDocs.**
+Configuration through `pymdownx.superfences` directly is not well supported within MkDocs for fences that require assets inclusion, like `pyodide`.
+For these you will have to include the assets manually. In the future we will provide ways to include them automatically. In Zensical these assets are provided natively.
 
 ## Usage
 
