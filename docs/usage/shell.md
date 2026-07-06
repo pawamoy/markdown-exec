@@ -7,7 +7,7 @@ and rendered as Markdown or HTML (see [Usage](index.md#html-vs-markdown)).
 ## Bash
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
-```bash exec="1" source="material-block"
+```bash exec="1" source="block"
 echo $BASH_VERSION
 ```
 ````
@@ -23,7 +23,7 @@ $ mkdocs --help
 ## sh
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
-```sh exec="1" source="material-block"
+```sh exec="1" source="block"
 echo Markdown is **cool**
 ```
 ````

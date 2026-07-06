@@ -134,7 +134,7 @@ with one of the following values:
 
 - `above`: The source code will be rendered above the result.
 - `below`: The source code will be rendered below the result.
-- `material-block`: The source code and result will be wrapped in a nice-looking block
+- `block`: The source code and result will be wrapped in a nice-looking block
     (only works with [Material for MkDocs][material],
     and requires the [`md_in_html`][md_in_html] extension)
 - `tabbed-left`: The source code and result will be rendered in tabs, in that order
@@ -172,7 +172,7 @@ with one of the following values:
 ````
 
 NOTE: **Important:**
-The `material-block` source option requires that you enable the [`md_in_html`][md_in_html] Markdown extension.
+The `block` source option requires that you enable the [`md_in_html`][md_in_html] Markdown extension.
 
 ---
 
@@ -408,7 +408,7 @@ WARNING  -  markdown_exec: Execution of python code block 'print hello' exited w
 Markdown Exec makes it possible to persist state between executed code blocks.
 To persist state and reuse it in other code blocks, give a session name to your blocks:
 
-````md exec="1" source="material-block" title="Sessions"
+````md exec="1" source="block" title="Sessions"
 ```python exec="1" session="greet"
 def greet(name):
     print(f"Hello {name}!")
@@ -438,7 +438,7 @@ We effectively support executing multiple *nested* code blocks to generate compl
 That makes for a very meta-markdown markup:
 
 ````md exec="1" source="tabbed-left"
-```md exec="1" source="material-block" title="Markdown link"
+```md exec="1" source="block" title="Markdown link"
 [Link to example.com](https://example.com)
 ```
 ````
@@ -448,7 +448,7 @@ That makes for a very meta-markdown markup:
 >
 > `````md
 > ````md exec="1" source="tabbed-left"
-> ```md exec="1" source="material-block" title="Markdown link"
+> ```md exec="1" source="block" title="Markdown link"
 > [Link to example.com](https://example.com)
 > ```
 > ````

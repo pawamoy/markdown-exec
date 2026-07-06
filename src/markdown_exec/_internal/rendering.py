@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from functools import cache
 from textwrap import indent
 from typing import TYPE_CHECKING, Any
+from warnings import warn
 
 from markdown import Markdown
 from markupsafe import Markup
@@ -97,7 +98,11 @@ def add_source(
         return source_block + "\n\n" + output
     if location == "below":
         return output + "\n\n" + source_block
+    if location == "block":
+        return source_block + f'\n\n<div class="result" markdown="1" >\n\n{output}\n\n</div>'
+    # YORE: Bump 2: Remove block.
     if location == "material-block":
+        warn("The `material-block` source display option is deprecated and renamed `block`.", DeprecationWarning)
         return source_block + f'\n\n<div class="result" markdown="1" >\n\n{output}\n\n</div>'
 
     source_tab_title, result_tab_title = tabs
@@ -195,6 +200,8 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
     # Needed for Zensical.
     if "tables" not in extensions:
         extensions.append("tables")
+    if "md_in_html" not in extensions:
+        extensions.append("md_in_html")
 
     new_md.registerExtensions(extensions, extensions_config)
     new_md.treeprocessors.register(
