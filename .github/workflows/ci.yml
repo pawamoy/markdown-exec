@@ -68,7 +68,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Setup uv
-      uses: astral-sh/setup-uv@v8
+      uses: astral-sh/setup-uv@v8.3.0
       with:
         enable-cache: true
         cache-dependency-glob: pyproject.toml
@@ -140,7 +140,7 @@ jobs:
         allow-prereleases: true
 
     - name: Setup uv
-      uses: astral-sh/setup-uv@v8
+      uses: astral-sh/setup-uv@v8.3.0
       with:
         enable-cache: true
         cache-dependency-glob: pyproject.toml
