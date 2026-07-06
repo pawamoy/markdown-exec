@@ -75,7 +75,7 @@ def _format_pyodide(code: str, md: Markdown, session: str, extra: dict, **option
     global _counter  # noqa: PLW0603
     _counter += 1
 
-    version = extra.pop("version", "0.26.4").lstrip("v")
+    version = extra.pop("version", "314.0.2").lstrip("v")
     install = extra.pop("install", "")
     install = install.split(",") if install else []
     exclude_assets = extra.pop("assets", "1").lower() in {"0", "false", "no", "off"}
