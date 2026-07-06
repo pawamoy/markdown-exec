@@ -57,7 +57,7 @@ jobs:
         fetch-tags: true
 
     - name: Set up Graphviz
-      uses: ts-graphviz/setup-graphviz@v1
+      uses: ts-graphviz/setup-graphviz@v2
 
     - name: Setup D2
       run: curl -fsSL https://d2lang.com/install.sh | sh -s --
@@ -68,7 +68,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Setup uv
-      uses: astral-sh/setup-uv@v5
+      uses: astral-sh/setup-uv@v8
       with:
         enable-cache: true
         cache-dependency-glob: pyproject.toml
@@ -91,8 +91,8 @@ jobs:
       run: make check-api
 
     - name: Store objects inventory for tests
-      uses: actions/upload-artifact@v4
-      if: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13' }}
+      uses: actions/upload-artifact@v7
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12' }}
       with:
         name: objects.inv
         path: site/objects.inv
@@ -128,7 +128,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         fetch-depth: 0
         fetch-tags: true
@@ -140,7 +140,7 @@ jobs:
         allow-prereleases: true
 
     - name: Setup uv
-      uses: astral-sh/setup-uv@v5
+      uses: astral-sh/setup-uv@v8
       with:
         enable-cache: true
         cache-dependency-glob: pyproject.toml
@@ -152,7 +152,8 @@ jobs:
       run: make setup
 
     - name: Download objects inventory
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12' }}
       with:
         name: objects.inv
         path: site/
