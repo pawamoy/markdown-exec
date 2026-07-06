@@ -14,7 +14,7 @@ Welcome to our gallery of examples!
 > Diagram as Code for prototyping cloud system architectures.
 
 ````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
+```python exec="true" html="true" id="diagrams"
 --8<-- "gallery/diagrams.py"
 ```
 ````
@@ -24,7 +24,7 @@ Welcome to our gallery of examples!
 > A modern diagram scripting language that turns text to diagrams.
 
 ````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
+```python exec="true" html="true" id="d2"
 --8<-- "gallery/d2.py"
 ```
 ````
@@ -34,7 +34,7 @@ Welcome to our gallery of examples!
 > Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python.
 
 ````md exec="1" source="tabbed-right"
-```python exec="1" html="1"
+```python exec="1" html="1" id="matplotlib"
 --8<-- "gallery/matplotlib.py"
 ```
 ````
@@ -46,7 +46,7 @@ Welcome to our gallery of examples!
 We call `pipdeptree` with its `--mermaid` option to generate a [Mermaid](https://mermaid.js.org/) diagram.
 
 ````md exec="1" source="tabbed-right"
-```bash exec="1" result="mermaid"
+```bash exec="1" result="mermaid" id="pipdeptree1"
 # Change the direction of the graph from top-down to left-right,
 # and remove local version identifiers from our own package.
 pipdeptree -p markdown-exec --mermaid 2>/dev/null |
@@ -57,7 +57,7 @@ pipdeptree -p markdown-exec --mermaid 2>/dev/null |
 Another example with more dependencies:
 
 ````md exec="1" source="tabbed-right"
-```bash exec="1" result="mermaid"
+```bash exec="1" result="mermaid" id="pipdeptree2"
 pipdeptree -p mkdocstrings-python --mermaid 2>/dev/null |
     sed 's/flowchart TD/flowchart LR/'
 ```
@@ -68,7 +68,7 @@ pipdeptree -p mkdocstrings-python --mermaid 2>/dev/null |
 > The interactive graphing library for Python ✨
 
 ````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
+```python exec="true" html="true" id="plotly"
 --8<-- "gallery/plotly.py"
 ```
 ````
@@ -80,7 +80,7 @@ pipdeptree -p mkdocstrings-python --mermaid 2>/dev/null |
 pydeps uses [Graphviz](https://graphviz.org/) under the hood to generate graphs. In this example we add links to the code reference in related nodes. Try clicking on the `markdown_exec` nodes!
 
 ````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
+```python exec="true" html="true" id="pydeps"
 --8<-- "gallery/pydeps.py"
 ```
 ````
@@ -92,7 +92,7 @@ pydeps uses [Graphviz](https://graphviz.org/) under the hood to generate graphs.
 > Rich is a Python library for rich text and beautiful formatting in the terminal.
 
 ````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
+```python exec="true" html="true" id="rich"
 --8<-- "gallery/rich.py"
 ```
 ````
@@ -102,7 +102,7 @@ pydeps uses [Graphviz](https://graphviz.org/) under the hood to generate graphs.
 If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec[ansi]`), the ANSI colors in the output of shell commands will be translated to HTML/CSS, allowing to render them naturally in your documentation pages. For this to happen, use the [`result="ansi"` option](http://localhost:8000/markdown-exec/usage/#wrap-result-in-a-code-block).
 
 ````md exec="1" source="tabbed-right"
-```bash exec="true" result="ansi"
+```bash exec="true" result="ansi" id="ansi"
 --8<-- "gallery/ansi.sh"
 ```
 ````
@@ -112,7 +112,7 @@ If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec
 > Rich is a Python library for rich text and beautiful formatting in the terminal.
 
 ````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
+```python exec="true" html="true" id="richterminal"
 --8<-- "gallery/rich_terminal.py"
 ```
 ````
@@ -124,7 +124,7 @@ If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec
 > A declarative drawing API in Python.
 
 ````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
+```python exec="true" html="true" id="chalk"
 --8<-- "gallery/chalk.py"
 ```
 ````
@@ -133,7 +133,7 @@ If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec
 > Programmatically generate SVG (vector) images, animations, and interactive Jupyter widgets.
 
 ````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
+```python exec="true" html="true" id="drawsvg2"
 --8<-- "gallery/drawsvg.py"
 ```
 ````
@@ -143,7 +143,7 @@ If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec
 > A Python 3 library for constructing and drawing hyperbolic geometry.
 
 ````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
+```python exec="true" html="true" id="hyperbolic"
 --8<-- "gallery/hyperbolic.py"
 ```
 ````
@@ -155,7 +155,7 @@ If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec
 > Python QR Code image generator.
 
 ````md exec="1" source="tabbed-right"
-```python exec="true" html="true"
+```python exec="true" html="true" id="qrcode"
 --8<-- "gallery/qrcode.py"
 ```
 ````
@@ -167,7 +167,7 @@ If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec
 > Textual is a *Rapid Application Development* framework for Python, built by [Textualize.io](https://www.textualize.io/).
 
 ````md exec="1" source="tabbed-right"
-```python exec="1" html="true"
+```python exec="1" html="true" id="textual"
 --8<-- "gallery/textual.py"
 ```
 ````
@@ -177,11 +177,11 @@ If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec
 This example displays a file-tree of the current project, in which you can descend thanks to Material for MkDocs' [code annotations](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#code-annotations). It uses a recursive Python function which accept a code block session name as parameter 🤯:
 
 ````md exec="1" source="tabbed-right"
-```python exec="1" session="filetree"
+```python exec="1" session="filetree" id="filetree-def"
 --8<-- "gallery/expandable_filetree.py"
 ```
 
-```python exec="1" session="filetree"
+```python exec="1" session="filetree" id="filetree-run"
 exptree(".", "filetree")
 ```
 ````
