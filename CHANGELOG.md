@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.12.3](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.3) - 2026-07-07
+
+<small>[Compare with 1.12.2](https://github.com/pawamoy/markdown-exec/compare/1.12.2...1.12.3)</small>
+
+### Bug Fixes
+
+- Provide Pyodide options to Zensical ([abcb044](https://github.com/pawamoy/markdown-exec/commit/abcb0443751d4871968d20bddf66b0b4a9d45620) by Timothée Mazzucotelli). [Issue-100](https://github.com/pawamoy/markdown-exec/issues/100)
+
+### Code Refactoring
+
+- Rename material-block source display option to block ([2cefa97](https://github.com/pawamoy/markdown-exec/commit/2cefa97a3ee918cf009afda0fa881286c92626b9) by Timothée Mazzucotelli).
+- Update Pyodide hardcoded version to 314.0.2 ([eef2661](https://github.com/pawamoy/markdown-exec/commit/eef2661d878f9e13cbd3d923edba21037e478c41) by Timothée Mazzucotelli).
+
 ## [1.12.2](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.2) - 2026-07-05
 
 <small>[Compare with 1.12.1](https://github.com/pawamoy/markdown-exec/compare/1.12.1...1.12.2)</small>
