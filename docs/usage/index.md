@@ -38,7 +38,7 @@ linking to their related documentation:
 - [`tabs`](#change-the-titles-of-tabs): When rendering the source using tabs, choose the tabs titles.
 - [`width`](#change-the-console-width): Change the console width through the `COLUMNS` environment variable.
 - [`workdir`](#change-the-working-directory): Change the working directory.
-- [`title`](#additional-options): Title is a [Material for MkDocs][material] option.
+- [`title`](#additional-options): Title is a [Material for MkDocs][material] / [Zensical] option.
 - [`updatetoc`](#generated-headings-in-table-of-contents): Whether to update the Table of Contents with generated headings.
 
 ## HTML vs. Markdown
@@ -98,7 +98,7 @@ with the `idprefix` option.
 
 The following ids are not prefixed:
 
-````md exec="1" source="material-block"
+````md exec="1" source="block"
 ```python exec="1" idprefix="" updatetoc="no"
 print("#### Commands")
 print("\n[link to commands](#commands)")
@@ -107,7 +107,7 @@ print("\n[link to commands](#commands)")
 
 The following ids are prefixed with `cli-`:
 
-````md exec="1" source="material-block"
+````md exec="1" source="block"
 ```python exec="1" idprefix="cli-" updatetoc="no"
 print("#### Commands")
 print("\n[link to commands](#commands)")
@@ -119,7 +119,7 @@ then the id is used as prefix:
 
 The following ids are prefixed with `super-cli-`:
 
-````md exec="1" source="material-block"
+````md exec="1" source="block"
 ```python exec="1" id="super-cli" updatetoc="no"
 print("#### Commands")
 print("\n[link to commands](#commands)")
@@ -135,7 +135,7 @@ with one of the following values:
 - `above`: The source code will be rendered above the result.
 - `below`: The source code will be rendered below the result.
 - `block`: The source code and result will be wrapped in a nice-looking block
-    (only works with [Material for MkDocs][material],
+    (only works with [Material for MkDocs][material] or [Zensical],
     and requires the [`md_in_html`][md_in_html] extension)
 - `tabbed-left`: The source code and result will be rendered in tabs, in that order
     (requires the [`pymdownx.tabbed`][pymdownx.tabbed] extension).
@@ -163,10 +163,10 @@ with one of the following values:
 
 ---
 
-**Material block:**
+**Block:**
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
-```python exec="true" source="material-block"
+```python exec="true" source="block"
 --8<-- "usage/source.py"
 ```
 ````
@@ -317,7 +317,7 @@ pwd
 
 ## Additional options
 
-If you are using [Material for MkDocs][material],
+If you are using [Material for MkDocs][material] or [Zensical],
 you are probably familiar with the `title` option on code blocks:
 
 ````md
@@ -390,7 +390,7 @@ WARNING  -  markdown_exec: Execution of python code block 'print hello' exited w
 
 > TIP: **Titles act as IDs as well!**
 > You *don't need* to provide an ID
-> if you already set a (Material for MkDocs) title:
+> if you already set a (Material for MkDocs / Zensical) title:
 >
 > ````md
 > ```python exec="true" title="print world"
@@ -482,3 +482,4 @@ The environment variable will be restored to its previous value, if any,
 at the end of the build.
 
 [material]: https://squidfunk.github.io/mkdocs-material/
+[Zensical]: https://zensical.org/

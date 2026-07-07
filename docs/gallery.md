@@ -174,7 +174,7 @@ If you installed Markdown Exec with the `ansi` extra (`pip install markdown-exec
 
 ## File-trees
 
-This example displays a file-tree of the current project, in which you can descend thanks to Material for MkDocs' [code annotations](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#code-annotations). It uses a recursive Python function which accept a code block session name as parameter 🤯:
+This example displays a file-tree of the current project, in which you can descend thanks to Material for MkDocs' [code annotations](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#code-annotations) (and [Zensical's](https://zensical.org/docs/authoring/code-blocks/#code-annotations)). It uses a recursive Python function which accept a code block session name as parameter 🤯:
 
 ````md exec="1" source="tabbed-right"
 ```python exec="1" session="filetree" id="filetree-def"

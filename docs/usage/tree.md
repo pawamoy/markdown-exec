@@ -86,6 +86,8 @@ You can opt-out with `icons="basic"` to use the basic folder and file emojis,
 or even remove all icons/emojis with `icons="none"`.
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+`icons="none"`
+
 ```tree icons="none"
 folder/
     file
@@ -96,6 +98,8 @@ folder/
 ````
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+`icons="basic"`
+
 ```tree icons="basic"
 folder/
     file
@@ -106,6 +110,8 @@ folder/
 ````
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+`icons="material"` or `icons="zensical"`
+
 ```tree icons="material"
 folder/
     file
@@ -116,6 +122,8 @@ folder/
 ````
 
 ````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+`icons="auto"`
+
 ```tree icons="auto"
 folder/
     file
