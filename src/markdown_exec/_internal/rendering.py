@@ -201,7 +201,7 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
     extensions: list[Extension | str] = markdown_config.exts or md.registeredExtensions  # ty:ignore[invalid-assignment]
     extensions_config: dict[str, dict[str, Any]] = markdown_config.exts_config or {}
 
-    # Needed for Zensical.
+    # Needed for Zensical. TODO: not anymore since Zensical 0.0.57.
     if "tables" not in extensions:
         extensions.append("tables")
     if "md_in_html" not in extensions:
