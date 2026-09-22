@@ -198,7 +198,7 @@ def _register_headings_processors(md: Markdown) -> None:
 
 def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) -> Markdown:
     new_md = Markdown()
-    extensions: list[Extension | str] = markdown_config.exts or md.registeredExtensions  # ty:ignore[invalid-assignment]
+    extensions: list[Extension | str] = markdown_config.exts or list(md.registeredExtensions)  # ty:ignore[invalid-assignment]
     extensions_config: dict[str, dict[str, Any]] = markdown_config.exts_config or {}
 
     # Needed for Zensical. TODO: not anymore since Zensical 0.0.57.
