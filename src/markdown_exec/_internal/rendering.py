@@ -158,11 +158,11 @@ class MarkdownConfig:
 markdown_config = MarkdownConfig()
 """This object can be used to save the configuration of your Markdown extensions.
 
-For example, since we provide a MkDocs plugin, we use it to store the configuration
-that was read from `mkdocs.yml`:
+For example, we use it to store the configuration that was read from `mkdocs.yml`
+or `zensical.toml`:
 
 ```python
-from markdown_exec.rendering import markdown_config
+from markdown_exec import markdown_config
 
 # ...in relevant events/hooks, access and modify extensions and their configs, then:
 markdown_config.save(extensions, extensions_config)
