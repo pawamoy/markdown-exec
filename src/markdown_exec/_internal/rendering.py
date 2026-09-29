@@ -201,6 +201,11 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
     extensions: list[Extension | str] = markdown_config.exts or list(md.registeredExtensions)  # ty:ignore[invalid-assignment]
     extensions_config: dict[str, dict[str, Any]] = markdown_config.exts_config or {}
 
+    # Zensical's preview extension requires the page's link processor.
+    # Inner renderers do not inherit that processor because Zensical already
+    # rewrites links in the generated HTML when rendering the page.
+    extensions = [ext for ext in extensions if getattr(ext, "name", ext) != "zensical.extensions.preview"]
+
     # Needed for Zensical. TODO: not anymore since Zensical 0.0.57.
     if "tables" not in extensions:
         extensions.append("tables")
