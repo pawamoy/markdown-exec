@@ -1,3 +1,21 @@
+# SPDX-License-Identifier: ISC
+#
+# ISC License
+#
+# Copyright (c) 2022, Timothée Mazzucotelli and contributors
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
 """Tests for the Markdown converter."""
 
 from __future__ import annotations
@@ -33,6 +51,40 @@ def test_rendering_nested_blocks(md: Markdown) -> None:
         ),
     )
     assert html == "<p><strong>Bold!</strong></p>"
+
+
+@pytest.mark.parametrize("save_config", [True, False])
+def test_rendering_with_zensical_previews(md: Markdown, monkeypatch: pytest.MonkeyPatch, save_config: bool) -> None:
+    """Render nested blocks while keeping previews enabled on page links."""
+    preview = pytest.importorskip("zensical.extensions.preview")
+    links = pytest.importorskip("zensical.extensions.links")
+
+    # Zensical configures previews, then adds link processing to the page renderer.
+    extension_configs = {preview.PreviewExtension.name: {"targets": {"include": ["reference/api.md"]}}}
+    extensions = [*md.registeredExtensions, preview.PreviewExtension.name]
+    md.registerExtensions([preview.PreviewExtension.name], extension_configs)
+    links.LinksExtension(path="index.md", use_directory_urls=True).extendMarkdown(md)
+
+    # Cover both saved extension names and the fallback to registered instances.
+    monkeypatch.setattr(markdown_config, "exts", extensions if save_config else None)
+    monkeypatch.setattr(markdown_config, "exts_config", extension_configs if save_config else None)
+
+    html = md.convert(
+        dedent(
+            """
+            [API](reference/api.md)
+
+            ````md exec="1"
+            ```python exec="1"
+            print("**Generated output**")
+            ```
+            ````
+            """,
+        ),
+    )
+
+    assert "<p><strong>Generated output</strong></p>" in html
+    assert '<a data-preview="" href="reference/api/">API</a>' in html
 
 
 def test_instantiating_config_singleton() -> None:
