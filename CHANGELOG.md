@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.12.4](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.4) - 2026-10-06
+
+<small>[Compare with 1.12.3](https://github.com/pawamoy/markdown-exec/compare/1.12.3...1.12.4)</small>
+
+### Build
+
+- Drop support for Python 3.10 ([9bfb0c7](https://github.com/pawamoy/markdown-exec/commit/9bfb0c74c5b704fdd88e9ad9a4d1dc316c2ea963) by Timothée Mazzucotelli).
+
+### Bug Fixes
+
+- Don't propagate Zensical's preview extension, which requires its zrelpath processor ([c2f3e0b](https://github.com/pawamoy/markdown-exec/commit/c2f3e0b6070d19ffca96f9c2d3992a9f18e00001) by Timothée Mazzucotelli).
+- Declare markupsafe as a dependency ([a8f4330](https://github.com/pawamoy/markdown-exec/commit/a8f43303f3bf2c63d337091d36b1e1e53f88b3fc) by Kayvan Zahiri). [Issue-94](https://github.com/pawamoy/markdown-exec/issues/94), [PR-102](https://github.com/pawamoy/markdown-exec/pull/102)
+- Prevent mutating original registered extensions list ([3866f5e](https://github.com/pawamoy/markdown-exec/commit/3866f5e242de5e285219440a10ed58ac7eb996cd) by Timothée Mazzucotelli).
+
 ## [1.12.3](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.3) - 2026-07-07
 
 <small>[Compare with 1.12.2](https://github.com/pawamoy/markdown-exec/compare/1.12.2...1.12.3)</small>
