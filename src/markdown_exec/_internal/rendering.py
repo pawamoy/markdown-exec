@@ -27,6 +27,7 @@ from typing import TYPE_CHECKING, Any
 from warnings import warn
 
 from markdown import Markdown
+from markdown.util import HTML_PLACEHOLDER_RE
 from markupsafe import Markup
 
 from markdown_exec._internal.processors import (
@@ -37,6 +38,7 @@ from markdown_exec._internal.processors import (
 )
 
 if TYPE_CHECKING:
+    import re
     from collections.abc import Iterator
     from xml.etree.ElementTree import Element
 
@@ -275,7 +277,20 @@ class MarkdownConverter:
     def _original_md(self) -> Markdown:
         return getattr(self._md_ref, "_original_md", self._md_ref)
 
-    def _report_headings(self, markup: Markup) -> None:
+    def _report_headings(self, markup: Markup, md: Markdown) -> None:
+        def restash(match: re.Match[str]) -> str:
+            html = md.postprocessors["raw_html"].run(match.group(0))
+            return self._original_md.htmlStash.store(html)
+
+        # Resolve placeholders in their own stash before passing heading copies to the outer conversion.
+        for heading in self._headings:
+            for element in heading.iter():
+                # Preserve AtomicString values so inline processing does not reinterpret code.
+                if element.text:
+                    element.text = type(element.text)(HTML_PLACEHOLDER_RE.sub(restash, element.text))
+                if element.tail:
+                    element.tail = type(element.tail)(HTML_PLACEHOLDER_RE.sub(restash, element.tail))
+
         self._original_md.treeprocessors[InsertHeadings.name].headings[markup] = self._headings  # ty:ignore[unresolved-attribute]
         self._headings = []
 
@@ -303,6 +318,6 @@ class MarkdownConverter:
 
         # pass headings to upstream conversion layer
         if self._update_toc:
-            self._report_headings(markup)
+            self._report_headings(markup, md)
 
         return markup

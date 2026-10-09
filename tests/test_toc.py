@@ -23,6 +23,7 @@ from __future__ import annotations
 from textwrap import dedent
 from typing import TYPE_CHECKING
 
+import pytest
 from markdown.extensions.toc import TocExtension
 
 if TYPE_CHECKING:
@@ -105,3 +106,40 @@ def test_both_updating_and_not_updating_toc(md: Markdown) -> None:
     assert "medium-heading" in md.toc  # ty:ignore[unresolved-attribute]
     assert "small-heading" not in md.toc  # ty:ignore[unresolved-attribute]
     assert "tiny-heading" in md.toc  # ty:ignore[unresolved-attribute]
+
+
+@pytest.mark.parametrize(
+    ("heading", "expected_name", "expected_html"),
+    [
+        ("Heading &mdash;", "Heading &mdash;", "Heading &mdash;"),
+        (
+            "Heading **&mdash;** tail &copy;",
+            "Heading &mdash; tail &copy;",
+            "Heading <strong>&mdash;</strong> tail &copy;",
+        ),
+        ("Heading <span>inline</span>", "Heading inline", "Heading <span>inline</span>"),
+        ("Heading `*code*`", "Heading *code*", "Heading <code>*code*</code>"),
+        ("&mdash;", "&mdash;", "&mdash;"),
+    ],
+)
+def test_generated_headings_keep_stashed_content(
+    md: Markdown,
+    heading: str,
+    expected_name: str,
+    expected_html: str,
+) -> None:
+    """Keep heading content when the inner and outer HTML stashes use the same IDs."""
+    TocExtension(permalink=True).extendMarkdown(md)
+
+    # Entities and inline HTML belong to the generated block's Markdown instance.
+    source = f'```md exec="1" idprefix=""\n# {heading}\n```'
+
+    html = md.convert(source)
+
+    # The page keeps the rendered heading, and its ToC uses the same content.
+    assert '<h1 id="' in html
+    assert expected_html in html
+    assert md.toc_tokens[0]["name"] == expected_name  # ty:ignore[unresolved-attribute]
+    assert md.toc_tokens[0]["html"] == expected_html  # ty:ignore[unresolved-attribute]
+    assert expected_name in md.toc  # ty:ignore[unresolved-attribute]
+    assert "wzxhzdk" not in html

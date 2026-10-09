@@ -87,7 +87,7 @@ class HeadingReportingTreeprocessor(Treeprocessor):
         """Run the treeprocessor."""
         for el in root.iter():
             if self.regex.fullmatch(el.tag):
-                el = copy.copy(el)  # noqa: PLW2901
+                el = copy.deepcopy(el)  # noqa: PLW2901
                 # 'toc' extension's first pass (which we require to build heading stubs/ids) also edits the HTML.
                 # Undo the permalink edit so we can pass this heading to the outer pass of the 'toc' extension.
                 if len(el) > 0 and el[-1].get("class") == self.md.treeprocessors["toc"].permalink_class:  # ty:ignore[unresolved-attribute]
@@ -117,9 +117,15 @@ class InsertHeadings(Treeprocessor):
             return
 
         for el in root.iter():
+            # Only block containers hold generated output. Heading content can use another Markdown instance's stash.
+            if not self.md.is_block_level(el.tag) or HeadingReportingTreeprocessor.regex.fullmatch(el.tag):
+                continue
+
             match = HTML_PLACEHOLDER_RE.match(el.text or "")
             if match:
                 counter = int(match.group(1))
+                if counter >= len(self.md.htmlStash.rawHtmlBlocks):
+                    continue
                 markup: Markup = self.md.htmlStash.rawHtmlBlocks[counter]  # ty:ignore[invalid-assignment]
                 if headings := self.headings.get(markup):
                     div = Element("div", {"class": "markdown-exec"})
