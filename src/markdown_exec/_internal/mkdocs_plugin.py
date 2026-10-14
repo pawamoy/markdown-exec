@@ -150,7 +150,7 @@ class MarkdownExecPlugin(BasePlugin[MarkdownExecPluginConfig]):
 
     def _add_asset(self, config: MkDocsConfig, asset_file: str, asset_type: str) -> None:
         asset_filename = f"assets/_markdown_exec_{asset_file}"
-        asset_content = Path(__file__).parent.parent.joinpath("assets", asset_file).read_text()
+        asset_content = Path(__file__).parent.parent.joinpath("assets", asset_file).read_text(encoding="utf8")
         write_file(asset_content.encode("utf-8"), os.path.join(config.site_dir, asset_filename))  # noqa: PTH118
         config[f"extra_{asset_type}"].insert(0, asset_filename)
 
