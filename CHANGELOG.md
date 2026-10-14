@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.12.5](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.5) - 2026-10-14
+
+<small>[Compare with 1.12.4](https://github.com/pawamoy/markdown-exec/compare/1.12.4...1.12.5)</small>
+
+### Bug Fixes
+
+- Preserve heading placeholders across Markdown conversions ([f071b31](https://github.com/pawamoy/markdown-exec/commit/f071b31c614fd008e8a88a417f9223d4a53ca051) by Timothée Mazzucotelli). [Issue-97](https://github.com/pawamoy/markdown-exec/issues/97)
+
 ## [1.12.4](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.4) - 2026-10-06
 
 <small>[Compare with 1.12.3](https://github.com/pawamoy/markdown-exec/compare/1.12.3...1.12.4)</small>
