@@ -29,6 +29,18 @@ Welcome to our gallery of examples!
 ```
 ````
 
+### with [Highcharts](https://www.highcharts.com/)
+
+> A JavaScript library for interactive charts.
+
+This example generates chart options in Python and loads Highcharts from a CDN. Hover over the columns to see their values.
+
+````md exec="1" source="tabbed-right"
+```python exec="true" html="true" id="highcharts"
+--8<-- "gallery/highcharts.py"
+```
+````
+
 ### with [Matplotlib](https://matplotlib.org/)
 
 > Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python.
@@ -82,6 +94,18 @@ pydeps uses [Graphviz](https://graphviz.org/) under the hood to generate graphs.
 ````md exec="1" source="tabbed-right"
 ```python exec="true" html="true" id="pydeps"
 --8<-- "gallery/pydeps.py"
+```
+````
+
+### with [Vega](https://vega.github.io/vega/)
+
+> A visualization grammar for interactive graphics.
+
+This example generates a Vega specification in Python and loads Vega from a CDN. Hover over the bars to highlight them.
+
+````md exec="1" source="tabbed-right"
+```python exec="true" html="true" id="vega"
+--8<-- "gallery/vega.py"
 ```
 ````
 
