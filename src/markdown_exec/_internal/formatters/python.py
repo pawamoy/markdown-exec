@@ -74,12 +74,13 @@ def _exec_statement(
             res = eval(
                 compile(ast.Expression(stmt.value), filename, "eval"),
                 global_vars,
-            )
+            )  # noqa: S307
             if res is not None:
                 return repr(res)
         else:
             exec(  # noqa: S102
-                compile(ast.Module([stmt], []), filename, "exec"), global_vars
+                compile(ast.Module([stmt], []), filename, "exec"),
+                global_vars,
             )
     return None
 
@@ -131,7 +132,7 @@ def _run_python(
     returncode: int | None = None,  # noqa: ARG001
     session: str | None = None,
     id: str | None = None,  # noqa: A002
-    interactive: bool = False,
+    interactive: bool = False,  # noqa: FBT001, FBT002
     **extra: str,
 ) -> str:
     title = extra.get("title")
