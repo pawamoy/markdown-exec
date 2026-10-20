@@ -71,10 +71,10 @@ def _exec_statement(
 
     for stmt in cmd.body:
         if isinstance(stmt, ast.Expr):
-            res = eval(
+            res = eval(  # noqa: S307
                 compile(ast.Expression(stmt.value), filename, "eval"),
                 global_vars,
-            )  # noqa: S307
+            )
             if res is not None:
                 return repr(res)
         else:
