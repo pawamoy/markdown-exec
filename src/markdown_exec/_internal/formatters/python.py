@@ -114,9 +114,9 @@ def _run_interactive(
             for frame in trace.stack:
                 if frame.filename.startswith("<code block: "):
                     if sys.version_info >= (3, 13):
-                        frame._lines = display_lines[frame.lineno - 1]
+                        frame._lines = display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
                     else:
-                        frame._line = display_lines[frame.lineno - 1]
+                        frame._line = display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
 
                     frame.lineno += lineno
 
