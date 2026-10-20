@@ -20,6 +20,7 @@
 
 from __future__ import annotations
 
+import ast
 import re
 import sys
 import traceback
@@ -61,11 +62,76 @@ def _code_block_id(
     return f"<code block: {code_block_id}>"
 
 
+def _exec_statement(
+    lines: list[str],
+    filename: str,
+    global_vars: dict,
+) -> str | None:
+    cmd = ast.parse("\n".join(lines), filename, "exec")
+
+    for stmt in cmd.body:
+        if isinstance(stmt, ast.Expr):
+            res = eval(
+                compile(ast.Expression(stmt.value), filename, "eval"),
+                global_vars,
+            )
+            if res is not None:
+                return repr(res)
+        else:
+            exec(  # noqa: S102
+                compile(ast.Module([stmt], []), filename, "exec"), global_vars
+            )
+    return None
+
+
+def _run_interactive(
+    code: str,
+    filename: str,
+    global_vars: dict,
+    buffer: StringIO,
+) -> None:
+    exprs = []
+    for lineno, line in enumerate(code.split("\n")):
+        if line.startswith(">>> "):
+            exprs.append((lineno, [line], [line[4:]]))
+        if line.startswith("... "):
+            exprs[-1][1].append(line)
+            exprs[-1][2].append(line[4:])
+
+    for lineno, display_lines, src_lines in exprs:
+        buffer.write("\n".join(display_lines) + "\n")
+        try:
+            if (res := _exec_statement(src_lines, filename, global_vars)) is not None:
+                buffer.write(res + "\n")
+        except Exception as error:
+            if isinstance(error, SyntaxError):
+                raise
+
+            trace = traceback.TracebackException.from_exception(error)
+            # Remove exec/eval frames from stack
+            del trace.stack[:2]
+            for frame in trace.stack:
+                if frame.filename.startswith("<code block: "):
+                    if sys.version_info >= (3, 13):
+                        frame._lines = display_lines[frame.lineno - 1]
+                    else:
+                        frame._line = display_lines[frame.lineno - 1]
+
+                    frame.lineno += lineno
+
+            buffer.write("".join(trace.format()))
+
+    out = code_block("pycon", buffer.getvalue())
+    buffer.seek(0)
+    buffer.write(out)
+
+
 def _run_python(
     code: str,
     returncode: int | None = None,  # noqa: ARG001
     session: str | None = None,
     id: str | None = None,  # noqa: A002
+    interactive: bool = False,
     **extra: str,
 ) -> str:
     title = extra.get("title")
@@ -86,7 +152,10 @@ def _run_python(
     exec_globals["print"] = partial(_buffer_print, buffer)
 
     try:
-        exec_python(code, code_block_id, exec_globals)
+        if interactive:
+            _run_interactive(code, code_block_id, exec_globals, buffer)
+        else:
+            exec_python(code, code_block_id, exec_globals)
     except Exception as error:
         trace = traceback.TracebackException.from_exception(error)
         for frame in trace.stack:
