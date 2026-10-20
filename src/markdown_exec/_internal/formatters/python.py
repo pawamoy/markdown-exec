@@ -118,7 +118,7 @@ def _run_interactive(
                     else:
                         frame._line = display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
 
-                    frame.lineno += lineno
+                    frame.lineno += lineno  # ty:ignore[unsupported-operator]
 
             buffer.write("".join(trace.format()))
 
