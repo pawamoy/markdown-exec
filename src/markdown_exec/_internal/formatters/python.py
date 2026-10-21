@@ -121,7 +121,12 @@ class InteractiveInput:
                 else:
                     frame._line = self.display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
 
+                frame.colno += 4  # ty:ignore[unsupported-operator]
                 frame.lineno += self.lineno  # ty:ignore[unsupported-operator]
+                if frame.end_lineno is not None:
+                    frame.end_lineno += self.lineno
+                if frame.end_colno is not None:
+                    frame.end_colno += 4
 
         if start is None:
             # If the traceback doesn't contain `<code block:` that means the error originated in this package
