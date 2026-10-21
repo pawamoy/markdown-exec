@@ -20,19 +20,22 @@
 
 from __future__ import annotations
 
-import ast
 import re
 import sys
 import traceback
 from collections import defaultdict
+from dataclasses import dataclass
 from functools import partial
 from io import StringIO
 from types import ModuleType
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from markdown_exec._internal.formatters._exec_python import exec_python
+from markdown_exec._internal.formatters._exec_python import exec_python, exec_python_interactive
 from markdown_exec._internal.formatters.base import ExecutionError, base_format
 from markdown_exec._internal.rendering import code_block
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 _sessions_globals: dict[str, dict] = defaultdict(dict)
 _sessions_counter: dict[str | None, int] = defaultdict(int)
@@ -62,27 +65,73 @@ def _code_block_id(
     return f"<code block: {code_block_id}>"
 
 
-def _exec_statement(
-    lines: list[str],
-    filename: str,
-    global_vars: dict,
-) -> str | None:
-    cmd = ast.parse("\n".join(lines), filename, "exec")
+@dataclass(slots=True)
+class InteractiveInput:
+    """A single interactive input to the interpreter.
 
-    for stmt in cmd.body:
-        if isinstance(stmt, ast.Expr):
-            res = eval(  # noqa: S307
-                compile(ast.Expression(stmt.value), filename, "eval"),
-                global_vars,
-            )
-            if res is not None:
-                return repr(res)
-        else:
-            exec(  # noqa: S102
-                compile(ast.Module([stmt], []), filename, "exec"),
-                global_vars,
-            )
-    return None
+    May consist of one line or multiple lines (`>>>` followed by `...`).
+    May contain multiple statements.
+    """
+
+    lineno: int
+    display_lines: list[str]
+    src_lines: list[str]
+
+    @classmethod
+    def split(cls, code: str, filename: str) -> Iterator[InteractiveInput]:
+        lines = enumerate(code.split("\n"))
+        current = None
+
+        for lineno, line in lines:
+            if line.startswith("... "):
+                if current:
+                    current.append(line)
+                else:
+                    raise SyntaxError("Expected '>>>'", (filename, lineno, 1, line, lineno, 4))
+            else:
+                if current:
+                    yield current
+                current = None
+
+                if line.startswith(">>> "):
+                    current = InteractiveInput.from_line(lineno, line)
+
+        if current:
+            yield current
+
+    @classmethod
+    def from_line(cls, lineno: int, line: str) -> InteractiveInput:
+        return cls(lineno, [line], [line[4:]])
+
+    def append(self, line: str) -> None:
+        self.display_lines.append(line)
+        self.src_lines.append(line[4:])
+
+    def with_traceback(self, error: Exception) -> traceback.TracebackException:
+        trace = traceback.TracebackException.from_exception(error)
+
+        start = None
+        for i, frame in enumerate(trace.stack):
+            if frame.filename.startswith("<code block: ") and i > 0:
+                if start is None:
+                    start = i
+
+                if sys.version_info >= (3, 13):
+                    frame._lines = self.display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
+                else:
+                    frame._line = self.display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
+
+                frame.lineno += self.lineno  # ty:ignore[unsupported-operator]
+
+        if start is None:
+            # If the traceback doesn't contain `<code block:` that means the error originated in this package
+            raise error
+
+        # Remove exec/eval frames from stack
+        if start > 0:
+            del trace.stack[:i]
+
+        return trace
 
 
 def _run_interactive(
@@ -91,40 +140,17 @@ def _run_interactive(
     global_vars: dict,
     buffer: StringIO,
 ) -> None:
-    exprs = []
-    for lineno, line in enumerate(code.split("\n")):
-        if line.startswith(">>> "):
-            exprs.append((lineno, [line], [line[4:]]))
-        if line.startswith("... "):
-            exprs[-1][1].append(line)
-            exprs[-1][2].append(line[4:])
-
-    for lineno, display_lines, src_lines in exprs:
-        buffer.write("\n".join(display_lines) + "\n")
+    for inp in InteractiveInput.split(code, filename):
+        buffer.write("\n".join(inp.display_lines) + "\n")
         try:
-            if (res := _exec_statement(src_lines, filename, global_vars)) is not None:
-                buffer.write(res + "\n")
+            if (res := exec_python_interactive("\n".join(inp.src_lines), filename, global_vars)) is not None:
+                buffer.write(repr(res) + "\n")
         except Exception as error:
             if isinstance(error, SyntaxError):
                 raise
 
-            trace = traceback.TracebackException.from_exception(error)
-            # Remove exec/eval frames from stack
-            del trace.stack[:2]
-            for frame in trace.stack:
-                if frame.filename.startswith("<code block: "):
-                    if sys.version_info >= (3, 13):
-                        frame._lines = display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
-                    else:
-                        frame._line = display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
-
-                    frame.lineno += lineno  # ty:ignore[unsupported-operator]
-
+            trace = inp.with_traceback(error)
             buffer.write("".join(trace.format()))
-
-    out = code_block("pycon", buffer.getvalue())
-    buffer.seek(0)
-    buffer.write(out)
 
 
 def _run_python(
@@ -166,6 +192,10 @@ def _run_python(
                 else:
                     frame._line = _code_blocks[frame.filename][frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
         raise ExecutionError(code_block("python", "".join(trace.format()), **extra)) from error
+
+    if interactive:
+        return code_block("pycon", buffer.getvalue())
+
     return buffer.getvalue()
 
 
