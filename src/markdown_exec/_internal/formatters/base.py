@@ -33,7 +33,7 @@ from markdown_exec._internal.logger import get_logger
 from markdown_exec._internal.rendering import MarkdownConverter, add_source, code_block
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator
+    from collections.abc import Callable, Generator
 
     from markdown.core import Markdown
 
@@ -44,7 +44,7 @@ default_tabs = ("Source", "Result")
 
 
 @contextmanager
-def working_directory(path: str | None = None) -> Iterator[None]:
+def working_directory(path: str | None = None) -> Generator[None]:
     """Change the working directory for the duration of the context.
 
     Parameters:
@@ -62,7 +62,7 @@ def working_directory(path: str | None = None) -> Iterator[None]:
 
 
 @contextmanager
-def console_width(width: int | None = None) -> Iterator[None]:
+def console_width(width: int | None = None) -> Generator[None]:
     """Set the console width for the duration of the context.
 
     The console width is set using the `COLUMNS` environment variable.
