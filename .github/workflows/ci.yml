@@ -66,6 +66,12 @@ jobs:
         cache-dependency-glob: pyproject.toml
         python-version: ${{ matrix.python-version }}
 
+    - name: Install graphviz
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12' }}
+      run: |
+        sudo apt-get update
+        sudo apt-get install graphviz
+
     - name: Install dependencies
       run: make setup
 
@@ -83,7 +89,7 @@ jobs:
 
     - name: Store objects inventory for tests
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-      if: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13' }}
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12' }}
       with:
         name: objects.inv
         path: site/objects.inv
