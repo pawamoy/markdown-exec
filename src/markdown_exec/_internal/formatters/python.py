@@ -69,7 +69,7 @@ def _code_block_id(
 
 
 @dataclass(slots=True)
-class InteractiveInput:
+class _InteractiveInput:
     """A single interactive input to the interpreter.
 
     May consist of one line or multiple lines (`>>>` followed by `...`).
@@ -81,7 +81,7 @@ class InteractiveInput:
     src_lines: list[str]
 
     @classmethod
-    def split(cls, code: str, filename: str) -> Iterator[InteractiveInput]:
+    def split(cls, code: str, filename: str) -> Iterator[_InteractiveInput]:
         lines = enumerate(code.split("\n"))
         current = None
 
@@ -97,13 +97,13 @@ class InteractiveInput:
                 current = None
 
                 if line.startswith(">>> "):
-                    current = InteractiveInput.from_line(lineno, line)
+                    current = _InteractiveInput.from_line(lineno, line)
 
         if current:
             yield current
 
     @classmethod
-    def from_line(cls, lineno: int, line: str) -> InteractiveInput:
+    def from_line(cls, lineno: int, line: str) -> _InteractiveInput:
         return cls(lineno, [line], [line[4:]])
 
     def append(self, line: str) -> None:
@@ -167,7 +167,7 @@ def _run_interactive(  # noqa: PLR0917
     id: str | None,  # noqa: A002
     title: str | None,
 ) -> None:
-    for inp in InteractiveInput.split(code, filename):
+    for inp in _InteractiveInput.split(code, filename):
         buffer.write("\n".join(inp.display_lines) + "\n")
         try:
             if (res := exec_python_interactive("\n".join(inp.src_lines), filename, exec_globals)) is not None:
