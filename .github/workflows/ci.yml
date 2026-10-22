@@ -69,8 +69,8 @@ jobs:
     - name: Install graphviz
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
-        apt-get update
-        apt-get install graphviz
+        sudo apt-get update
+        sudo apt-get install graphviz
 
     - name: Install dependencies
       run: make setup
