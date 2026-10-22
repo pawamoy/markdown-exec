@@ -54,7 +54,7 @@ Additionally, outputs from unbound expressions are displayed automatically (alth
 Exceptions are also handled differently: when a line raises an exception other lines in the same block are still executed and displayed as normal.
 The raised exception is printed after the generating line and logged as a warning
 
-=== "Source"
+=== "Markdown"
     ````md
     ```pycon exec="1" interactive="1" id="pycon_error"
     >>> y = 2
@@ -74,7 +74,7 @@ The raised exception is printed after the generating line and logged as a warnin
     >>> y * 2
     4
     ```
-=== "MkDocs output"
+=== "MkDocs Log"
     ```text
     WARNING  -  markdown_exec: Unexpected exception while executing pycon code block 'pycon_error':
 
