@@ -232,5 +232,10 @@ def _run_python(
     return buffer.getvalue()
 
 
-def _format_python(**kwargs: Any) -> str:
+def _format_python(
+    *,
+    # Pull out interactive flag to avoid passing to _run_python
+    interactive: bool = False,  # noqa: ARG001
+    **kwargs: Any,
+) -> str:
     return base_format(language="python", run=_run_python, **kwargs)
