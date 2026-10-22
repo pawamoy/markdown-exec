@@ -249,8 +249,8 @@ def test_future_annotations_do_not_leak_into_user_code(md: Markdown) -> None:
     assert re.search(r"class '_code_block_n\d+_\.Int'", html)
 
 
-def test_interactive_continue_on_error(md: Markdown) -> None:
-    """Assert subsequent interactive pycon lines are executed if a line raises a (non-syntax) exception.
+def test_interactive_continue_on_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
+    """Assert subsequent interactive pycon lines are executed if a line raises an exception.
 
     Parameters:
         md: A Markdown instance (fixture).
@@ -267,12 +267,16 @@ def test_interactive_continue_on_error(md: Markdown) -> None:
         ),
     )
 
+    assert "Traceback" in html
     assert "ZeroDivisionError" in html
     assert "3" in html
+    assert "Unexpected exception" in caplog.text
 
 
-def test_interactive_fail_on_syntax_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
-    """Assert syntax errors in interactive pycon snippets abort execution and log a warning.
+def test_interactive_syntax_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
+    """Assert syntax errors in interactive pycon snippets work the same as other exceptions.
+
+    This is worth testing because the handling of syntax errors is slightly different from other errors.
 
     Parameters:
         md: A Markdown instance (fixture).
@@ -281,23 +285,20 @@ def test_interactive_fail_on_syntax_error(md: Markdown, caplog: pytest.LogCaptur
         dedent(
             """
             ```pycon exec="1" interactive="1"
-            >>> "foo"
             >>> ^123abc_!
-            >>> "bar"
+            >>> "foo" + "bar"
             ```
             """,
         ),
     )
 
-    assert "Traceback" in html
     assert "SyntaxError" in html
-    assert "foo" not in html
-    assert "bar" not in html
-    assert "Execution of pycon code block exited with errors" in caplog.text
+    assert "foobar" in html
+    assert "Unexpected exception" in caplog.text
 
 
 def test_interactive_line_marker_syntax_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
-    """Assert that a `...` line not proceeded by a `>>>` line in a pycon snippet generates a syntax error.
+    """Assert that a `...` line not proceeded by a `>>>` line in a pycon snippet generates a syntax error and aborts execution.
 
     Parameters:
         md: A Markdown instance (fixture).
@@ -313,7 +314,6 @@ def test_interactive_line_marker_syntax_error(md: Markdown, caplog: pytest.LogCa
         ),
     )
 
-    assert "Traceback" in html
     assert "SyntaxError" in html
     assert "foo" not in html
     assert "Execution of pycon code block exited with errors" in caplog.text
