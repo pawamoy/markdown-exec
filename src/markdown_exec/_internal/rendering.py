@@ -39,7 +39,7 @@ from markdown_exec._internal.processors import (
 
 if TYPE_CHECKING:
     import re
-    from collections.abc import Iterator
+    from collections.abc import Generator
     from xml.etree.ElementTree import Element
 
     from markdown import Extension
@@ -252,7 +252,7 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
 
 
 @contextmanager
-def _id_prefix(md: Markdown, prefix: str | None) -> Iterator[None]:
+def _id_prefix(md: Markdown, prefix: str | None) -> Generator[None]:
     MarkdownConverter.counter += 1
     id_prepending_processor = md.treeprocessors[IdPrependingTreeprocessor.name]
     id_prepending_processor.id_prefix = prefix if prefix is not None else f"exec-{MarkdownConverter.counter}--"  # ty:ignore[unresolved-attribute]
