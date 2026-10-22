@@ -27,16 +27,19 @@ from collections import defaultdict
 from dataclasses import dataclass
 from functools import partial
 from io import StringIO
+from textwrap import indent
 from types import ModuleType
 from typing import TYPE_CHECKING, Any
 
 from markdown_exec._internal.formatters._exec_python import exec_python, exec_python_interactive
 from markdown_exec._internal.formatters.base import ExecutionError, base_format
+from markdown_exec._internal.logger import get_logger
 from markdown_exec._internal.rendering import code_block
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
+_logger = get_logger(__name__)
 _sessions_globals: dict[str, dict] = defaultdict(dict)
 _sessions_counter: dict[str | None, int] = defaultdict(int)
 _code_blocks: dict[str, list[str]] = {}
@@ -108,11 +111,22 @@ class InteractiveInput:
         self.src_lines.append(line[4:])
 
     def with_traceback(self, error: Exception) -> traceback.TracebackException:
+        if isinstance(error, SyntaxError) and (error.filename or "").startswith("<code block: "):
+            # Fix line and column for syntax errors originating in the code block
+            error.text = self.display_lines[error.lineno - 1]  # ty:ignore[unsupported-operator]
+            error.lineno += self.lineno  # ty:ignore[unsupported-operator]
+            error.offset += 4  # ty:ignore[unsupported-operator]
+            if error.end_lineno is not None:
+                error.end_lineno += self.lineno
+            if error.end_offset is not None:
+                error.end_offset += 4
+
         trace = traceback.TracebackException.from_exception(error)
 
         start = None
         for i, frame in enumerate(trace.stack):
             if frame.filename.startswith("<code block: ") and i > 0:
+                # Find first stack frame originating in the code block
                 if start is None:
                     start = i
 
@@ -121,6 +135,7 @@ class InteractiveInput:
                 else:
                     frame._line = self.display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
 
+                # Fix line and column
                 frame.colno += 4  # ty:ignore[unsupported-operator]
                 frame.lineno += self.lineno  # ty:ignore[unsupported-operator]
                 if frame.end_lineno is not None:
@@ -128,34 +143,47 @@ class InteractiveInput:
                 if frame.end_colno is not None:
                     frame.end_colno += 4
 
+        if getattr(trace, "filename", "").startswith("<code block: ") and start is None:
+            # Syntax errors sort of "skip" a stack frame
+            # Need to check the error's filename to determine if it came from the code block
+            start = len(trace.stack)
+
         if start is None:
-            # If the traceback doesn't contain `<code block:` that means the error originated in this package
+            # Error originated from this package not the code block, so we need to reraise it
             raise error
 
         # Remove exec/eval frames from stack
         if start > 0:
-            del trace.stack[:i]
+            del trace.stack[:start]
 
         return trace
 
 
-def _run_interactive(
+def _run_interactive(  # noqa: PLR0917
     code: str,
     filename: str,
-    global_vars: dict,
+    exec_globals: dict,
     buffer: StringIO,
+    id: str | None,  # noqa: A002
+    title: str | None,
 ) -> None:
     for inp in InteractiveInput.split(code, filename):
         buffer.write("\n".join(inp.display_lines) + "\n")
         try:
-            if (res := exec_python_interactive("\n".join(inp.src_lines), filename, global_vars)) is not None:
+            if (res := exec_python_interactive("\n".join(inp.src_lines), filename, exec_globals)) is not None:
                 buffer.write(repr(res) + "\n")
-        except Exception as error:
-            if isinstance(error, SyntaxError):
-                raise
-
+        except Exception as error:  # noqa: BLE001
             trace = inp.with_traceback(error)
-            buffer.write("".join(trace.format()))
+            err_msg = "".join(trace.format())
+            # Write error traceback to output buffer
+            buffer.write(err_msg)
+
+            # Need to manually log the warning because we don't want to abort processing the block
+            identifier = id or title
+            identifier = identifier and f"'{identifier}'"
+            log_err = indent(err_msg, " " * 2)
+            log_message = f"Unexpected exception while executing pycon code block {identifier}:\n\n{log_err}"
+            _logger.warning(log_message)
 
 
 def _run_python(
@@ -185,7 +213,7 @@ def _run_python(
 
     try:
         if interactive:
-            _run_interactive(code, code_block_id, exec_globals, buffer)
+            _run_interactive(code, code_block_id, exec_globals, buffer, id, title)
         else:
             exec_python(code, code_block_id, exec_globals)
     except Exception as error:
