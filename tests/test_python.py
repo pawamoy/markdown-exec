@@ -247,3 +247,121 @@ def test_future_annotations_do_not_leak_into_user_code(md: Markdown) -> None:
     )
     assert "<code>Int</code>" not in html
     assert re.search(r"class '_code_block_n\d+_\.Int'", html)
+
+
+def test_interactive_continue_on_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
+    """Assert subsequent interactive pycon lines are executed if a line raises an exception.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```pycon exec="1" interactive="1"
+            >>> x = 2
+            >>> x / 0
+            >>> x + 1
+            ```
+            """,
+        ),
+    )
+
+    assert "Traceback" in html
+    assert "ZeroDivisionError" in html
+    assert "3" in html
+    assert "Unexpected exception" in caplog.text
+
+
+def test_interactive_syntax_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
+    """Assert syntax errors in interactive pycon snippets work the same as other exceptions.
+
+    This is worth testing because the handling of syntax errors is slightly different from other errors.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```pycon exec="1" interactive="1"
+            >>> ^123abc_!
+            >>> "foo" + "bar"
+            ```
+            """,
+        ),
+    )
+
+    assert "SyntaxError" in html
+    assert "foobar" in html
+    assert "Unexpected exception" in caplog.text
+
+
+def test_interactive_line_marker_syntax_error(md: Markdown, caplog: pytest.LogCaptureFixture) -> None:
+    """Assert that a `...` line not proceeded by a `>>>` line in a pycon snippet generates a syntax error and aborts execution.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```pycon exec="1" interactive="1"
+            ... x = 2
+            >>> "foo"
+            ```
+            """,
+        ),
+    )
+
+    assert "SyntaxError" in html
+    assert "foo" not in html
+    assert "Execution of pycon code block exited with errors" in caplog.text
+
+
+def test_interactive_compound_expressions(md: Markdown) -> None:
+    """Assert that interactive pycon snippets execute all expressions in a multi-statement line but only display the last expression.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```pycon exec="1" interactive="1"
+            >>> def pop(x):
+            ...     x.pop()
+            ...     return x
+            >>> x = [1, 2, 3]; pop(x); pop(x)
+            ```
+            """,
+        ),
+    )
+
+    assert "[1, 2]" not in html
+    assert "[1]" in html
+
+
+def test_interactive_print_statements(md: Markdown) -> None:
+    """Assert that interactive pycon snippets show `print` output before expression output.
+
+    Parameters:
+        md: A Markdown instance (fixture).
+    """
+    html = md.convert(
+        dedent(
+            """
+            ```pycon exec="1" interactive="1"
+            >>> def print_and_add(x):
+            ...     print(x)
+            ...     return x + 1
+
+            >>> print_and_add(4)
+            ```
+            """,
+        ),
+    )
+
+    assert (loc1 := html.find("4")) > 0
+    assert (loc2 := html.find("5")) > 0
+    assert loc1 < loc2

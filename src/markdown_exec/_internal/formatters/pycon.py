@@ -40,5 +40,13 @@ def _transform_source(code: str) -> tuple[str, str]:
     return python_code, "\n".join(pycon_lines)
 
 
-def _format_pycon(**kwargs: Any) -> Markup:
-    return base_format(language="pycon", run=_run_python, transform_source=_transform_source, **kwargs)
+def _format_pycon(*, interactive: bool = False, **kwargs: Any) -> Markup:
+    transform_source = _transform_source if not interactive else None
+
+    return base_format(
+        language="pycon",
+        run=_run_python,
+        transform_source=transform_source,
+        interactive=interactive,
+        **kwargs,
+    )

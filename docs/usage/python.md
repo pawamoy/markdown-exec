@@ -37,3 +37,50 @@ as well as their output:
 --8<-- "usage/multiple.pycon"
 ```
 ````
+
+### Interactive console
+
+When the `interactive` flag is set, `pycon` blocks will use an alternative formatter that mimics the behavior of the Python REPL interpreter.
+
+In this mode outputs are displayed immediately after their source lines, rather than all outputs being shown at the end.
+Additionally, outputs from unbound expressions are displayed automatically (although `print` can still be used as well).
+
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```pycon exec="1" interactive="1"
+--8<-- "usage/interactive.pycon"
+```
+````
+
+Exceptions are also handled differently: when a line raises an exception other lines in the same block are still executed and displayed as normal.
+The raised exception is printed after the generating line and logged as a warning
+
+=== "Markdown"
+    ````md
+    ```pycon exec="1" interactive="1" id="pycon_error"
+    >>> y = 2
+    >>> y / 0
+    >>> y * 2
+    ```
+    ````
+=== "Rendered"
+    ```pycon
+    >>> y = 2
+    >>> y / 0
+    Traceback (most recent call last):
+    File "<code block: id pycon_error>", line 3, in <module>
+        >>> y / 0
+            ~~^~~
+    ZeroDivisionError: division by zero
+    >>> y * 2
+    4
+    ```
+=== "MkDocs Log"
+    ```text
+    WARNING  -  markdown_exec: Unexpected exception while executing pycon code block 'pycon_error':
+
+    Traceback (most recent call last):
+        File "<code block: id pycon_error>", line 3, in <module>
+        >>> y / 0
+            ~~^~~
+    ZeroDivisionError: division by zero
+    ```
