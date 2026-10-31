@@ -15,6 +15,7 @@
         <link rel="canonical" href="https://pawamoy.github.io/markdown-exec/credits/">
       
       
+      
         <link rel="prev" href="../changelog/">
       
       
@@ -25,7 +26,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="zensical-0.0.67">
+      <meta name="generator" content="zensical-0.0.74">
     
     
       
@@ -36,12 +37,12 @@
       
         
       
-      <link rel="stylesheet" href="../assets/stylesheets/modern/main.4ae390e2.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.4ab2de0c.min.css">
       
         
           
         
-        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.96d1a7e4.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.b60ce83d.min.css">
       
       
 
@@ -85,14 +86,11 @@
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <label class="md-overlay" for="__drawer" aria-hidden="true"></label>
     <div data-md-component="skip">
-      
-        
-        <a href="#exec-1--credits" class="md-skip">
-          Skip to content
-        </a>
-      
+      <a href="#__skip" class="md-skip">
+        Skip to content
+      </a>
     </div>
     <div data-md-component="announce">
       
@@ -141,9 +139,10 @@
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4.41 3 3 4.41 5.69 7.1A7.92 7.92 0 0 0 4 12c0 1.85.63 3.55 1.69 4.9L3 19.59 4.41 21l2.69-2.69A7.92 7.92 0 0 0 12 20c1.85 0 3.55-.63 4.9-1.69L19.59 21 21 19.59l-2.69-2.69A7.92 7.92 0 0 0 20 12c0-1.85-.63-3.55-1.69-4.9L21 4.41 19.59 3 16.9 5.69A7.92 7.92 0 0 0 12 4c-1.85 0-3.55.63-4.9 1.69zM12 6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6"/></svg>
 
     </a>
-    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+    <label class="md-header__button md-icon" for="__drawer">
       
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+      <span class="md-visually-hidden">Navigation</span>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -205,9 +204,10 @@
     
       
       
-        <label class="md-header__button md-icon" for="__search" aria-label="Search">
+        <label class="md-header__button md-icon" for="__search">
           
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+          <span class="md-visually-hidden">Search</span>
         </label>
         <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
   <button type="button" class="md-search__button">
@@ -1144,6 +1144,7 @@
 
               
               <article class="md-content__inner md-typeset">
+                <a id="__skip" tabindex="-1"></a>
                 
                   
 
@@ -1184,15 +1185,15 @@
 <tr>
 <td><a href="https://pypi.org/project/Markdown/">Markdown</a></td>
 <td>Python implementation of John Gruber's Markdown.</td>
-<td><code>&gt;=3.7, &gt;=3.6</code></td>
-<td><code>3.11</code></td>
+<td><code>&gt;=3.6, &gt;=3.3.3</code></td>
+<td><code>3.11.2</code></td>
 <td>BSD-3-Clause</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/MarkupSafe/">MarkupSafe</a></td>
 <td>Safely add untrusted strings to HTML/XML markup.</td>
 <td><code>&gt;=2, &gt;=1.1</code></td>
-<td><code>3.0.3</code></td>
+<td><code>3.0.4</code></td>
 <td>BSD-3-Clause</td>
 </tr>
 <tr>
@@ -1212,8 +1213,8 @@
 <tr>
 <td><a href="https://pypi.org/project/pymdown-extensions/">pymdown-extensions</a></td>
 <td>Extension pack for Python Markdown.</td>
-<td><code>&gt;=9, &gt;=11.0</code></td>
-<td><code>12.1</code></td>
+<td><code>&gt;=9, &gt;=6.3</code></td>
+<td><code>12.3</code></td>
 <td>MIT</td>
 </tr>
 <tr>
@@ -1245,24 +1246,17 @@
 <td>Revised BSD License</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/build/">build</a></td>
-<td>A simple, correct Python build frontend</td>
-<td><code>&gt;=1.2</code></td>
-<td><code>1.6.1</code></td>
-<td>MIT</td>
-</tr>
-<tr>
 <td><a href="https://pypi.org/project/cappa/">cappa</a></td>
 <td>Declarative CLI argument parser.</td>
 <td><code>&gt;=0.29</code></td>
-<td><code>0.32.2</code></td>
+<td><code>0.33.0</code></td>
 <td>?</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/certifi/">certifi</a></td>
 <td>Python package for providing Mozilla's CA Bundle.</td>
 <td><code>&gt;=2023.5.7</code></td>
-<td><code>2026.7.22</code></td>
+<td><code>2026.10.23</code></td>
 <td>MPL-2.0</td>
 </tr>
 <tr>
@@ -1271,27 +1265,6 @@
 <td><code>&gt;=2.0.0</code></td>
 <td><code>2.1.1</code></td>
 <td>MIT-0</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/cfgv/">cfgv</a></td>
-<td>Validate configuration and produce human readable error messages.</td>
-<td><code>&gt;=2.0.0</code></td>
-<td><code>3.5.0</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/chalk-diagrams/">chalk-diagrams</a></td>
-<td>A declarative drawing API</td>
-<td><code>&gt;=0.2.2</code></td>
-<td><code>0.2.2</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/chalk-planar/">chalk-planar</a></td>
-<td>2D planar geometry library for Python.</td>
-<td></td>
-<td><code>0.4</code></td>
-<td>BSD</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/charset-normalizer/">charset-normalizer</a></td>
@@ -1310,29 +1283,15 @@
 <tr>
 <td><a href="https://pypi.org/project/colorama/">colorama</a></td>
 <td>Cross-platform colored terminal text.</td>
-<td></td>
+<td><code>&gt;=0.4</code></td>
 <td><code>0.4.6</code></td>
 <td>BSD License</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/colour/">colour</a></td>
-<td>converts and manipulates various color representation (HSL, RVB, web, X11, ...)</td>
-<td></td>
-<td><code>0.1.5</code></td>
-<td>BSD 3-Clause License</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/contourpy/">contourpy</a></td>
-<td>Python library for calculating contours of 2D quadrilateral grids</td>
-<td><code>&gt;=1.0.1</code></td>
-<td><code>1.4.0</code></td>
-<td>BSD-3-Clause</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/coverage/">coverage</a></td>
 <td>Code coverage measurement for Python</td>
 <td><code>&gt;=7.10.6</code></td>
-<td><code>7.16.2</code></td>
+<td><code>7.17.0</code></td>
 <td>Apache-2.0</td>
 </tr>
 <tr>
@@ -1343,32 +1302,11 @@
 <td>Apache-2.0 OR BSD-3-Clause</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/cycler/">cycler</a></td>
-<td>Composable style cycles</td>
-<td><code>&gt;=0.10</code></td>
-<td><code>0.12.1</code></td>
-<td>BSD License</td>
-</tr>
-<tr>
 <td><a href="https://pypi.org/project/deepmerge/">deepmerge</a></td>
 <td>A toolset for deeply merging Python dictionaries.</td>
 <td><code>&gt;=2.0</code></td>
-<td><code>3.0.1</code></td>
+<td><code>4.0.0</code></td>
 <td>MIT Licence</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/diagrams/">diagrams</a></td>
-<td>Diagram as Code</td>
-<td><code>&gt;=0.24.1</code></td>
-<td><code>0.25.1</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/distlib/">distlib</a></td>
-<td>Distribution utilities</td>
-<td><code>&gt;=0.3.7, &lt;1</code></td>
-<td><code>0.4.3</code></td>
-<td>PSF-2.0</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/docutils/">docutils</a></td>
@@ -1378,17 +1316,10 @@
 <td>Public Domain + BSD License + GNU General Public License (GPL)</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/drawsvg/">drawsvg</a></td>
-<td>A Python 3 library for programmatically generating SVG (vector) images and animations.  Drawsvg can also render to PNG, MP4, and display your drawings in Jupyter notebook and Jupyter lab.</td>
-<td><code>&gt;=2.4</code></td>
-<td><code>2.4.2</code></td>
-<td>MIT License</td>
-</tr>
-<tr>
 <td><a href="https://pypi.org/project/duty/">duty</a></td>
 <td>A simple task runner.</td>
 <td><code>&gt;=1.6</code></td>
-<td><code>1.10.0</code></td>
+<td><code>1.10.1</code></td>
 <td>ISC</td>
 </tr>
 <tr>
@@ -1402,22 +1333,8 @@
 <td><a href="https://pypi.org/project/failprint/">failprint</a></td>
 <td>Run a command, print its output only if it fails.</td>
 <td><code>&gt;=1.0.5</code></td>
-<td><code>1.1.0</code></td>
+<td><code>1.1.1</code></td>
 <td>ISC</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/filelock/">filelock</a></td>
-<td>A platform independent file lock.</td>
-<td><code>&gt;=3.24.2, &lt;5</code></td>
-<td><code>4.0.8</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/fonttools/">fonttools</a></td>
-<td>Tools to manipulate font files</td>
-<td><code>&gt;=4.28.2</code></td>
-<td><code>4.66.1</code></td>
-<td>MIT</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/ghp-import/">ghp-import</a></td>
@@ -1434,31 +1351,24 @@
 <td>ISC</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/graphviz/">graphviz</a></td>
-<td>Simple Python interface for Graphviz</td>
-<td><code>&gt;=0.13.2, &lt;0.21.0</code></td>
-<td><code>0.20.3</code></td>
-<td>MIT</td>
-</tr>
-<tr>
 <td><a href="https://pypi.org/project/griffe/">griffe</a></td>
 <td>Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API.</td>
 <td><code>&gt;=2.0</code></td>
-<td><code>2.3.0</code></td>
+<td><code>2.4.1</code></td>
 <td>ISC</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/griffecli/">griffecli</a></td>
 <td>Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API.</td>
-<td><code>==2.3.0</code></td>
-<td><code>2.3.0</code></td>
+<td><code>==2.4.1</code></td>
+<td><code>2.4.1</code></td>
 <td>ISC</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/griffelib/">griffelib</a></td>
 <td>Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API.</td>
-<td><code>==2.3.0</code></td>
-<td><code>2.3.0</code></td>
+<td><code>==2.4.1</code></td>
+<td><code>2.4.1</code></td>
 <td>ISC</td>
 </tr>
 <tr>
@@ -1469,25 +1379,11 @@
 <td>MIT</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/hyperbolic/">hyperbolic</a></td>
-<td>A Python 3 library for constructing and drawing hyperbolic geometry</td>
-<td><code>&gt;=2.0</code></td>
-<td><code>2.0.0</code></td>
-<td>MIT License</td>
-</tr>
-<tr>
 <td><a href="https://pypi.org/project/id/">id</a></td>
 <td>A tool for generating OIDC identities</td>
 <td></td>
 <td><code>1.6.1</code></td>
 <td>Apache Software License</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/identify/">identify</a></td>
-<td>File identification library for Python</td>
-<td><code>&gt;=1.0.0</code></td>
-<td><code>2.6.20</code></td>
-<td>MIT</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/idna/">idna</a></td>
@@ -1497,24 +1393,10 @@
 <td>BSD-3-Clause</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/importlib_metadata/">importlib_metadata</a></td>
-<td>Read metadata from Python packages</td>
-<td></td>
-<td><code>9.0.1</code></td>
-<td>Apache-2.0</td>
-</tr>
-<tr>
 <td><a href="https://pypi.org/project/iniconfig/">iniconfig</a></td>
 <td>brain-dead simple config-ini parsing</td>
-<td><code>&gt;=1.0.1</code></td>
-<td><code>2.3.0</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/installer/">installer</a></td>
-<td>A library for installing Python wheels.</td>
-<td><code>&gt;=1.0</code></td>
-<td><code>1.0.1</code></td>
+<td><code>&gt;=2</code></td>
+<td><code>2.3.1</code></td>
 <td>MIT</td>
 </tr>
 <tr>
@@ -1548,7 +1430,7 @@
 <tr>
 <td><a href="https://pypi.org/project/Jinja2/">Jinja2</a></td>
 <td>A very fast and expressive template engine.</td>
-<td><code>&gt;=2.10, &lt;4.0</code></td>
+<td><code>&gt;=3.0</code></td>
 <td><code>3.1.6</code></td>
 <td>BSD License</td>
 </tr>
@@ -1560,24 +1442,10 @@
 <td>MIT</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/kiwisolver/">kiwisolver</a></td>
-<td>A fast implementation of the Cassowary constraint solver</td>
-<td><code>&gt;=1.3.1</code></td>
-<td><code>1.5.1</code></td>
-<td>BSD License</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/loguru/">loguru</a></td>
-<td>Python logging made (stupidly) simple</td>
-<td></td>
-<td><code>0.7.3</code></td>
-<td>MIT License</td>
-</tr>
-<tr>
 <td><a href="https://pypi.org/project/Markdown/">Markdown</a></td>
 <td>Python implementation of John Gruber's Markdown.</td>
-<td><code>&gt;=3.7, &gt;=3.6</code></td>
-<td><code>3.11</code></td>
+<td><code>&gt;=3.6, &gt;=3.3.3</code></td>
+<td><code>3.11.2</code></td>
 <td>BSD-3-Clause</td>
 </tr>
 <tr>
@@ -1590,7 +1458,7 @@
 <tr>
 <td><a href="https://pypi.org/project/markdown-it-py/">markdown-it-py</a></td>
 <td>Python port of markdown-it. Markdown parsing, done right!</td>
-<td><code>&gt;=2.1.0</code></td>
+<td><code>&gt;=2.2.0</code></td>
 <td><code>4.2.0</code></td>
 <td>MIT License</td>
 </tr>
@@ -1598,22 +1466,8 @@
 <td><a href="https://pypi.org/project/MarkupSafe/">MarkupSafe</a></td>
 <td>Safely add untrusted strings to HTML/XML markup.</td>
 <td><code>&gt;=2, &gt;=1.1</code></td>
-<td><code>3.0.3</code></td>
+<td><code>3.0.4</code></td>
 <td>BSD-3-Clause</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/matplotlib/">matplotlib</a></td>
-<td>Python plotting package</td>
-<td><code>&gt;=3.9</code></td>
-<td><code>3.11.2</code></td>
-<td>Python Software Foundation License</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/mdit-py-plugins/">mdit-py-plugins</a></td>
-<td>Collection of plugins for markdown-it-py</td>
-<td></td>
-<td><code>0.6.1</code></td>
-<td>MIT License</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/mdurl/">mdurl</a></td>
@@ -1640,7 +1494,7 @@
 <td><a href="https://pypi.org/project/mkdocs-autorefs/">mkdocs-autorefs</a></td>
 <td>Automatically link across pages in MkDocs.</td>
 <td><code>&gt;=1.4</code></td>
-<td><code>1.4.4</code></td>
+<td><code>1.4.5</code></td>
 <td>ISC</td>
 </tr>
 <tr>
@@ -1654,70 +1508,21 @@
 <td><a href="https://pypi.org/project/mkdocstrings/">mkdocstrings</a></td>
 <td>Automatic documentation from sources, for MkDocs.</td>
 <td><code>&gt;=0.29</code></td>
-<td><code>1.0.6</code></td>
+<td><code>1.0.8</code></td>
 <td>ISC</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/mkdocstrings-python/">mkdocstrings-python</a></td>
 <td>A Python handler for mkdocstrings.</td>
 <td><code>&gt;=1.16.2</code></td>
-<td><code>2.0.9</code></td>
+<td><code>2.0.10</code></td>
 <td>ISC</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/more-itertools/">more-itertools</a></td>
 <td>More routines for operating on iterables, beyond itertools</td>
 <td></td>
-<td><code>11.1.0</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/nab/">nab</a></td>
-<td>PubGrub-based dependency resolver for Python packages</td>
-<td><code>&gt;=0.0.17</code></td>
-<td><code>0.0.18</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/nab-index/">nab-index</a></td>
-<td>PyPI Simple-API client and on-disk cache for nab</td>
-<td><code>&gt;=0.0.17</code></td>
-<td><code>0.0.18</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/nab-markersets/">nab-markersets</a></td>
-<td>PEP 508 marker algebra: markers as sets of environments</td>
-<td><code>==0.0.18</code></td>
-<td><code>0.0.18</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/nab-project/">nab-project</a></td>
-<td>Index-backed provider, lockfile emitter, and downloader for nab</td>
-<td><code>&gt;=0.0.17</code></td>
-<td><code>0.0.18</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/nab-provider/">nab-provider</a></td>
-<td>IO-free resolution core for nab</td>
-<td><code>==0.0.18</code></td>
-<td><code>0.0.18</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/nab-resolver/">nab-resolver</a></td>
-<td>Generic PubGrub dependency-resolver core</td>
-<td><code>==0.0.18</code></td>
-<td><code>0.0.18</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/narwhals/">narwhals</a></td>
-<td>Extremely lightweight compatibility layer between dataframe libraries</td>
-<td><code>&gt;=1.15.1</code></td>
-<td><code>2.26.0</code></td>
+<td><code>11.2.1</code></td>
 <td>MIT</td>
 </tr>
 <tr>
@@ -1728,32 +1533,11 @@
 <td>MIT</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/nodeenv/">nodeenv</a></td>
-<td>Node.js virtual environment builder</td>
-<td><code>&gt;=0.11.1</code></td>
-<td><code>1.11.0</code></td>
-<td>BSD</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/numpy/">numpy</a></td>
-<td>Fundamental package for array computing in Python</td>
-<td><code>&gt;=2.1</code></td>
-<td><code>2.5.3</code></td>
-<td>BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0</td>
-</tr>
-<tr>
 <td><a href="https://pypi.org/project/packaging/">packaging</a></td>
 <td>Core utilities for Python packages</td>
 <td><code>&gt;=24.1</code></td>
 <td><code>26.3</code></td>
 <td>Apache-2.0 OR BSD-2-Clause</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/pandas/">pandas</a></td>
-<td>Powerful data structures for data analysis, time series, and statistics</td>
-<td><code>&gt;=2.2</code></td>
-<td><code>3.0.6</code></td>
-<td>BSD License</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/pathspec/">pathspec</a></td>
@@ -1763,52 +1547,17 @@
 <td>Mozilla Public License 2.0 (MPL 2.0)</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/pillow/">pillow</a></td>
-<td>Python Imaging Library (fork)</td>
-<td></td>
-<td><code>12.3.0</code></td>
-<td>MIT-CMU</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/pip/">pip</a></td>
-<td>The PyPA recommended tool for installing Python packages.</td>
-<td><code>&gt;=25</code></td>
-<td><code>26.2.1</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/pipdeptree/">pipdeptree</a></td>
-<td>Command line utility to show dependency tree of packages.</td>
-<td><code>&gt;=2.25</code></td>
-<td><code>4.2.5</code></td>
-<td>MIT</td>
-</tr>
-<tr>
 <td><a href="https://pypi.org/project/platformdirs/">platformdirs</a></td>
 <td>A small Python package for determining appropriate platform-specific dirs, e.g. a <code>user data dir</code>.</td>
-<td><code>&gt;=3.6.0, &lt;5</code></td>
-<td><code>4.12.2</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/plotly/">plotly</a></td>
-<td>An open-source interactive data visualization library for Python</td>
-<td><code>&gt;=6.0</code></td>
-<td><code>7.1.0</code></td>
+<td><code>&gt;=4.4</code></td>
+<td><code>4.14.0</code></td>
 <td>MIT</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/pluggy/">pluggy</a></td>
 <td>plugin and hook calling mechanisms for python</td>
-<td><code>&gt;=1.5, &lt;2</code></td>
-<td><code>1.6.0</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/pre_commit/">pre_commit</a></td>
-<td>A framework for managing and maintaining multi-language pre-commit hooks.</td>
-<td><code>&gt;=4.0.1, &lt;5</code></td>
-<td><code>4.6.2</code></td>
+<td><code>&gt;=1.2</code></td>
+<td><code>1.7.0</code></td>
 <td>MIT</td>
 </tr>
 <tr>
@@ -1822,15 +1571,8 @@
 <td><a href="https://pypi.org/project/pycparser/">pycparser</a></td>
 <td>C parser in Python</td>
 <td></td>
-<td><code>3.0</code></td>
+<td><code>3.12</code></td>
 <td>BSD-3-Clause</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/pydeps/">pydeps</a></td>
-<td>Display module dependencies</td>
-<td><code>&gt;=3.0</code></td>
-<td><code>3.0.9</code></td>
-<td>BSD-2-Clause</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/Pygments/">Pygments</a></td>
@@ -1842,29 +1584,15 @@
 <tr>
 <td><a href="https://pypi.org/project/pymdown-extensions/">pymdown-extensions</a></td>
 <td>Extension pack for Python Markdown.</td>
-<td><code>&gt;=9, &gt;=11.0</code></td>
-<td><code>12.1</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/pyparsing/">pyparsing</a></td>
-<td>pyparsing - Classes and methods to define and execute parsing grammars</td>
-<td><code>&gt;=3</code></td>
-<td><code>3.3.3</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/pyproject_hooks/">pyproject_hooks</a></td>
-<td>Wrappers to call pyproject.toml-based build backend hooks.</td>
-<td><code>&gt;=1.2</code></td>
-<td><code>1.3.3</code></td>
+<td><code>&gt;=9, &gt;=6.3</code></td>
+<td><code>12.3</code></td>
 <td>MIT</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/pytest/">pytest</a></td>
 <td>pytest: simple powerful testing with Python</td>
 <td><code>&gt;=8.2</code></td>
-<td><code>9.1.1</code></td>
+<td><code>9.2.0</code></td>
 <td>MIT</td>
 </tr>
 <tr>
@@ -1892,15 +1620,8 @@
 <td><a href="https://pypi.org/project/python-dateutil/">python-dateutil</a></td>
 <td>Extensions to the standard Python datetime module</td>
 <td><code>&gt;=2.8.1</code></td>
-<td><code>2.9.0.post0</code></td>
+<td><code>3.0.0</code></td>
 <td>BSD License + Apache Software License</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/python-discovery/">python-discovery</a></td>
-<td>Python interpreter discovery</td>
-<td><code>&gt;=1.6</code></td>
-<td><code>1.6.1</code></td>
-<td>MIT License</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/PyYAML/">PyYAML</a></td>
@@ -1915,13 +1636,6 @@
 <td><code>&gt;=0.1</code></td>
 <td><code>1.1</code></td>
 <td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/qrcode/">qrcode</a></td>
-<td>QR Code image generator</td>
-<td><code>&gt;=8.0</code></td>
-<td><code>8.2</code></td>
-<td>BSD</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/readme_renderer/">readme_renderer</a></td>
@@ -1962,7 +1676,7 @@
 <td><a href="https://pypi.org/project/ruff/">ruff</a></td>
 <td>An extremely fast Python linter and code formatter, written in Rust.</td>
 <td><code>&gt;=0.4</code></td>
-<td><code>0.16.10</code></td>
+<td><code>0.17.3</code></td>
 <td>MIT</td>
 </tr>
 <tr>
@@ -1982,57 +1696,15 @@
 <tr>
 <td><a href="https://pypi.org/project/six/">six</a></td>
 <td>Python 2 and 3 compatibility utilities</td>
-<td><code>&gt;=1.5</code></td>
+<td><code>&gt;=1.6</code></td>
 <td><code>1.17.0</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/stdlib-list/">stdlib-list</a></td>
-<td>A list of Python Standard Libraries (2.7 through 3.14).</td>
-<td></td>
-<td><code>0.12.0</code></td>
-<td>MIT License</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/svgwrite/">svgwrite</a></td>
-<td>A Python library to create SVG drawings.</td>
-<td></td>
-<td><code>1.4.3</code></td>
-<td>MIT License</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/textual/">textual</a></td>
-<td>Modern Text User Interface framework</td>
-<td><code>&gt;=1.0</code></td>
-<td><code>8.2.8</code></td>
 <td>MIT</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/tomli/">tomli</a></td>
 <td>A lil' TOML parser</td>
-<td><code>&gt;=2.4.0</code></td>
-<td><code>2.4.1</code></td>
-<td>MIT</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/tomli_w/">tomli_w</a></td>
-<td>A lil' TOML writer</td>
-<td><code>&gt;=1.2</code></td>
-<td><code>1.2.0</code></td>
-<td>MIT License</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/toolz/">toolz</a></td>
-<td>List processing tools and functional utilities</td>
-<td></td>
-<td><code>1.1.0</code></td>
-<td>BSD-3-Clause</td>
-</tr>
-<tr>
-<td><a href="https://pypi.org/project/truststore/">truststore</a></td>
-<td>Verify certificates using native system trust stores</td>
-<td><code>&gt;=0.10</code></td>
-<td><code>0.10.4</code></td>
+<td><code>&gt;=2</code></td>
+<td><code>2.5.0</code></td>
 <td>MIT</td>
 </tr>
 <tr>
@@ -2046,7 +1718,7 @@
 <td><a href="https://pypi.org/project/ty/">ty</a></td>
 <td>An extremely fast Python type checker, written in Rust.</td>
 <td><code>&gt;=0.0.14</code></td>
-<td><code>0.0.84</code></td>
+<td><code>0.0.95</code></td>
 <td>MIT License</td>
 </tr>
 <tr>
@@ -2060,22 +1732,29 @@
 <td><a href="https://pypi.org/project/types-Markdown/">types-Markdown</a></td>
 <td>Typing stubs for Markdown</td>
 <td><code>&gt;=3.6</code></td>
-<td><code>3.10.2.20260712</code></td>
+<td><code>3.11.2.20261029</code></td>
 <td>Apache-2.0</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/types-PyYAML/">types-PyYAML</a></td>
 <td>Typing stubs for PyYAML</td>
 <td><code>&gt;=6.0</code></td>
-<td><code>6.0.12.20260906</code></td>
+<td><code>6.0.12.20261030</code></td>
 <td>Apache-2.0</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/typing_extensions/">typing_extensions</a></td>
 <td>Backported and Experimental Type Hints for Python 3.9+</td>
-<td><code>&gt;=4.12.0</code></td>
+<td><code>&gt;=4.0</code></td>
 <td><code>4.16.0</code></td>
 <td>PSF-2.0</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/tzdata/">tzdata</a></td>
+<td>Provider of IANA time zone data</td>
+<td></td>
+<td><code>2026.6</code></td>
+<td>Apache-2.0</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/urllib3/">urllib3</a></td>
@@ -2085,17 +1764,10 @@
 <td>MIT</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/virtualenv/">virtualenv</a></td>
-<td>Virtual Python Environment builder</td>
-<td><code>&gt;=20.10.0</code></td>
-<td><code>21.14.2</code></td>
-<td>MIT</td>
-</tr>
-<tr>
 <td><a href="https://pypi.org/project/watchdog/">watchdog</a></td>
 <td>Filesystem events monitoring</td>
 <td><code>&gt;=2.0</code></td>
-<td><code>6.0.0</code></td>
+<td><code>7.0.0</code></td>
 <td>Apache-2.0</td>
 </tr>
 <tr>
@@ -2108,22 +1780,22 @@
 <tr>
 <td><a href="https://pypi.org/project/zensical/">zensical</a></td>
 <td>A modern static site generator built by the creators of Material for MkDocs</td>
-<td><code>&gt;=0.0.21</code></td>
-<td><code>0.0.67</code></td>
+<td><code>&gt;=0.0.41</code></td>
+<td><code>0.0.74</code></td>
 <td>MIT</td>
 </tr>
 <tr>
-<td><a href="https://pypi.org/project/zipp/">zipp</a></td>
-<td>Backport of pathlib-compatible object wrapper for zip files</td>
-<td><code>&gt;=3.20</code></td>
-<td><code>4.1.0</code></td>
+<td><a href="https://pypi.org/project/zensical-ui/">zensical-ui</a></td>
+<td>Templates and browser assets for Zensical</td>
+<td><code>==0.0.41</code></td>
+<td><code>0.0.41</code></td>
 <td>MIT</td>
 </tr>
 <tr>
 <td><a href="https://pypi.org/project/zizmor/">zizmor</a></td>
 <td>Static analysis for GitHub Actions</td>
 <td><code>&gt;=1.0</code></td>
-<td><code>1.30.1</code></td>
+<td><code>1.31.1</code></td>
 <td>MIT</td>
 </tr>
 </tbody>
@@ -2416,10 +2088,10 @@
       
         
         
-      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.action.edit","content.action.view","content.code.annotate","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.sections","navigation.tabs","navigation.tabs.sticky","navigation.top","search.highlight","toc.follow"],"redirect":null,"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","clipboard.error":"Could not copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.action.edit","content.action.view","content.code.annotate","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.sections","navigation.tabs","navigation.tabs.sticky","navigation.top","search.highlight","toc.follow"],"redirect":null,"search":"../assets/javascripts/workers/search.719e0d91.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","clipboard.error":"Could not copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
     
     
-      <script src="../assets/javascripts/bundle.67a597eb.min.js"></script>
+      <script src="../assets/javascripts/bundle.d31f0ffa.min.js"></script>
       
         <script src="../js/feedback.js"></script>
       
