@@ -36,7 +36,7 @@ except ImportError:
     material = None
 
 try:
-    import zensical
+    import zensical.config
 except ImportError:
     zensical = None
 
@@ -48,7 +48,7 @@ if material is not None or zensical is not None:
     if material is not None:
         _icons_path = Path(material.__file__).parent / "templates" / ".icons"
     elif zensical is not None:
-        _icons_path = Path(zensical.__file__).parent / "templates" / ".icons"
+        _icons_path = Path(zensical.config.get_builtin_theme_dir()) / ".icons"
 
     _icons = {
         "*.cpp": ":simple-cplusplus:",
