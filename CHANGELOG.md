@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.12.6](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.6) - 2026-10-31
+
+<small>[Compare with 1.12.5](https://github.com/pawamoy/markdown-exec/compare/1.12.5...1.12.6)</small>
+
+### Bug Fixes
+
+- Resolve Zensical icons through the theme directory accessor ([6c69e7d](https://github.com/pawamoy/markdown-exec/commit/6c69e7ddd88afc6fb5960f1ecdd10f59a059949e) by David Hotham). [Issue-zensical-1111](https://github.com/zensical/zensical/issues/1111), [PR-109](https://github.com/pawamoy/markdown-exec/pull/109)
+
 ## [1.12.5](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.5) - 2026-10-14
 
 <small>[Compare with 1.12.4](https://github.com/pawamoy/markdown-exec/compare/1.12.4...1.12.5)</small>

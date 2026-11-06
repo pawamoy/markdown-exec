@@ -18,9 +18,21 @@
 
 """Tests for the shell formatters."""
 
+from pathlib import Path
 from textwrap import dedent
 
+import pytest
 from markdown import Markdown
+
+
+def test_zensical_theme_has_icons() -> None:
+    """Check that Zensical's theme accessor exposes the icons directory."""
+    config = pytest.importorskip("zensical.config")
+
+    # Check the private API directly, even when Material supplies the formatter's icons.
+    theme_dir = Path(config.get_builtin_theme_dir())
+
+    assert (theme_dir / ".icons").is_dir()
 
 
 def test_output_markdown(md: Markdown) -> None:
