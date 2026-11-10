@@ -26,7 +26,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="zensical-0.0.74">
+      <meta name="generator" content="zensical-0.1.0">
     
     
       
@@ -761,6 +761,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Python console code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interactive-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Interactive console
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1118,6 +1135,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Python console code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interactive-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Interactive console
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1165,7 +1199,7 @@
 with isolated global variables.</p>
 <p>To capture the output of your code, Markdown Exec patches the <code>print</code>
 function so that it writes to a buffer instead of standard output.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-141--__tabbed_1_1" name="exec-141--__tabbed_1" type="radio" /><input id="exec-141--__tabbed_1_2" name="exec-141--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-141--__tabbed_1_1">Markdown</label><label for="exec-141--__tabbed_1_2">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-134--__tabbed_1_1" name="exec-134--__tabbed_1" type="radio" /><input id="exec-134--__tabbed_1_2" name="exec-134--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-134--__tabbed_1_1">Markdown</label><label for="exec-134--__tabbed_1_2">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="sb">```python</span><span class="w"> </span>exec="1"
@@ -1184,7 +1218,7 @@ function so that it writes to a buffer instead of standard output.</p>
 These code blocks will be pre-processed to keep only the lines
 starting with <code>&gt;&gt;&gt;</code>, and the chevrons (prompt) will be removed from these lines,
 so we can execute them.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-143--__tabbed_1_1" name="exec-143--__tabbed_1" type="radio" /><input id="exec-143--__tabbed_1_2" name="exec-143--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-143--__tabbed_1_1">Markdown</label><label for="exec-143--__tabbed_1_2">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-136--__tabbed_1_1" name="exec-136--__tabbed_1" type="radio" /><input id="exec-136--__tabbed_1_2" name="exec-136--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-136--__tabbed_1_1">Markdown</label><label for="exec-136--__tabbed_1_2">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="sb">```pycon</span><span class="w"> </span>exec="1" source="console"
@@ -1203,7 +1237,7 @@ so we can execute them.</p>
 </div>
 <p>It also means that multiple blocks of instructions will be concatenated,
 as well as their output:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-145--__tabbed_1_1" name="exec-145--__tabbed_1" type="radio" /><input id="exec-145--__tabbed_1_2" name="exec-145--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-145--__tabbed_1_1">Markdown</label><label for="exec-145--__tabbed_1_2">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-138--__tabbed_1_1" name="exec-138--__tabbed_1" type="radio" /><input id="exec-138--__tabbed_1_2" name="exec-138--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-138--__tabbed_1_1">Markdown</label><label for="exec-138--__tabbed_1_2">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="sb">```pycon</span><span class="w"> </span>exec="1" source="console"
@@ -1224,6 +1258,73 @@ as well as their output:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
 <span class="go">Baron</span>
 <span class="go">???</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="interactive-console">Interactive console<a class="headerlink" href="#interactive-console" title="Permanent link">¤</a></h3>
+<p>When the <code>interactive</code> flag is set, <code>pycon</code> blocks will use an alternative formatter that mimics the behavior of the Python REPL interpreter.</p>
+<p>In this mode outputs are displayed immediately after their source lines, rather than all outputs being shown at the end.
+Additionally, outputs from unbound expressions are displayed automatically (although <code>print</code> can still be used as well).</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-140--__tabbed_1_1" name="exec-140--__tabbed_1" type="radio" /><input id="exec-140--__tabbed_1_2" name="exec-140--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-140--__tabbed_1_1">Markdown</label><label for="exec-140--__tabbed_1_2">Rendered</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="sb">```pycon</span><span class="w"> </span>exec="1" interactive="1"
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="go"># Output from unassigned expressions is displayed without needing `print`</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go"># `print` still works as normal</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="sb">```</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">[1, 2, 3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">[3, 2, 1]</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Exceptions are also handled differently: when a line raises an exception other lines in the same block are still executed and displayed as normal.
+The raised exception is printed after the generating line and logged as a warning.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-142--__tabbed_1_1" name="exec-142--__tabbed_1" type="radio" /><input id="exec-142--__tabbed_1_2" name="exec-142--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-142--__tabbed_1_1">Markdown</label><label for="exec-142--__tabbed_1_2">Rendered</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="sb">```pycon</span><span class="w"> </span>exec="1" interactive="1" id="pycon_error"
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">/</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="sb">```</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">/</span> <span class="mi">0</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">"&lt;code block: id pycon_error&gt;"</span>, line <span class="m">2</span>, in <span class="n">&lt;module&gt;</span>
+<span class="w">    </span><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">/</span> <span class="mi">0</span>
+<span class="w">         </span><span class="pm">~~^~~</span>
+<span class="gr">ZeroDivisionError</span>: <span class="n">division by zero</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="go">4</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">MkDocs Log</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>WARNING  -  markdown_exec: Unexpected exception while executing pycon code block 'pycon_error':
+
+Traceback (most recent call last):
+    File "&lt;code block: id pycon_error&gt;", line 3, in &lt;module&gt;
+    &gt;&gt;&gt; y / 0
+        ~~^~~
+ZeroDivisionError: division by zero
 </code></pre></div>
 </div>
 </div>

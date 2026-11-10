@@ -1,0 +1,5 @@
+>>> x = [3, 2, 1]
+# Output from unassigned expressions is displayed without needing `print`
+>>> sorted(x)
+# `print` still works as normal
+>>> print(x)

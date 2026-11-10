@@ -26,7 +26,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="zensical-0.0.74">
+      <meta name="generator" content="zensical-0.1.0">
     
     
       
@@ -4634,7 +4634,7 @@ emojis not working, etc.).</p>
             <span class="n">el</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>  <span class="c1"># noqa: PLW2901</span>
             <span class="c1"># 'toc' extension's first pass (which we require to build heading stubs/ids) also edits the HTML.</span>
             <span class="c1"># Undo the permalink edit so we can pass this heading to the outer pass of the 'toc' extension.</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">el</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"class"</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">md</span><span class="o">.</span><span class="n">treeprocessors</span><span class="p">[</span><span class="s2">"toc"</span><span class="p">]</span><span class="o">.</span><span class="n">permalink_class</span><span class="p">:</span>  <span class="c1"># ty:ignore[unresolved-attribute]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">el</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"class"</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">md</span><span class="o">.</span><span class="n">treeprocessors</span><span class="p">[</span><span class="s2">"toc"</span><span class="p">]</span><span class="o">.</span><span class="n">permalink_class</span><span class="p">:</span>  <span class="c1"># ty:ignore[missing-attribute]</span>
                 <span class="k">del</span> <span class="n">el</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">headings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -6647,6 +6647,7 @@ into <a class="autorefs autorefs-internal" title="&lt;code class=&quot;doc-symbo
     <span class="n"><a class="autorefs autorefs-internal" title="&lt;b&gt;&lt;code&gt;update_toc&lt;/code&gt;&lt;/b&gt; (&lt;code&gt;markdown_exec.base_format(update_toc)&lt;/code&gt;)" href="./#markdown_exec.base_format(update_toc)">update_toc</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n"><a class="autorefs autorefs-internal" title="&lt;b&gt;&lt;code&gt;workdir&lt;/code&gt;&lt;/b&gt; (&lt;code&gt;markdown_exec.base_format(workdir)&lt;/code&gt;)" href="./#markdown_exec.base_format(workdir)">workdir</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n"><span title="markdown_exec.base_format(width)">width</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#int">int</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n"><span title="markdown_exec.base_format(interactive)">interactive</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="o">**</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;b&gt;&lt;code&gt;**options&lt;/code&gt;&lt;/b&gt; (&lt;code&gt;markdown_exec.base_format(**options)&lt;/code&gt;)" href="./#markdown_exec.base_format(**options)">options</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="&lt;code&gt;typing.Any&lt;/code&gt;" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="markupsafe.Markup">Markup</span></span>
 </code></pre></div>
@@ -6937,7 +6938,15 @@ into the Markdown table of contents (toc extension).</p>
 <span class="normal">207</span>
 <span class="normal">208</span>
 <span class="normal">209</span>
-<span class="normal">210</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">base_format</span><span class="p">(</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">base_format</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">run</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
@@ -6955,6 +6964,7 @@ into the Markdown table of contents (toc extension).</p>
     <span class="n">update_toc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">workdir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">interactive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="o">**</span><span class="n">options</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Markup</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Execute code and return HTML.</span>
@@ -6994,7 +7004,14 @@ into the Markdown table of contents (toc extension).</p>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">working_directory</span><span class="p">(</span><span class="n">workdir</span><span class="p">),</span> <span class="n">console_width</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">source_input</span><span class="p">,</span> <span class="n">returncode</span><span class="o">=</span><span class="n">returncode</span><span class="p">,</span> <span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="o">**</span><span class="n">extra</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span>
+                <span class="n">source_input</span><span class="p">,</span>
+                <span class="n">returncode</span><span class="o">=</span><span class="n">returncode</span><span class="p">,</span>
+                <span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
+                <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span>
+                <span class="n">interactive</span><span class="o">=</span><span class="n">interactive</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">extra</span><span class="p">,</span>
+            <span class="p">)</span>
     <span class="k">except</span> <span class="n">ExecutionError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
         <span class="n">identifier</span> <span class="o">=</span> <span class="nb">id</span> <span class="ow">or</span> <span class="n">extra</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="n">identifier</span> <span class="o">=</span> <span class="n">identifier</span> <span class="ow">and</span> <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">identifier</span><span class="si">}</span><span class="s2">' "</span>
@@ -7356,9 +7373,7 @@ into the Markdown table of contents (toc extension).</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/markdown_exec/_internal/main.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
@@ -7386,7 +7401,9 @@ into the Markdown table of contents (toc extension).</p>
 <span class="normal">139</span>
 <span class="normal">140</span>
 <span class="normal">141</span>
-<span class="normal">142</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">formatter</span><span class="p">(</span>  <span class="c1"># noqa: PLR0917</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">formatter</span><span class="p">(</span>  <span class="c1"># noqa: PLR0917</span>
     <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">css_class</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>  <span class="c1"># noqa: ARG001</span>
@@ -7836,7 +7853,9 @@ and prefix each log message with the module name:</p>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
-<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validator</span><span class="p">(</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validator</span><span class="p">(</span>
     <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
     <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
@@ -7870,6 +7889,7 @@ and prefix each log message with the module name:</p>
     <span class="n">tabs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_tabs_re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">tabs_value</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="n">workdir_value</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"workdir"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">width_value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"width"</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">))</span>
+    <span class="n">interactive</span> <span class="o">=</span> <span class="n">_to_bool</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"interactive"</span><span class="p">,</span> <span class="s2">"no"</span><span class="p">))</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">id_value</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">"id_prefix"</span><span class="p">]</span> <span class="o">=</span> <span class="n">id_prefix_value</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">"html"</span><span class="p">]</span> <span class="o">=</span> <span class="n">html_value</span>
@@ -7882,6 +7902,7 @@ and prefix each log message with the module name:</p>
     <span class="n">options</span><span class="p">[</span><span class="s2">"workdir"</span><span class="p">]</span> <span class="o">=</span> <span class="n">workdir_value</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">"width"</span><span class="p">]</span> <span class="o">=</span> <span class="n">width_value</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">"extra"</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">"interactive"</span><span class="p">]</span> <span class="o">=</span> <span class="n">interactive</span>
     <span class="k">return</span> <span class="kc">True</span>
 </code></pre></div></td></tr></table></div>
             </details>
