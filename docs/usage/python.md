@@ -54,26 +54,13 @@ Additionally, outputs from unbound expressions are displayed automatically (alth
 Exceptions are also handled differently: when a line raises an exception other lines in the same block are still executed and displayed as normal.
 The raised exception is printed after the generating line and logged as a warning.
 
-=== "Markdown"
-    ````md
-    ```pycon exec="1" interactive="1" id="pycon_error"
-    >>> y = 2
-    >>> y / 0
-    >>> y * 2
-    ```
-    ````
-=== "Rendered"
-    ```pycon
-    >>> y = 2
-    >>> y / 0
-    Traceback (most recent call last):
-    File "<code block: id pycon_error>", line 3, in <module>
-        >>> y / 0
-            ~~^~~
-    ZeroDivisionError: division by zero
-    >>> y * 2
-    4
-    ```
+````md exec="1" source="tabbed-left" tabs="Markdown|Rendered"
+```pycon exec="1" interactive="1" id="pycon_error"
+>>> y = 2
+>>> y / 0
+>>> y * 2
+```
+````
 === "MkDocs Log"
     ```text
     WARNING  -  markdown_exec: Unexpected exception while executing pycon code block 'pycon_error':
