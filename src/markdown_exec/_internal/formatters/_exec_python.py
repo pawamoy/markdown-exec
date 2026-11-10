@@ -30,9 +30,9 @@ def exec_python(code: str, filename: str, exec_globals: dict[str, Any] | None = 
 def exec_python_interactive(code: str, filename: str, exec_globals: dict) -> Any | None:
     cmd = ast.parse(code, filename, "exec")
 
-    # Check if last statement is an unassigned expression whose result should be returned
-    # Unassigned expressions *within* an input can be ignored
-    # e.g. in `x = 2; x; x + 1` the second statement isn't output
+    # Check if last statement is an unassigned expression whose result should be returned.
+    # Unassigned expressions *within* an input can be ignored,
+    # e.g. in `x = 2; x; x + 1` the second statement isn't output.
     if cmd.body and isinstance(cmd.body[-1], ast.Expr):
         expr = ast.Expression(cmd.body[-1].value)
         stmts = cmd.body[:-1]
@@ -41,14 +41,14 @@ def exec_python_interactive(code: str, filename: str, exec_globals: dict) -> Any
         stmts = cmd.body
 
     if stmts:
-        # Execute all statements that don't generate output
+        # Execute all statements that don't generate output.
         exec(  # noqa: S102
             compile(ast.Module(stmts, []), filename, "exec"),
             exec_globals,
         )
 
     if expr:
-        # Execute final expression and return result
+        # Execute final expression and return result.
         return eval(compile(expr, filename, "eval"), exec_globals)  # noqa: S307
 
     return None

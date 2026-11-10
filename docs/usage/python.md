@@ -52,7 +52,7 @@ Additionally, outputs from unbound expressions are displayed automatically (alth
 ````
 
 Exceptions are also handled differently: when a line raises an exception other lines in the same block are still executed and displayed as normal.
-The raised exception is printed after the generating line and logged as a warning
+The raised exception is printed after the generating line and logged as a warning.
 
 === "Markdown"
     ````md

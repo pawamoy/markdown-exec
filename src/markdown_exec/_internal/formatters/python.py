@@ -112,7 +112,7 @@ class _InteractiveInput:
 
     def with_traceback(self, error: Exception) -> traceback.TracebackException:
         if isinstance(error, SyntaxError) and (error.filename or "").startswith("<code block: "):
-            # Fix line and column for syntax errors originating in the code block
+            # Fix line and column for syntax errors originating in the code block.
             error.text = self.display_lines[error.lineno - 1]  # ty:ignore[unsupported-operator]
             error.lineno += self.lineno  # ty:ignore[unsupported-operator]
             error.offset += 4  # ty:ignore[unsupported-operator]
@@ -126,7 +126,7 @@ class _InteractiveInput:
         start = None
         for i, frame in enumerate(trace.stack):
             if frame.filename.startswith("<code block: ") and i > 0:
-                # Find first stack frame originating in the code block
+                # Find first stack frame originating in the code block.
                 if start is None:
                     start = i
 
@@ -135,7 +135,7 @@ class _InteractiveInput:
                 else:
                     frame._line = self.display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
 
-                # Fix line and column
+                # Fix line and column.
                 frame.colno += 4  # ty:ignore[unsupported-operator]
                 frame.lineno += self.lineno  # ty:ignore[unsupported-operator]
                 if frame.end_lineno is not None:
@@ -144,15 +144,16 @@ class _InteractiveInput:
                     frame.end_colno += 4
 
         if getattr(trace, "filename", "").startswith("<code block: ") and start is None:
-            # Syntax errors sort of "skip" a stack frame
-            # Need to check the error's filename to determine if it came from the code block
+            # Syntax errors sort of "skip" a stack frame.
+            # We need to check the error's filename to determine
+            # if it came from the code block.
             start = len(trace.stack)
 
         if start is None:
-            # Error originated from this package not the code block, so we need to reraise it
+            # Error originated from this package not the code block, so we need to reraise it.
             raise error
 
-        # Remove exec/eval frames from stack
+        # Remove exec/eval frames from stack.
         if start > 0:
             del trace.stack[:start]
 
@@ -175,10 +176,10 @@ def _run_interactive(  # noqa: PLR0917
         except Exception as error:  # noqa: BLE001
             trace = inp.with_traceback(error)
             err_msg = "".join(trace.format())
-            # Write error traceback to output buffer
+            # Write error traceback to output buffer.
             buffer.write(err_msg)
 
-            # Need to manually log the warning because we don't want to abort processing the block
+            # We need to manually log the warning because we don't want to abort processing the block.
             identifier = id or title
             identifier = identifier and f"'{identifier}'"
             log_err = indent(err_msg, " " * 2)
