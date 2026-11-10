@@ -238,7 +238,7 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
         IdPrependingTreeprocessor.name,
         priority=4,  # right after 'toc' (needed because that extension adds ids to headings)
     )
-    new_md._original_md = md  # ty:ignore[unresolved-attribute]
+    new_md._original_md = md  # ty:ignore[missing-attribute]
 
     if update_toc:
         _register_headings_processors(md)
@@ -255,11 +255,11 @@ def _mimic(md: Markdown, headings: list[Element], *, update_toc: bool = True) ->
 def _id_prefix(md: Markdown, prefix: str | None) -> Generator[None]:
     MarkdownConverter.counter += 1
     id_prepending_processor = md.treeprocessors[IdPrependingTreeprocessor.name]
-    id_prepending_processor.id_prefix = prefix if prefix is not None else f"exec-{MarkdownConverter.counter}--"  # ty:ignore[unresolved-attribute]
+    id_prepending_processor.id_prefix = prefix if prefix is not None else f"exec-{MarkdownConverter.counter}--"  # ty:ignore[missing-attribute]
     try:
         yield
     finally:
-        id_prepending_processor.id_prefix = ""  # ty:ignore[unresolved-attribute]
+        id_prepending_processor.id_prefix = ""  # ty:ignore[missing-attribute]
 
 
 class MarkdownConverter:
@@ -291,7 +291,7 @@ class MarkdownConverter:
                 if element.tail:
                     element.tail = type(element.tail)(HTML_PLACEHOLDER_RE.sub(restash, element.tail))
 
-        self._original_md.treeprocessors[InsertHeadings.name].headings[markup] = self._headings  # ty:ignore[unresolved-attribute]
+        self._original_md.treeprocessors[InsertHeadings.name].headings[markup] = self._headings  # ty:ignore[missing-attribute]
         self._headings = []
 
     def convert(self, text: str, stash: dict[str, str] | None = None, id_prefix: str | None = None) -> Markup:
