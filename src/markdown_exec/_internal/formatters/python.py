@@ -131,9 +131,9 @@ class _InteractiveInput:
                     start = i
 
                 if sys.version_info >= (3, 13):
-                    frame._lines = self.display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
+                    frame._lines = self.display_lines[frame.lineno - 1]  # ty:ignore[missing-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
                 else:
-                    frame._line = self.display_lines[frame.lineno - 1]  # ty:ignore[unresolved-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
+                    frame._line = self.display_lines[frame.lineno - 1]  # ty:ignore[missing-attribute,unsupported-operator,unused-ignore-comment,unused-ignore-comment]
 
                 # Fix line and column.
                 frame.colno += 4  # ty:ignore[unsupported-operator]
