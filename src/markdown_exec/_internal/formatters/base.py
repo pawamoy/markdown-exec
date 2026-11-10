@@ -124,6 +124,7 @@ def base_format(
     update_toc: bool = True,
     workdir: str | None = None,
     width: int | None = None,
+    interactive: bool = False,
     **options: Any,
 ) -> Markup:
     """Execute code and return HTML.
@@ -163,7 +164,14 @@ def base_format(
 
     try:
         with working_directory(workdir), console_width(width):
-            output = run(source_input, returncode=returncode, session=session, id=id, **extra)
+            output = run(
+                source_input,
+                returncode=returncode,
+                session=session,
+                id=id,
+                interactive=interactive,
+                **extra,
+            )
     except ExecutionError as error:
         identifier = id or extra.get("title", "")
         identifier = identifier and f"'{identifier}' "
