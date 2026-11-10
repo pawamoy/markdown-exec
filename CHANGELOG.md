@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.13.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.13.0) - 2026-11-10
+
+<small>[Compare with 1.12.6](https://github.com/pawamoy/markdown-exec/compare/1.12.6...1.13.0)</small>
+
+### Features
+
+- Emulate Python REPL in pycon blocks ([b40bdc6](https://github.com/pawamoy/markdown-exec/commit/b40bdc62c4ff707eda5162b74af2608ae0960fa5) by Sydney Duckworth). [Issue-25](https://github.com/pawamoy/markdown-exec/issues/25), [PR-105](https://github.com/pawamoy/markdown-exec/pull/105)
+
 ## [1.12.6](https://github.com/pawamoy/markdown-exec/releases/tag/1.12.6) - 2026-10-31
 
 <small>[Compare with 1.12.5](https://github.com/pawamoy/markdown-exec/compare/1.12.5...1.12.6)</small>
