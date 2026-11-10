@@ -87,13 +87,13 @@ def validator(
     html_value = _to_bool(inputs.pop("html", "no"))
     source_value = inputs.pop("source", "")
     result_value = inputs.pop("result", "")
-    returncode_value = int(inputs.pop("returncode", "0"))
+    returncode_value = _to_int(inputs.pop("returncode", "0"))
     session_value = inputs.pop("session", "")
     update_toc_value = _to_bool(inputs.pop("updatetoc", "yes"))
     tabs_value = inputs.pop("tabs", "|".join(default_tabs))
     tabs = tuple(_tabs_re.split(tabs_value, maxsplit=1))
     workdir_value = inputs.pop("workdir", None)
-    width_value = int(inputs.pop("width", "0"))
+    width_value = _to_int(inputs.pop("width", "0"))
     options["id"] = id_value
     options["id_prefix"] = id_prefix_value
     options["html"] = html_value
@@ -144,3 +144,16 @@ def formatter(  # noqa: PLR0917
 
 def _to_bool(value: str) -> bool:
     return value.lower() not in {"", "no", "off", "false", "0"}
+
+
+def _to_int(value: str, default: int = 0) -> int:
+    """Parse an integer option, falling back to `default` on invalid input.
+
+    A typo such as `returncode="abc"` must not crash the whole build with
+    a bare `ValueError`: warn and use the default instead.
+    """
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        _logger.warning("Invalid integer value %r, falling back to %d.", value, default)
+        return default
