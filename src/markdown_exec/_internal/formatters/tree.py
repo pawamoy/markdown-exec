@@ -31,7 +31,7 @@ from markupsafe import Markup
 from markdown_exec._internal.rendering import MarkdownConverter, code_block
 
 try:
-    import material  # ty:ignore[unresolved-import]
+    import material  # ty:ignore[import-not-found]
 except ImportError:
     material = None
 

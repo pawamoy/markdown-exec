@@ -47,7 +47,7 @@ def test_updating_toc(md: Markdown) -> None:
         ),
     )
     assert "<h1" in html
-    assert "big-heading" in md.toc  # ty:ignore[unresolved-attribute]
+    assert "big-heading" in md.toc  # ty:ignore[missing-attribute]
 
 
 def test_not_updating_toc(md: Markdown) -> None:
@@ -67,7 +67,7 @@ def test_not_updating_toc(md: Markdown) -> None:
         ),
     )
     assert "<h1" in html
-    assert "big-heading" not in md.toc  # ty:ignore[unresolved-attribute]
+    assert "big-heading" not in md.toc  # ty:ignore[missing-attribute]
 
 
 def test_both_updating_and_not_updating_toc(md: Markdown) -> None:
@@ -102,10 +102,10 @@ def test_both_updating_and_not_updating_toc(md: Markdown) -> None:
     assert "<h2" in html
     assert "<h3" in html
     assert "<h4" in html
-    assert "big-heading" not in md.toc  # ty:ignore[unresolved-attribute]
-    assert "medium-heading" in md.toc  # ty:ignore[unresolved-attribute]
-    assert "small-heading" not in md.toc  # ty:ignore[unresolved-attribute]
-    assert "tiny-heading" in md.toc  # ty:ignore[unresolved-attribute]
+    assert "big-heading" not in md.toc  # ty:ignore[missing-attribute]
+    assert "medium-heading" in md.toc  # ty:ignore[missing-attribute]
+    assert "small-heading" not in md.toc  # ty:ignore[missing-attribute]
+    assert "tiny-heading" in md.toc  # ty:ignore[missing-attribute]
 
 
 @pytest.mark.parametrize(
@@ -139,7 +139,7 @@ def test_generated_headings_keep_stashed_content(
     # The page keeps the rendered heading, and its ToC uses the same content.
     assert '<h1 id="' in html
     assert expected_html in html
-    assert md.toc_tokens[0]["name"] == expected_name  # ty:ignore[unresolved-attribute]
-    assert md.toc_tokens[0]["html"] == expected_html  # ty:ignore[unresolved-attribute]
-    assert expected_name in md.toc  # ty:ignore[unresolved-attribute]
+    assert md.toc_tokens[0]["name"] == expected_name  # ty:ignore[missing-attribute]
+    assert md.toc_tokens[0]["html"] == expected_html  # ty:ignore[missing-attribute]
+    assert expected_name in md.toc  # ty:ignore[missing-attribute]
     assert "wzxhzdk" not in html
