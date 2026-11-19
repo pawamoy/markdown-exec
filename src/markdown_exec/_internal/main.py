@@ -26,6 +26,7 @@ from markdown_exec._internal.formatters.base import default_tabs
 from markdown_exec._internal.formatters.bash import _format_bash
 from markdown_exec._internal.formatters.console import _format_console
 from markdown_exec._internal.formatters.markdown import _format_markdown
+from markdown_exec._internal.formatters.octave import _format_octave
 from markdown_exec._internal.formatters.pycon import _format_pycon
 from markdown_exec._internal.formatters.pyodide import _format_pyodide
 from markdown_exec._internal.formatters.python import _format_python
@@ -47,6 +48,7 @@ formatters = {
     "console": _format_console,
     "md": _format_markdown,
     "markdown": _format_markdown,
+    "octave": _format_octave,
     "py": _format_python,
     "python": _format_python,
     "pycon": _format_pycon,

@@ -21,6 +21,7 @@ nav = [
       { "Python" = "usage/python.md" },
       { "Pyodide" = "usage/pyodide.md" },
       { "Shell" = "usage/shell.md" },
+      { "Octave" = "usage/octave.md" },
       { "Tree" = "usage/tree.md" },
   ] },
   { "Gallery" = "gallery.md" },
