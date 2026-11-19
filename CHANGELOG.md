@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.14.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.14.0) - 2026-11-19
+
+<small>[Compare with 1.13.0](https://github.com/pawamoy/markdown-exec/compare/1.13.0...1.14.0)</small>
+
+### Features
+
+- Support GNU Octave code blocks ([0007cd4](https://github.com/pawamoy/markdown-exec/commit/0007cd434a5efc9ccd786e5ea20ee9822e093a45) by MattG-K). [Issue-111](https://github.com/pawamoy/markdown-exec/issues/111), [PR-112](https://github.com/pawamoy/markdown-exec/pull/112), Co-authored-by: Matthieu Guerquin-Kern <matthieu.guerquin-kern@grenoble-inp.fr>
+
 ## [1.13.0](https://github.com/pawamoy/markdown-exec/releases/tag/1.13.0) - 2026-11-10
 
 <small>[Compare with 1.12.6](https://github.com/pawamoy/markdown-exec/compare/1.12.6...1.13.0)</small>
