@@ -66,11 +66,11 @@ jobs:
         cache-dependency-glob: pyproject.toml
         python-version: ${{ matrix.python-version }}
 
-    - name: Install Graphviz and D2
+    - name: Install Graphviz, D2, and Octave
       if: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12' }}
       run: |
         sudo apt-get update
-        sudo apt-get install --no-install-recommends --yes graphviz
+        sudo apt-get install --no-install-recommends --yes graphviz octave
         curl -fLsS --retry 3 \
           https://github.com/d2lang/d2/releases/download/v0.9.0/d2-v0.9.0-linux-amd64.tar.gz \
           -o "$RUNNER_TEMP/d2.tar.gz"
@@ -144,6 +144,13 @@ jobs:
         cache-dependency-glob: pyproject.toml
         cache-suffix: ${{ matrix.resolution }}
         python-version: ${{ matrix.python-version }}
+
+    - name: Install Octave
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: |
+        sudo apt-get update
+        sudo apt-get install --no-install-recommends --yes octave
+        octave-cli --version
 
     - name: Install dependencies
       env:
