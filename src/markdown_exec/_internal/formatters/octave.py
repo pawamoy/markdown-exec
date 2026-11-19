@@ -36,7 +36,7 @@ def _run_octave(
 ) -> str:
     # Disable history to prevent history-file errors from appearing in the output at exit.
     process = subprocess.run(  # noqa: S603
-        ["octave-cli", "--no-gui", "--quiet", "--no-history", "-e", code],  # noqa: S607
+        ["octave-cli", "--no-gui", "--quiet", "--no-history", "--eval", code],  # noqa: S607
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
