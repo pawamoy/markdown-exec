@@ -3,12 +3,8 @@
 The `octave-cli` interpreter is called to execute the GNU Octave code blocks.
 Uses `octave-cli -e`.
 
-=== "Markdown"
-    ````md
-    ```octave exec="true"
-    disp("**Hello world!**")
-    ```
-    ````
-
-=== "Rendered"
-    **Hello world!**
+````md exec="true" source="tabbed-left" tabs="Markdown|Rendered"
+```octave exec="true"
+disp("**Hello world!**")
+```
+````
