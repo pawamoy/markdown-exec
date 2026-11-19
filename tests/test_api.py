@@ -179,7 +179,6 @@ def test_inventory_matches_api(
         "markdown_exec.formatters.bash",
         "markdown_exec.formatters.console",
         "markdown_exec.formatters.markdown",
-        "markdown_exec.formatters.octave",
         "markdown_exec.formatters.pycon",
         "markdown_exec.formatters.pyodide",
         "markdown_exec.formatters.python",
