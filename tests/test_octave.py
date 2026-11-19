@@ -20,12 +20,17 @@
 
 from __future__ import annotations
 
+from shutil import which
 from textwrap import dedent
 from typing import TYPE_CHECKING
 
+import pytest
+
 if TYPE_CHECKING:
-    import pytest
     from markdown import Markdown
+
+
+pytestmark = pytest.mark.skipif(which("octave-cli") is None, reason="octave-cli is not installed")
 
 
 def test_output_markdown(md: Markdown) -> None:
