@@ -27,6 +27,8 @@ from typing import TYPE_CHECKING
 import pytest
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from markdown import Markdown
 
 
@@ -66,6 +68,24 @@ def test_output_html(md: Markdown) -> None:
             """,
         ),
     )
+    assert html == "<p>**Bold!**\n</p>"
+
+
+def test_output_with_invalid_history_file(md: Markdown, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    """Assert history-file errors do not appear in rendered output."""
+    # A directory cannot be used as a history file.
+    monkeypatch.setenv("OCTAVE_HISTFILE", str(tmp_path))
+
+    html = md.convert(
+        dedent(
+            """
+            ```octave exec="yes" html="yes"
+            disp("**Bold!**")
+            ```
+            """,
+        ),
+    )
+
     assert html == "<p>**Bold!**\n</p>"
 
 
