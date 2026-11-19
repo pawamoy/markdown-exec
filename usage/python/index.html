@@ -293,6 +293,8 @@
       
         
       
+        
+      
     
     
     
@@ -620,6 +622,8 @@
       
         
       
+        
+      
     
     
     
@@ -831,6 +835,33 @@
     
   
   Shell
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../octave/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Octave
 
     
   </span>
@@ -1199,7 +1230,7 @@
 with isolated global variables.</p>
 <p>To capture the output of your code, Markdown Exec patches the <code>print</code>
 function so that it writes to a buffer instead of standard output.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-134--__tabbed_1_1" name="exec-134--__tabbed_1" type="radio" /><input id="exec-134--__tabbed_1_2" name="exec-134--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-134--__tabbed_1_1">Markdown</label><label for="exec-134--__tabbed_1_2">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-143--__tabbed_1_1" name="exec-143--__tabbed_1" type="radio" /><input id="exec-143--__tabbed_1_2" name="exec-143--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-143--__tabbed_1_1">Markdown</label><label for="exec-143--__tabbed_1_2">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="sb">```python</span><span class="w"> </span>exec="1"
@@ -1218,7 +1249,7 @@ function so that it writes to a buffer instead of standard output.</p>
 These code blocks will be pre-processed to keep only the lines
 starting with <code>&gt;&gt;&gt;</code>, and the chevrons (prompt) will be removed from these lines,
 so we can execute them.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-136--__tabbed_1_1" name="exec-136--__tabbed_1" type="radio" /><input id="exec-136--__tabbed_1_2" name="exec-136--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-136--__tabbed_1_1">Markdown</label><label for="exec-136--__tabbed_1_2">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-145--__tabbed_1_1" name="exec-145--__tabbed_1" type="radio" /><input id="exec-145--__tabbed_1_2" name="exec-145--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-145--__tabbed_1_1">Markdown</label><label for="exec-145--__tabbed_1_2">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="sb">```pycon</span><span class="w"> </span>exec="1" source="console"
@@ -1237,7 +1268,7 @@ so we can execute them.</p>
 </div>
 <p>It also means that multiple blocks of instructions will be concatenated,
 as well as their output:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-138--__tabbed_1_1" name="exec-138--__tabbed_1" type="radio" /><input id="exec-138--__tabbed_1_2" name="exec-138--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-138--__tabbed_1_1">Markdown</label><label for="exec-138--__tabbed_1_2">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-147--__tabbed_1_1" name="exec-147--__tabbed_1" type="radio" /><input id="exec-147--__tabbed_1_2" name="exec-147--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-147--__tabbed_1_1">Markdown</label><label for="exec-147--__tabbed_1_2">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="sb">```pycon</span><span class="w"> </span>exec="1" source="console"
@@ -1266,7 +1297,7 @@ as well as their output:</p>
 <p>When the <code>interactive</code> flag is set, <code>pycon</code> blocks will use an alternative formatter that mimics the behavior of the Python REPL interpreter.</p>
 <p>In this mode outputs are displayed immediately after their source lines, rather than all outputs being shown at the end.
 Additionally, outputs from unbound expressions are displayed automatically (although <code>print</code> can still be used as well).</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-140--__tabbed_1_1" name="exec-140--__tabbed_1" type="radio" /><input id="exec-140--__tabbed_1_2" name="exec-140--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-140--__tabbed_1_1">Markdown</label><label for="exec-140--__tabbed_1_2">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-149--__tabbed_1_1" name="exec-149--__tabbed_1" type="radio" /><input id="exec-149--__tabbed_1_2" name="exec-149--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-149--__tabbed_1_1">Markdown</label><label for="exec-149--__tabbed_1_2">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="sb">```pycon</span><span class="w"> </span>exec="1" interactive="1"
@@ -1291,7 +1322,7 @@ Additionally, outputs from unbound expressions are displayed automatically (alth
 </div>
 <p>Exceptions are also handled differently: when a line raises an exception other lines in the same block are still executed and displayed as normal.
 The raised exception is printed after the generating line and logged as a warning.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-142--__tabbed_1_1" name="exec-142--__tabbed_1" type="radio" /><input id="exec-142--__tabbed_1_2" name="exec-142--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-142--__tabbed_1_1">Markdown</label><label for="exec-142--__tabbed_1_2">Rendered</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="exec-151--__tabbed_1_1" name="exec-151--__tabbed_1" type="radio" /><input id="exec-151--__tabbed_1_2" name="exec-151--__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="exec-151--__tabbed_1_1">Markdown</label><label for="exec-151--__tabbed_1_2">Rendered</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="sb">```pycon</span><span class="w"> </span>exec="1" interactive="1" id="pycon_error"
@@ -1307,7 +1338,7 @@ The raised exception is printed after the generating line and logged as a warnin
 <span class="gt">Traceback (most recent call last):</span>
   File <span class="nb">"&lt;code block: id pycon_error&gt;"</span>, line <span class="m">2</span>, in <span class="n">&lt;module&gt;</span>
 <span class="w">    </span><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">/</span> <span class="mi">0</span>
-<span class="w">         </span><span class="pm">~~^~~</span>
+<span class="w">        </span><span class="pm">~~^~~</span>
 <span class="gr">ZeroDivisionError</span>: <span class="n">division by zero</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">*</span> <span class="mi">2</span>
 <span class="go">4</span>
